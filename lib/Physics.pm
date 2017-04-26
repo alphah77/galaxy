@@ -70,7 +70,7 @@ grammar LawCmd	{
 				|			<object> <space>+ <object-laws> <space>+ <star>
 				|			<object> <space>+ <object-laws>
 				|			<object> <space>+ <star>
-				|			<object>?
+				|			<object>
 				|			<star>?
 	}
 
