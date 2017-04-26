@@ -59,42 +59,40 @@ grammar LawCnf {
 
 grammar LawCmd	{
 
-	token TOP				{ <galaxy-laws>? <ws> <object>? <ws> <object-laws>? <ws> <star>?}
+	regex TOP				{ <galaxy-laws>? <object>? <object-laws>? <star>?}
 
-	token galaxy-laws							{ [ <ws> <galaxy-law> <law-end> ]*	}
+	token galaxy-laws							{ [ <galaxy-law> \s* ]+	}
 	proto token galaxy-law				{ * }
-	token galaxy-law:sym<origin>	{ <sym> <space>+ <value> }
-	token galaxy-law:sym<core>		{ <sym> <space>+ <value> }
-	token galaxy-law:sym<laws>		{ <sym> <space>+ <value> }
+	token galaxy-law:sym<origin>	{ <sym> <space>* <value> }
+	token galaxy-law:sym<core>		{ <sym> <space>* <value> }
+	token galaxy-law:sym<laws>		{ <sym> <space>* <value> }
 	token galaxy-law:sym<yolo>		{ <sym> }
 	token galaxy-law:sym<imagine>	{ <sym> }
 	token galaxy-law:sym<nocolor>	{ <sym> }
 
 	proto token object { * }
-	#token object:sym<galaxy>		{ ^ 		}
-	token object:sym<gravity>		{ <sym> }
-	token object:sym<blackhole> { <sym> }
+	token object:sym<gravity>		{ <sym> \s* }
+	token object:sym<blackhole> { <sym> \s* }
 
 	proto token object-laws { * }
+	#token object-laws:sym<galaxy-laws>		{ <?after ^>											<galaxy-laws> }
 	token object-laws:sym<galaxy-laws>		{ <galaxy-laws> <?before <object>> }
-	token object-laws:sym<gravity-laws>		{ <?after 'gravity'		<space>+> <gravity-laws> }
-	token object-laws:sym<blackhole-laws>	{ <?after 'blackhole'	<space>+> <blackhole-laws> }
+	token object-laws:sym<gravity-laws>		{ <?after 'gravity'>		<space>+	<gravity-laws> }
+	token object-laws:sym<blackhole-laws>	{ <?after 'blackhole'>	<space>+	<blackhole-laws> }
 
-	token gravity-laws							{ [ <ws> <gravity-law> \h* ]* }
+	token gravity-laws							{ [ <gravity-law> \h* ]+ }
 	proto token gravity-law					{ * }
-	token gravity-law:sym<origin>		{ <sym> <space>+ <value> }
-	token gravity-law:sym<core>			{ <sym> <space>+ <value> }
+	token gravity-law:sym<origin>		{ <sym> <space>* <value> }
+	token gravity-law:sym<core>			{ <sym> <space>* <value> }
 	token gravity-law:sym<cluster>	{ <sym> }
 	token gravity-law:sym<dummy>		{ <sym> }
 
-
-	token blackhole-laws							{ [ <ws> <blackhole-law> \h* ]*	}
+	token blackhole-laws							{ [ <blackhole-law> \h* ]+	}
 	proto token blackhole-law					{ * }
-	token blackhole-law:sym<origin>		{ <sym> <space>+ <value> }
-	token blackhole-law:sym<core>			{ <sym> <space>+ <value> }
+	token blackhole-law:sym<origin>		{ <sym> <space>* <value> }
+	token blackhole-law:sym<core>			{ <sym> <space>* <value> }
 	token blackhole-law:sym<cluster>	{ <sym> }
 
-	#token value			{ <!before \s>  <(<graph>+)>  <!after \s>	}
 	token value			{ <!before \s> <-[ \s ]>+ <!after \s> }
 
 	token star {
@@ -115,8 +113,6 @@ grammar LawCmd	{
 	token star-tag							{ '-' <(<alnum>+)> } 
 	token star-tail							{ '.' <('xyz')> }
 	
-	token ws			{ \h* }
-	token law-end { \h* }
 
 	method create(Str $laws, :$rule = 'TOP')	{
 		my $m = self.parse($laws, :actions(Laws), :$rule);
@@ -140,20 +136,20 @@ class Laws		{
 		my %physics = LawCnf.create($laws);
 		# TODO: hide error Use of Nil in string context
 		# If $<object> does not exist in laws file, create empty hash otherwise hyper operator will fail.
-		%physics<galaxy> = {} unless %physics<galaxy>:exists;
-		#	say "g cnf: " ~  %physics<galaxy>.perl;
-		#say "g cmd: " ~  $<galaxy-laws>.ast.perl;
-		%physics<galaxy> <<=<< $<galaxy-laws>.ast;
+		%physics<galaxy> = {} unless %physics<galaxy>;
+		say "Gcnf: " ~  %physics<galaxy>.perl;
+		say "Gcmd: " ~  $<galaxy-laws>.ast.perl;
+		%physics<galaxy> «=« $<galaxy-laws>.ast if $<galaxy-laws>;
 		if $<object-laws> {
-				%physics{$<object>} = {} unless %physics{$<object>}:exists;
-				#say "o cnf: " ~  %physics{$<object>.ast}.perl if $<object>;
-				#		say "o cmd: " ~  $<object-laws>.ast.perl if $<object>;
-			%physics{$<object>.ast} <<=<< $<object-laws>.ast;
+			%physics{$<object>} = {} unless %physics{$<object>};
+			#say "Ocnf: " ~  %physics{$<object>.ast}.perl if $<object>;
+			#say "Ocmd: " ~  $<object-laws>.ast.perl if $<object>;
+			%physics{$<object>.ast} «=« $<object-laws>.ast;
 		}
-		%physics<star> <<=<< $<star>.ast if $<star>;
-		#%physics<galaxy> »=« $<galaxy-laws>.ast;
+		%physics<star> «=« $<star>.ast if $<star>;
+		#%physics<galaxy> »= $<galaxy-laws>.ast;
 
-		#%physics<actobject> = $<object>.ast;
+		%physics<actobject> = $<object>.ast;
 
 		make %physics;
 	}
