@@ -58,6 +58,7 @@ grammar LawCnf {
 
 
 grammar LawCmd	{
+	# TODO: ./bin/galaxy.p6 gravity cluster dummy-0.7
 
 	regex TOP	{ 
 				|			<galaxy-laws> <space>+  <object> <space>+ <object-laws> <space>+ <star>
@@ -66,6 +67,10 @@ grammar LawCmd	{
 				|			<galaxy-laws> <space>+  <object>
 				|			<galaxy-laws> <space>+  <star>
 				|			<galaxy-laws>
+				|			<object> <space>+ <object-laws> <space>+ <star>
+				|			<object> <space>+ <object-laws>
+				|			<object> <space>+ <star>
+				|			<object>?
 				|			<star>?
 	}
 
