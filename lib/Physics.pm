@@ -1,4 +1,6 @@
 #use Grammar::Debugger;
+#
+# Physics is always difficult to understand, hmm...
 
 class Laws {...}
 
@@ -140,7 +142,7 @@ class Laws		{
 	#method TOP ($/) { make { galaxy => $<galaxy-laws>.made, active-object => $<object>.made, $<object>.made => $<object-laws>.made, "active-star" => $<star>.made } }
 	method TOP ($/) { 
 		# This method need some love :)
-		my $laws = $<galaxy-laws>.ast<laws>:exists ?? $<galaxy-laws>.ast<laws> !! '/etc/galaxy/laws';
+		my $laws = $<galaxy-laws>.ast<laws> ?? $<galaxy-laws>.ast<laws> !! '/etc/galaxy/laws';
 
 		#TODO: manage errors!
 		die "$laws: Does not exist!" unless $laws.IO.f;

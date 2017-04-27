@@ -8,7 +8,13 @@ use Universe;
 #say %physics.perl;
 
 my $u = Universe.new;
-say $u.physics.perl;
+
+say $u.galaxy.laws.perl;
+say $u.galaxy.name.perl;
+say $u.galaxy.bulge.perl;
+say $u.galaxy.disk.perl;
+say $u.galaxy.halo.perl;
+say $u.galaxy.core.perl;
 
 #my @tests = (
 # #[ 'string to test', matches?, message ]
