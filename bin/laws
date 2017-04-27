@@ -3,6 +3,6 @@
 	origin nono
 <gravity>
 dummy
-<nebula>
-	Helix	http://helix.galaxy.xyz
-Zeta	http://zeta.galaxy.xyz
+#<nebula>
+#	Helix	http://helix.galaxy.xyz
+#Zeta	http://zeta.galaxy.xyz

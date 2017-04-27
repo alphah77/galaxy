@@ -1,24 +1,37 @@
 #!/usr/bin/env perl6
 use lib <lib>;
-use Physics;
-use Alien;
-use Galaxy;
+use Test;
+use Universe;
 
-my %physics = LawCmd.create(@*ARGS.Str);
+#my %physics = LawCmd.create(@*ARGS.Str);
 #my %physics-cnf = LawCnf.create('bin/laws');
-say %physics.perl;
-#say %physics-cnf.perl;
-#say $laws<realm>[0]<block><law>[1]<key>:
+#say %physics.perl;
 
-#my $universe = Universe.new(name => 'universe', physics => @*ARGS);
-#my $universe = Universe.new(name => 'universe', laws => @*ARGS);
-#my $physics = Physics.new(laws => @*ARGS);
-#say $physics.physics;
-#$physics.define;
-#say $physics.phyhash; 
-#say $physics.phyhash<Galaxy><core>;
-#say $physics.phyhash<Nebula><Helix>;
-#$universe.physics(@*ARGS);
+my $u = Universe.new;
+say $u.physics.perl;
 
-#say %physics<power>.WHAT;
-#say %physics<power>;
+#my @tests = (
+# #[ 'string to test', matches?, message ]
+# [ 'yolo gravity dummy rakudo-star',	True,		'yolo gravity dummy rakudo-star' ],
+# [ 'yolo gravity dummy',							True,		'yolo gravity dummy' ],
+# [ 'yolo gravity rakudo-star',				True,		'yolo gravity rakudo-star' ],
+# [ 'yolo gravity',										True,		'yolo gravity' ],
+# [ 'yolo rakudo-star',								True,		'yolo rakudo-star' ],
+# [ 'yolo',														True,		'yolo' ],
+# [ 'gravity dummy rakudo-star',			True,		'gravity dummy rakudo-star' ],
+# [ 'gravity dummy',									True,		'gravity dummy' ],
+# [ 'gravity rakudo-star',						True,		'gravity rakudo-star' ],
+# [ 'gravity',												True,		'gravity' ],
+# [ 'rakudo-star',										True,		'rakudo-star' ],
+# [ 'gravity dummy cluster-star',			True,		'gravity dummy cluster-star' ], # Failling ):
+## [ 'rakudo-star-0.7.pkg',						False,	'✘ ext must come after build or tag' ],
+
+#);
+
+#for @tests -> [$string, $should-parse, $message] {
+#	my %physics = LawCmd.create($string);
+#  my $result = ?%physics;   # make boolean
+#  $result = !$result if $should-parse === False;
+#	print %physics.perl ~ " ";
+#  ok $result, $message;
+#}
