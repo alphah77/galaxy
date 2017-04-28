@@ -1,5 +1,11 @@
 class Blackhole {
 	has $.name;
-	has @.power = <blackhole>;
+	has $.laws;
+	#	has @.power = <blackhole>;
+	#
+	
+	method suck() {
+
+	}
 
 }

@@ -5,6 +5,7 @@
 class Laws {...}
 
 grammar LawCnf {
+	# TODO: Fix spaces after law and first line comment
 	token laws	{ <realm>*	} 
 
 	token realm	{	<object> <object-laws> }

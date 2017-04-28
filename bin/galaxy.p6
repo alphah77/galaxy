@@ -9,12 +9,10 @@ use Universe;
 
 my $u = Universe.new;
 
+say $u.laws.perl;
+$u.create;
 say $u.galaxy.laws.perl;
-say $u.galaxy.name.perl;
-say $u.galaxy.bulge.perl;
-say $u.galaxy.disk.perl;
-say $u.galaxy.halo.perl;
-say $u.galaxy.core.perl;
+.perl.say for $u.nebula;
 
 #my @tests = (
 # #[ 'string to test', matches?, message ]
