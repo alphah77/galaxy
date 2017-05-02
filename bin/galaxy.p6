@@ -12,7 +12,7 @@ my $u = Universe.new;
 say $u.laws.perl;
 $u.create;
 say $u.galaxy.laws.perl;
-.perl.say for $u.nebula;
+.name.say for $u.nebula:
 
 #my @tests = (
 # #[ 'string to test', matches?, message ]

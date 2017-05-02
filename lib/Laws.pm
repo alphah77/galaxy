@@ -1,12 +1,10 @@
 #use Grammar::Debugger;
 #
-# Physics is always difficult to understand, hmm...
 
 class Laws {...}
 
 grammar LawCnf {
-	# TODO: Fix spaces after law and first line comment
-	token laws	{ <realm>*	} 
+	token all	{ <realm>*	} 
 
 	token realm	{	<object> <object-laws> }
 
@@ -52,7 +50,7 @@ grammar LawCnf {
 	token comment	{ '#' \N*\n+ }
 	token ws			{ \h* }
 
-	method create(Str $laws, :$rule = 'laws')	{
+	method create(Str $laws, :$rule = 'all')	{
 		my $m = self.parsefile($laws, :actions(Laws), :$rule);
 		die "Laws file is not consistent" unless $m;
 		return $m.made;
@@ -61,7 +59,6 @@ grammar LawCnf {
 
 
 grammar LawCmd	{
-	# TODO: ./bin/galaxy.p6 gravity cluster dummy-0.7
 
 	regex TOP	{ 
 				|			<galaxy-laws> <space>+  <object> <space>+ <object-laws> <space>+ <star>
@@ -149,28 +146,26 @@ class Laws		{
 		die "$laws: Does not exist!" unless $laws.IO.f;
 
 
-		my %physics = LawCnf.create($laws);
+		my %laws = LawCnf.create($laws);
 		# TODO: hide error Use of Nil in string context
 		# If $<object> does not exist in laws file, create empty hash otherwise hyper operator will fail.
-		%physics<galaxy> = {} unless %physics<galaxy>;
-		#say "Gcnf: " ~  %physics<galaxy>.perl;
-		#say "Gcmd: " ~  $<galaxy-laws>.ast.perl;
-		%physics<galaxy> «=« $<galaxy-laws>.ast if $<galaxy-laws>;
+		%laws<galaxy> = {} unless %laws<galaxy>;
+		%laws<galaxy> «=« $<galaxy-laws>.ast if $<galaxy-laws>;
 		if $<object-laws> {
-			%physics{$<object>} = {} unless %physics{$<object>};
-			#say "Ocnf: " ~  %physics{$<object>.ast}.perl if $<object>;
+			%laws{$<object>} = {} unless %laws{$<object>};
+			#say "Ocnf: " ~  %laws{$<object>.ast}.perl if $<object>;
 			#say "Ocmd: " ~  $<object-laws>.ast.perl if $<object>;
-			%physics{$<object>.ast} «=« $<object-laws>.ast;
+			%laws{$<object>.ast} «=« $<object-laws>.ast;
 		}
-		%physics<active> = $<object> ?? $<object>.ast !! "galaxy";
-		%physics<star> «=« $<star>.ast if $<star>;
-		#%physics<galaxy> »= $<galaxy-laws>.ast;
+		%laws<active> = $<object> ?? $<object>.ast !! "galaxy";
+		%laws<star> «=« $<star>.ast if $<star>;
+		#%laws<galaxy> »= $<galaxy-laws>.ast;
 
 
-		make %physics;
+		make %laws;
 	}
 	#
-	method laws($/)			{ make $<realm>».ast }
+	method all($/)			{ make $<realm>».ast }
 
 	method object-laws:sym<galaxy-laws>($/)			{ make $<galaxy-laws>.made	}
 	method object-laws:sym<gravity-laws>($/)		{ make $<gravity-laws>.made	}
