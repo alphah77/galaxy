@@ -1,14 +1,15 @@
-# Class to set physics
-# Class to create Universe which will hold Alien, Galaxy, Nebula and their physics
-class Alien { #User
-	has $.name;
-	has @.power = <telescope>;
+class Alien {
+	has $.name	= $*USER.Str;
+	has $.id		= $*USER.Num;
+	has $.laws;
+	has @.power; # Permissions
 
-	method physics() { # Set physics of Universe
+
+	method telescope() {
 
 	}
 
-	method telescope() {
+	method decide()	{
 
 	}
 

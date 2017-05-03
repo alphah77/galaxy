@@ -8,10 +8,11 @@ use Universe;
 #say %physics.perl;
 
 my $u = Universe.new;
-
 say $u.laws.perl;
+
 $u.create;
-say $u.galaxy.laws.perl;
+say $u.alien.laws<command>;
+say $u.galaxy.gravity.laws;
 .name.say for $u.nebula:
 
 #my @tests = (
