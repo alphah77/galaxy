@@ -5,26 +5,24 @@ use Galaxy;
 use Gravity;
 use Blackhole;
 use Nebula;
+use Spacetime;
 
 
 class Universe {
-	has						$.name;
+	has						$.physics			= LawCmd.create(@*ARGS.Str);
 	has Alien			$.alien;
-	has						$.laws				= LawCmd.create(@*ARGS.Str);
 	has Galaxy		$.galaxy;
 	has Gravity		$.gravity;
 	has Blackhole	$.blackhole;
 	has Nebula		@.nebula;
-	#	has Galaxy $.galaxy;
-	#	has Nebula @.nebula;
+	has Spacetime	$.spacetime;
 
-	method create() {
-	$!alien			= Alien.new(laws => self.laws<alien>); 
-	$!galaxy		= Galaxy.new(laws => self.laws<galaxy>,
-		gravity		=> Gravity.new(laws => self.laws<gravity>), 
-		blackhole	=> Blackhole.new(laws => self.laws<blackhole>), 
-	);
-	@!nebula		= $!laws<nebula>.pairs.map({ Nebula.new(:name(.key), :location(.value)) }); # can be done better!
-
+	method TWEAK() {
+		$!alien			= Alien.new(laws => $!physics<alien>); 
+		$!galaxy		= Galaxy.new(laws => $!physics<galaxy>,
+			gravity		=> Gravity.new(laws => $!physics<gravity>), 
+			blackhole	=> Blackhole.new(laws => $!physics<blackhole>), 
+		);
+		@!nebula		= $!physics<nebula>.pairs.map({ Nebula.new(:name(.key), :location(.value)) }); # can be done better!
 	}
 }

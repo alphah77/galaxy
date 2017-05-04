@@ -1,6 +1,5 @@
 #!/usr/bin/env perl6
 use lib <lib>;
-use Test;
 use Universe;
 
 #my %physics = LawCmd.create(@*ARGS.Str);
@@ -8,9 +7,6 @@ use Universe;
 #say %physics.perl;
 
 my $u = Universe.new;
-say $u.laws.perl;
-
-$u.create;
-say $u.alien.laws<command>;
-say $u.galaxy.gravity.laws;
-.name.say for $u.nebula:
+say $u.physics;
+say $u.galaxy.laws.perl;
+say $u.alien.laws.perl;

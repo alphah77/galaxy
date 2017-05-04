@@ -1,9 +1,11 @@
 class Alien {
-	has $.name	= $*USER.Str;
-	has $.id		= $*USER.Num;
 	has $.laws;
-	has @.power; # Permissions
 
+	method TWEAK()	{
+		$!laws<name>	= ~$*USER;
+		$!laws<id>		= +$*USER;
+		$!laws<power>;
+	}
 
 	method telescope() {
 

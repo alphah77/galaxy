@@ -3,7 +3,11 @@
 class Nebula {
 	has $.name;
 	has $.location; # URL
-	has $.proto =  $!location ~~ /.* <?before ':'>/ && ~$/;
+	has $.proto;
+
+	method TWEAK()	{
+		$!proto =  $!location ~~ /.* <?before ':'>/ && ~$/;
+	}
 
 	method has($star)	{
 

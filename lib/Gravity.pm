@@ -1,7 +1,9 @@
 class Gravity {
-	has $.name;
 	has $.laws;
-	#	has @.power = <gravity>;
+
+	method TWEAK()	{
+		$!laws<name>;
+	}
 
 	method pull() {
 
