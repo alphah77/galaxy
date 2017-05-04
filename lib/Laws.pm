@@ -208,22 +208,15 @@ class Laws		{
 	method star($/) 			{
 		my %star;
 		%star<star>	= $/.Str;
-		%star<name>	= $<star-name>.ast;
-		%star<age>	= $<star-age>.ast;
-		%star<core>	= $<star-core>.ast;
-		%star<form>	= $<star-form>.ast;
-		%star<tag>	= $<star-tag>.ast;
-		%star<tag>	= $<star-tag>.ast;
+		%star<name>	= $<star-name>.Str if $<star-name>;
+		%star<age>	= $<star-age>.Str if $<star-age>;
+		%star<core>	= $<star-core>.Str if $<star-core>;
+		%star<form>	= $<star-form>.Str if $<star-form>;
+		%star<tag>	= $<star-tag>.Str if $<star-tag>;
+		%star<tail>	= $<star-tail>.Str if $<star-tail>;
 		make %star;
 		
 	}
-	method star-name($/) 	{ make $/.Str }
-	method star-age($/) 	{ make $/.Str	}
-	method star-core($/) 	{ make $/.Str }
-	method star-form($/)	{ make $/.Str }
-	method star-tag($/) 	{ make $/.Str }
-	method star-ext($/) 	{ make $/.Str }
-
 	method realm($/)	{ make $<object>.made => $<object-laws>.made}	
 	method value($/) 	{ make $/.Str	}
 }
