@@ -2,15 +2,16 @@
 use lib <lib>;
 use Universe;
 
-my $u = Universe.new;
-
-#say $u.physics.perl;
-use nqp;
-use Data::Dump;
 #my %physics = LawCmd.create(@*ARGS.Str);
 #my %physics-cnf = LawCnf.create('bin/laws');
 #say %physics.perl;
 
+#say $u.physics.perl;
+use nqp;
+#my %physics = LawCmd.create(@*ARGS.Str);
+#my %physics-cnf = LawCnf.create('bin/laws');
+#say %physics.perl;
+my $u = Universe.new;
 my %hash = $u.physics;
 print-keys %hash;
 sub print-keys (%hash, Int:D $indent = 0) {
@@ -19,8 +20,7 @@ sub print-keys (%hash, Int:D $indent = 0) {
         my $thing = %hash{$_};
         if !nqp::defined($thing) {
             print ' ' x $indent;
-            say "$_ => ", nqp::what($thing)
-            #NQPMu";
+            say "$_ => ", try { $thing.WHAT } // try { nqp::what($thing) } // 'NQPMu';
         }
         else {
             print ' ' x $indent ~ "$_ => ";
