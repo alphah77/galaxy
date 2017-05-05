@@ -157,8 +157,8 @@ class Laws		{
 			#say "Ocmd: " ~  $<object-laws>.ast.perl if $<object>;
 			%laws{$<object>.ast} «=« $<object-laws>.ast;
 		}
-		%laws<active> = $<object> ?? $<object>.ast !! "galaxy";
-		%laws<star> «=« $<star>.ast if $<star>;
+		%laws<alien><command> = $<object> ?? $<object>.ast !! "galaxy";
+		%laws<star> = $<star>.ast if $<star>;
 		#%laws<galaxy> »= $<galaxy-laws>.ast;
 
 
@@ -205,13 +205,24 @@ class Laws		{
 	method object:sym<nebula>($/)			{ make $<sym>.Str	} 
 
 
-	method star($/) 			{ make $/.Str	}
-	method star-name($/) 	{ make "star-name"	=> $/.Str }
-	method star-age($/) 	{ make "star-age"		=> $/.Str	}
-	method star-core($/) 	{ make "star-core"	=> $/.Str }
-	method star-build($/) { make "star-build"	=> $/.Str }
-	method star-tag($/) 	{ make "star-tag"		=> $/.Str }
-	method star-ext($/) 	{ make "star-ext"		=> $/.Str }
+	method star($/) 			{
+		my %star;
+		%star<star>	= $/.Str;
+		%star<name>	= $<star-name>.ast;
+		%star<age>	= $<star-age>.ast;
+		%star<core>	= $<star-core>.ast;
+		%star<form>	= $<star-form>.ast;
+		%star<tag>	= $<star-tag>.ast;
+		%star<tag>	= $<star-tag>.ast;
+		make %star;
+		
+	}
+	method star-name($/) 	{ make $/.Str }
+	method star-age($/) 	{ make $/.Str	}
+	method star-core($/) 	{ make $/.Str }
+	method star-form($/)	{ make $/.Str }
+	method star-tag($/) 	{ make $/.Str }
+	method star-ext($/) 	{ make $/.Str }
 
 	method realm($/)	{ make $<object>.made => $<object-laws>.made}	
 	method value($/) 	{ make $/.Str	}
