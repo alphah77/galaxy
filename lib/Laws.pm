@@ -119,9 +119,7 @@ grammar LawCmd	{
   }
 	regex star-name							{  <alnum>+ [ '-' <alnum>+ ]* <!before '.'> } # Don't mess with this :(
 	token star-age							{ '-' <(<digit>+ ['.' <digit>+]+)> }  
-	proto token star-core 			{ * }
-	token star-core:sym<x86_64>	{ '-' <(<sym>)> }
-	token star-core:sym<i386>		{ '-' <(<sym>)> }
+	token star-core							{ '-' <([ 'x86_64' | 'i386' ])> }
 	token star-form							{ '-' <(<digit>+)> }
 	token star-tag							{ '-' <(<alnum>+)> } 
 	token star-tail							{ '.' <('xyz')> }
