@@ -119,7 +119,9 @@ grammar LawCmd	{
   }
 	regex star-name							{  <alnum>+ [ '-' <alnum>+ ]* <!before '.'> } # Don't mess with this :(
 	token star-age							{ '-' <(<digit>+ ['.' <digit>+]+)> }  
-	token star-core							{ '-' <([ 'x86_64' | 'i386' ])> }
+	proto token star-core 			{ * }
+	token star-core:sym<x86_64>	{ '-' <(<sym>)> }
+	token star-core:sym<i386>		{ '-' <(<sym>)> }
 	token star-form							{ '-' <(<digit>+)> }
 	token star-tag							{ '-' <(<alnum>+)> } 
 	token star-tail							{ '.' <('xyz')> }
@@ -215,12 +217,13 @@ class Laws		{
 		make %star;
 		
 	}
-	method star-name($/) 	{ make $/.Str }
-	method star-age($/) 	{ make $/.Str	}
-	method star-core($/) 	{ make $/.Str }
-	method star-form($/)	{ make $/.Str }
-	method star-tag($/) 	{ make $/.Str }
-	method star-ext($/) 	{ make $/.Str }
+	method star-name($/) 							{ make $/.Str }
+	method star-age($/) 							{ make $/.Str	}
+	method star-core:sym<x86_64>($/)	{ make $/.Str }
+	method star-core:sym<i386>($/)		{ make $/.Str }
+	method star-form($/)							{ make $/.Str }
+	method star-tag($/) 							{ make $/.Str }
+	method star-ext($/) 							{ make $/.Str }
 
 	method realm($/)	{ make $<object>.made => $<object-laws>.made}	
 	method value($/) 	{ make $/.Str	}
