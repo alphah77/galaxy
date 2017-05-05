@@ -7,7 +7,7 @@ class Alien {
 		$!laws<power>;
 	}
 
-	method telescope() {
+	method spot() {
 
 	}
 
