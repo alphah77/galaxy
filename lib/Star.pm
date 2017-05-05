@@ -1,8 +1,8 @@
 class Star {
 	has $.name;
-	has $.age; # Version
-	has $.core; # Arch
-	has $.tail = ".xyz"; # Extension
-	has @.cluster; # Star cluster
-
+	has $.age;
+	has $.core;
+	has $.form;
+	has $.tag;
+	has $.tail = "xyz";
 }

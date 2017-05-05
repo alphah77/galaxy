@@ -1,1 +1,2 @@
-# Galaxy is a package manager for scientific Linux.
+# Galaxy
+Galaxy is a package manager for scientific Linux.

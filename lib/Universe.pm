@@ -18,10 +18,10 @@ class Universe {
 	has Spacetime	$.spacetime;
 
 	method TWEAK() {
-		$!alien			= Alien.new(laws => $!physics<alien>); 
-		$!galaxy		= Galaxy.new(laws => $!physics<galaxy>,
-			gravity		=> Gravity.new(laws => $!physics<gravity>), 
-			blackhole	=> Blackhole.new(laws => $!physics<blackhole>), 
+		$!alien			=		Alien.new(laws => $!physics<alien>); 
+		$!galaxy		=		Galaxy.new(laws => $!physics<galaxy>,
+			gravity		=>	Gravity.new(laws => $!physics<gravity>), 
+			blackhole	=>	Blackhole.new(laws => $!physics<blackhole>), 
 		);
 		@!nebula		= $!physics<nebula>.pairs.map({ Nebula.new(:name(.key), :location(.value)) }); # can be done better!
 	}

@@ -215,8 +215,8 @@ class Laws		{
 		%star<tag>	= $<star-tag>.ast;
 		%star<tag>	= $<star-tag>.ast;
 		make %star;
-		
 	}
+
 	method star-name($/) 							{ make $/.Str }
 	method star-age($/) 							{ make $/.Str	}
 	method star-core:sym<x86_64>($/)	{ make $/.Str }
