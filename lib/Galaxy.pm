@@ -17,7 +17,8 @@ class Galaxy {
 		$!laws<core>		= chomp qx<uname -m>;
 	}
 
-	method stable() {
+
+	method stable( --> Bool:D) {
 
 	}
 }

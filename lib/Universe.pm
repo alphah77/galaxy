@@ -25,4 +25,12 @@ class Universe {
 		);
 		@!nebula		= $!physics<nebula>.pairs.map({ Nebula.new(:name(.key), :location(.value)) }); # can be done better!
 	}
+
+	method change(:$object? = "galaxy", :$command? = self.alien.laws<command>, :$star? = self.alien.laws<star><star>)	{
+		say $object;
+		say $command;
+		say $star;
+		
+	}
+
 }
