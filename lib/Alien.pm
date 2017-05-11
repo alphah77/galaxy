@@ -7,7 +7,12 @@ class Alien {
 		$!laws<power>; # To be used for Alien permession later.
 	}
 
-	method command() {
+	multi method action(Str :$object)	{
+		say $object;
+
+	}
+
+	multi method action(:$object)	{
 
 	}
 

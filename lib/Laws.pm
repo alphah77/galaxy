@@ -138,7 +138,7 @@ grammar LawCmd	{
 class Laws		{
 
 	#method TOP ($/) { make { galaxy => $<galaxy-laws>.made, active-object => $<object>.made, $<object>.made => $<object-laws>.made, "active-star" => $<star>.made } }
-	method TOP ($/) { 
+	method TOP ($/) {
 		# This method need some love :)
 		my $laws = $<galaxy-laws>.ast<laws> ?? $<galaxy-laws>.ast<laws> !! '/etc/galaxy/laws';
 

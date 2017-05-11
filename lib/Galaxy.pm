@@ -17,6 +17,9 @@ class Galaxy {
 		$!laws<core>		= chomp qx<uname -m>;
 	}
 
+	method describe()	{ # Describe Galaxy state.
+
+	}
 
 	method stable( --> Bool:D) {
 

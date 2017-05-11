@@ -1,8 +1,11 @@
 #!/usr/bin/env perl6
 use lib <lib>;
 use Universe;
+use Alien;
 
-my $u = Universe.new;
+my $universe = Universe.new;
 
-$u.change;
+my $alien = Alien.new(laws => $universe.physics<alien>);
+
+$alien.action(object => "");
 
