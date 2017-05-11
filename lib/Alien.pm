@@ -4,7 +4,16 @@ class Alien {
 	method TWEAK()	{
 		$!laws<name>	= ~$*USER;
 		$!laws<id>		= +$*USER;
-		$!laws<power>;
+		$!laws<power>; # To be used for Alien permession later.
+	}
+
+	multi method action(Str :$object)	{
+		say $object;
+
+	}
+
+	multi method action(:$object)	{
+
 	}
 
 	method spot() {

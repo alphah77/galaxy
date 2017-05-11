@@ -5,4 +5,8 @@ class Star {
 	has $.form;
 	has $.tag;
 	has $.tail = "xyz";
+
+	method describe()	{	# Describe star.
+
+	}
 }

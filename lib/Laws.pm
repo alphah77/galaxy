@@ -138,7 +138,7 @@ grammar LawCmd	{
 class Laws		{
 
 	#method TOP ($/) { make { galaxy => $<galaxy-laws>.made, active-object => $<object>.made, $<object>.made => $<object-laws>.made, "active-star" => $<star>.made } }
-	method TOP ($/) { 
+	method TOP ($/) {
 		# This method need some love :)
 		my $laws = $<galaxy-laws>.ast<laws> ?? $<galaxy-laws>.ast<laws> !! '/etc/galaxy/laws';
 
@@ -147,19 +147,18 @@ class Laws		{
 
 
 		my %laws = LawCnf.create($laws);
-		# TODO: hide error Use of Nil in string context
+
 		# If $<object> does not exist in laws file, create empty hash otherwise hyper operator will fail.
 		%laws<galaxy> = {} unless %laws<galaxy>;
 		%laws<galaxy> «=« $<galaxy-laws>.ast if $<galaxy-laws>;
-		if $<object-laws> {
-			%laws{$<object>} = {} unless %laws{$<object>};
-			#say "Ocnf: " ~  %laws{$<object>.ast}.perl if $<object>;
-			#say "Ocmd: " ~  $<object-laws>.ast.perl if $<object>;
-			%laws{$<object>.ast} «=« $<object-laws>.ast;
+
+		if $<object-laws>	{
+			%laws{$<object>}			=		{} unless %laws{$<object>};
+			%laws{$<object>.ast}	«=«	$<object-laws>.ast;
 		}
-		%laws<alien><command> = $<object> ?? $<object>.ast !! "galaxy";
-		%laws<star> = $<star>.ast if $<star>;
-		#%laws<galaxy> »= $<galaxy-laws>.ast;
+
+		%laws<alien><command>	= $<object>.ast	if $<object>;
+		%laws<alien><star>		= $<star>.ast		if $<star>;
 
 
 		make %laws;
