@@ -1,11 +1,7 @@
-use Gravity;
-use Blackhole;
 use Star;
 
 class Galaxy {
 	has $.laws;
-	has Gravity		$.gravity;
-	has Blackhole	$.blackhole;
 	has Star			$.xyz; # Datastructure for stars
 
 	method TWEAK()	{

@@ -1,20 +1,7 @@
 class Alien {
-	has $.laws;
-
-	method TWEAK()	{
-		$!laws<name>	= ~$*USER;
-		$!laws<id>		= +$*USER;
-		$!laws<power>; # To be used for Alien permession later.
-	}
-
-	multi method action(Str :$object)	{
-		say $object;
-
-	}
-
-	multi method action(:$object)	{
-
-	}
+	has $.name	= ~$*USER;
+	has $.id		= +$*USER;
+	has @.power; # To be used for Alien permessions later.
 
 	method spot() {
 

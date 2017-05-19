@@ -1,5 +1,4 @@
 use Laws;
-use Alien;
 use Star;
 use Galaxy;
 use Gravity;
@@ -21,6 +20,11 @@ class Universe {
 		$!gravity		=	Gravity.new(laws => $!physics<gravity>); 
 		$!blackhole	=	Blackhole.new(laws => $!physics<blackhole>); 
 		@!nebula		=	$!physics<nebula>.pairs.map({ Nebula.new(:name(.key), :location(.value)) }); # can be done better!
+	}
+
+	method action()	{
+		say self."$!physics<object>"().perl;
+		
 	}
 
 }

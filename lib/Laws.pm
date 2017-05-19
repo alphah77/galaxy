@@ -1,5 +1,4 @@
 #use Grammar::Debugger;
-#
 
 class Laws {...}
 
@@ -88,7 +87,6 @@ grammar LawCmd	{
 	token object:sym<blackhole> { <sym> }
 
 	proto token object-laws { * }
-	#token object-laws:sym<galaxy-laws>		{ <?after ^>											<galaxy-laws> }
 	token object-laws:sym<galaxy-laws>		{ <galaxy-laws> <?before <object>> }
 	token object-laws:sym<gravity-laws>		{ <?after 'gravity' \s*>  <gravity-laws> }
 	token object-laws:sym<blackhole-laws>	{	<?after 'blackhole' \s*> <blackhole-laws> }
@@ -137,33 +135,31 @@ grammar LawCmd	{
 
 class Laws		{
 
-	#method TOP ($/) { make { galaxy => $<galaxy-laws>.made, active-object => $<object>.made, $<object>.made => $<object-laws>.made, "active-star" => $<star>.made } }
+	# This method need some love :)
 	method TOP ($/) {
-		# This method need some love :)
 		my $laws = $<galaxy-laws>.ast<laws> ?? $<galaxy-laws>.ast<laws> !! '/etc/galaxy/laws';
 
-		#TODO: manage errors!
+		#Todo: manage errors!
 		die "$laws: Does not exist!" unless $laws.IO.f;
 
 
 		my %laws = LawCnf.create($laws);
 
-		# If $<object> does not exist in laws file, create empty hash otherwise hyper operator will fail.
+		# hyper operator left hash.
 		%laws<galaxy> = {} unless %laws<galaxy>;
-		%laws<galaxy> «=« $<galaxy-laws>.ast if $<galaxy-laws>;
+		%laws<galaxy> «=« $<galaxy-laws>.ast if defined $<galaxy-laws>;
 
 		if $<object-laws>	{
 			%laws{$<object>}			=		{} unless %laws{$<object>};
 			%laws{$<object>.ast}	«=«	$<object-laws>.ast;
 		}
 
-		%laws<alien><command>	= $<object>.ast	if $<object>;
-		%laws<alien><star>		= $<star>.ast		if $<star>;
-
+		%laws<object>	= $<object>.defined ?? $<object>.ast !! "galaxy";
+		%laws<star>		= $<star>.ast		if defined $<star>;
 
 		make %laws;
 	}
-	#
+
 	method all($/)			{ make $<realm>».ast }
 
 	method object-laws:sym<galaxy-laws>($/)			{ make $<galaxy-laws>.made	}
@@ -179,13 +175,11 @@ class Laws		{
 	method galaxy-law:sym<imagine>($/)	{ make $<sym>.Str => True	}
 	method galaxy-law:sym<nocolor>($/)	{ make $<sym>.Str => True	}
 
-
 	method gravity-laws($/)							{ make $<gravity-law>».ast.hash	}
 	method gravity-law:sym<core>($/)		{ make $<sym>.Str => $<value>.made }
 	method gravity-law:sym<origin>($/)	{ make $<sym>.Str => $<value>.made }
 	method gravity-law:sym<cluster>($/)	{ make $<sym>.Str => True	}
 	method gravity-law:sym<dummy>($/)		{ make $<sym>.Str => True	}
-
 
 	method blackhole-laws($/)							{ make $<blackhole-law>».ast.hash	}
 	method blackhole-law:sym<core>($/)		{ make $<sym>.Str => $<value>.made }
@@ -227,5 +221,4 @@ class Laws		{
 	method realm($/)	{ make $<object>.made => $<object-laws>.made}	
 	method value($/) 	{ make $/.Str	}
 }
-
 

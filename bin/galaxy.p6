@@ -5,7 +5,7 @@ use Alien;
 
 my $universe = Universe.new;
 
-my $alien = Alien.new(laws => $universe.physics<alien>);
+my $alien = Alien.new;
 
-$alien.action(object => "");
+$universe.action;
 

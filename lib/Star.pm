@@ -1,4 +1,6 @@
 class Star {
+	my	$.count;	# Number of stars instantiated.
+
 	has $.name;
 	has $.age;
 	has $.core;
