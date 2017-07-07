@@ -1,4 +1,4 @@
-<img src=alien-logo.png width=700 height=700 />
+<img src=alien-logo.png width=200 height=200 />
 
 # Galaxy
 
