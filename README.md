@@ -1,7 +1,6 @@
 ![Logo of the project](https://raw.githubusercontent.com/hythm7/galaxy/master/alien-logo.png)
 
 # Galaxy
-> https://galaxy.xyz < yet to be registered, need cash ;( >
 
 Galaxy is a package manager for Scientific Linux.
 
