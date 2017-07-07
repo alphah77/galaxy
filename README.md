@@ -1,4 +1,4 @@
-![Logo of the project](https://raw.githubusercontent.com/hythm7/galaxy/master/alien-logo.png){:height="700px" width="700px"}
+![Logo of the project](https://raw.githubusercontent.com/hythm7/galaxy/master/alien-logo.png | width=100)
 
 # Galaxy
 
