@@ -1,25 +1,23 @@
-use Galaxy::Physics::Object::Actions;
-use Galaxy::Physics::Object::Galaxy::Actions;
-use Galaxy::Physics::Object::Gravity::Actions;
-use Galaxy::Physics::Object::Blackhole::Actions;
-use Galaxy::Physics::Object::Star::Actions;
+use Galaxy::Physics::Galaxy::Actions;
+use Galaxy::Physics::Gravity::Actions;
+use Galaxy::Physics::Blackhole::Actions;
+use Galaxy::Physics::Star::Actions;
 
 class Galaxy::Physics::Actions	{ 
-	also does Galaxy::Physics::Object::Actions;
-	also does Galaxy::Physics::Object::Galaxy::Actions;
-	also does Galaxy::Physics::Object::Gravity::Actions;
-	also does Galaxy::Physics::Object::Blackhole::Actions;
-	also does Galaxy::Physics::Object::Star::Actions;
+	also does Galaxy::Physics::Galaxy::Actions;
+	also does Galaxy::Physics::Gravity::Actions;
+	also does Galaxy::Physics::Blackhole::Actions;
+	also does Galaxy::Physics::Star::Actions;
 	
 	has %.laws;
 
 
 	method TOP ($/) { 
 	#	return %!laws;
-	%!laws<active>		= %!object;
-	%!laws<galaxy>		= %!galaxy-laws;
-	%!laws<gravity>		= %!gravity-laws;
-	%!laws<blackhole>	= %!blackhole-laws;
+#	%!laws<active>		= %!object;
+	%!laws<galaxy>		= %!galaxy;
+	%!laws<gravity>		= %!gravity;
+	%!laws<blackhole>	= %!blackhole;
 	%!laws<star>			= %!star-laws;
 	}
 

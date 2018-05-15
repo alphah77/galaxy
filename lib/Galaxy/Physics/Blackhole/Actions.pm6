@@ -1,8 +1,10 @@
-role Galaxy::Physics::Object::Blackhole::Actions {
+role Galaxy::Physics::Blackhole::Actions {
 
-	has %.blackhole-laws;
+	has %.blackhole;
 
-	method blackhole-laws($/)	{ %!blackhole-laws = $<blackhole-law>».ast.hash	}
+	method blackhole($/)	{ %!blackhole<active> => True }
+
+	method blackhole-laws($/)	{ %!blackhole = $<blackhole-law>».ast.hash	}
 
 	method blackhole-law:sym<cluster>($/)	{ make $<sym>.Str => True }
 	method blackhole-law:sym<core>($/)		{ make $<sym>.Str => $<value>.made }

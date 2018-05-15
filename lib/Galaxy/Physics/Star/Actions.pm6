@@ -1,4 +1,4 @@
-role Galaxy::Physics::Object::Star::Actions {
+role Galaxy::Physics::Star::Actions {
 
 	has %.star-laws;
 

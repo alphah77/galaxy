@@ -3,8 +3,8 @@
 
 use lib <lib>;
 #use Grammar::Tracer;
-use Galaxy::Physics::Object::Star;
-use Galaxy::Physics::Object::Star::Actions;
+use Galaxy::Physics::Star;
+use Galaxy::Physics::Star::Actions;
 
 use Test;
 
@@ -26,12 +26,12 @@ my @tests = (
 	[ 'rakudo-star-0.0.7-x86_64-hythm-1.xyz', True,  'rakudo-star-0.0.7-x86_64-h-1.xyz' ],
 );
 
-grammar Star does Galaxy::Physics::Object::Star { }
+grammar Star does Galaxy::Physics::Star { }
 
 my $rule = 'star';
 
 for @tests -> [$string, $should-parse, $message] {
-	my $actions = Galaxy::Physics::Object::Star::Actions.new;
+	my $actions = Galaxy::Physics::Star::Actions.new;
 	my $m = Star.parse($string, :$actions, :$rule);
 	#say $m;
 	#die unless $m;	

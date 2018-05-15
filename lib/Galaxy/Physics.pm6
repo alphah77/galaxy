@@ -1,18 +1,19 @@
-use Galaxy::Physics::Object;
-use Galaxy::Physics::Object::Galaxy;
-use Galaxy::Physics::Object::Gravity;
-use Galaxy::Physics::Object::Blackhole;
-use Galaxy::Physics::Object::Star;
+use Galaxy::Physics::Galaxy;
+use Galaxy::Physics::Gravity;
+use Galaxy::Physics::Blackhole;
+use Galaxy::Physics::Star;
 #use Grammar::Debugger;
 
 grammar Galaxy::Physics	{
-	also does Galaxy::Physics::Object;
-	also does Galaxy::Physics::Object::Galaxy;
-	also does Galaxy::Physics::Object::Gravity;
-	also does Galaxy::Physics::Object::Blackhole;
-	also does Galaxy::Physics::Object::Star;
+	also does Galaxy::Physics::Galaxy;
+	also does Galaxy::Physics::Gravity;
+	also does Galaxy::Physics::Blackhole;
+	also does Galaxy::Physics::Star;
 
-	rule TOP	{ <galaxy-laws>? <object>? <object-laws>? <star>? }
+	token TOP	{
+    |  <galaxy-laws>?  <.space>* <gravity>?    <.space>* <gravity-laws>?   <.space>* <star>?
+    |  <galaxy-laws>?  <.space>* <blackhole>?  <.space>* <blackhole-laws>? <.space>* <star>?
+  }
 
 	#token value { [<-[\n\s#]>*] }
 	token value { <!before \s> <-[ \s ]>+ <!after \s> }

@@ -1,4 +1,4 @@
-role Galaxy::Physics::Object::Star {
+role Galaxy::Physics::Star {
 
 
 	token star { <star-name>  <hyphen>?
@@ -7,7 +7,7 @@ role Galaxy::Physics::Object::Star {
                <star-tag>?  <hyphen>?
                <star-form>? <dot>?
 							 <star-tail>?
-							 <!after <[.-]> >
+							 <!after <[.-]>> 
 	}
 
 	token star-name							{ [ <.alnum>+ <!before <dot>> ]+ % <hyphen> }
