@@ -10,7 +10,7 @@ grammar Galaxy::Physics	{
 	also does Galaxy::Physics::Blackhole;
 	also does Galaxy::Physics::Star;
 
-	token TOP	{
+	regex TOP	{
     |  <galaxy-laws>?  <.space>* <gravity>?    <.space>* <gravity-laws>?   <.space>* <star>?
     |  <galaxy-laws>?  <.space>* <blackhole>?  <.space>* <blackhole-laws>? <.space>* <star>?
   }

@@ -1,13 +1,15 @@
 role Galaxy::Physics::Star {
 
 
-	token star { <star-name>  <hyphen>?
-               <star-age>?  <hyphen>?
-               <star-core>? <hyphen>?
-               <star-tag>?  <hyphen>?
-               <star-form>? <dot>?
-							 <star-tail>?
-							 <!after <[.-]>> 
+	token star { <<
+    <star-name>  <hyphen>?
+    <star-age>?  <hyphen>?
+    <star-core>? <hyphen>?
+    <star-tag>?  <hyphen>?
+    <star-form>? <dot>?
+		<star-tail>?
+		<!after <[.-]>> 
+    >>
 	}
 
 	token star-name							{ [ <.alnum>+ <!before <dot>> ]+ % <hyphen> }
