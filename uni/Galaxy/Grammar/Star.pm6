@@ -1,4 +1,4 @@
-role Language::Star {
+role Galaxy::Grammar::Star {
 
   token star { <<
     <star-name>  <hyphen>?

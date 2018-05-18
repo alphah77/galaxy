@@ -1,6 +1,4 @@
-use Language;
-
-class Alien {
+class Galaxy::Alien {
   has $.id;
   has $.name;
   has @.powers;

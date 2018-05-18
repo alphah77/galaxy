@@ -1,11 +1,11 @@
 #!/usr/bin/env perl6
 
 use lib <uni>;
-use Alien;
-use Phy;
+use Galaxy::Alien;
+use Galaxy::Phy::Phy;
 
-my $alien = Alien.new;
+my $alien = Galaxy::Alien.new;
 
-my $physics = Phy.new: cmd => $alien.cmd, cnf => $alien.cnf;
+my $physics = Galaxy::Phy::Phy.new: cmd => $alien.cmd, cnf => $alien.cnf;
 
 say $physics.create;
