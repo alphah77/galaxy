@@ -1,8 +1,8 @@
 #!/usr/bin/env perl6
 
 use lib <uni>;
-use Alien;
-
+use Galaxy::Alien;
+use Galaxy::Phy::Phy;
 use Test;
 
 my @tests = (
@@ -40,11 +40,11 @@ my @tests = (
 
 
 for @tests -> [$string, $should-parse, $message] {
-my $actions = Galaxy::Physics::Actions.new;
-  my $m = Galaxy::Physics.create($string, :$actions, :$rule);
+my $alien   = Galaxy::Alien.new;
+my $physics = Galaxy::Phy::Phy.new: cmd => $message, cnf => $alien.cnf;
+  my $m = $physics.create;
   #die unless $m; 
   my $result = ?$m;   # make boolean
   $result = !$result if $should-parse === False;
   ok $result, $message;
-  say $actions.laws.perl;
 }

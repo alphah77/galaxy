@@ -8,4 +8,4 @@ my $alien = Galaxy::Alien.new;
 
 my $physics = Galaxy::Phy::Phy.new: cmd => $alien.cmd, cnf => $alien.cnf;
 
-say $physics.create;
+$physics.create;

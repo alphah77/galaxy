@@ -4,7 +4,7 @@ class Galaxy::Alien {
   has @.powers;
 
   method cnf() {
-    my $conf;
+    my $conf= "laws";
     return $conf;
   }
 
