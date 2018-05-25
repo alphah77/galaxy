@@ -1,14 +1,15 @@
 role Galaxy::Grammar::StarAct {
 
+
   method star($/) {
-    make $/.Str => {
-			name => $<star-name>.ast,
-			age  => $<star-age>.ast,
-			core => $<star-core>.ast,
-			form => $<star-form>.ast,
-			tag  => $<star-tag>.ast,
-			tail => $<star-tail>.ast,
-    }
+    my %s;
+    %s<name> = $<star-name>.ast if $<star-name>.ast;
+    %s<age>  = $<star-age>.ast if $<star-age>.ast;
+    %s<core> = $<star-core>.ast if $<star-core>.ast;
+    %s<form> = $<star-form>.ast if $<star-form>.ast;
+    %s<tag>  = $<star-tag>.ast if $<star-tag>.ast;
+    %s<tail> = $<star-tail>.ast if $<star-tail>.ast;
+    make $/.Str => %s;
   }
 
   method star-name($/) { make $/.Str }

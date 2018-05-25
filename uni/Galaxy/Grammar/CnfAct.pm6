@@ -27,4 +27,6 @@ class Galaxy::Grammar::CnfAct {
   method blackhole-law:sym<core>($/)    { make $<sym>.Str => $<value>.made }
   method blackhole-law:sym<origin>($/)  { make $<sym>.Str => $<value>.made }
 
+  method value($/)  { make $/.Str }
+
 }

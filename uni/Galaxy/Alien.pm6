@@ -13,4 +13,10 @@ class Galaxy::Alien {
     return $cmd;
   }
 
+  method set-laws() {
+    my $cmd = @*ARGS;
+    return $cmd;
+  }
+
+
 }

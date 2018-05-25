@@ -2,8 +2,9 @@ use Galaxy::Grammar::Cmd;
 use Galaxy::Grammar::Cnf;
 use Galaxy::Grammar::CmdAct;
 use Galaxy::Grammar::CnfAct;
+use Hash::Merge::Augment;
 
-class Galaxy::Phy::Phy {
+class Galaxy::Physics::Laws {
   has $.cmd;
   has $.cnf;
   has %.law;
@@ -24,14 +25,11 @@ class Galaxy::Phy::Phy {
     my $m = Galaxy::Grammar::Cmd.parse: $!cmd, :$rule, :$actions; 
     die "Check cmd" unless $m;
 		return $m.ast;
-   # %!s   = $actions.s;
   }
 
-  method create {
-    my %h1 = self!conf;
-    my %h2 = self!command;
-#say %h1;
-#say %h2;
-   # say  %h1 »=» %h2;
+
+  method set-laws {
+    %!law = self!conf.merge: self!command;
+    say %!law;
   }
 }
