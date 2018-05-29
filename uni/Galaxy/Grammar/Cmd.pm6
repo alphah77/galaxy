@@ -1,20 +1,23 @@
-use Galaxy::Grammar::Star;
+use Galaxy::Grammar::StarName;
 
 grammar Galaxy::Grammar::Cmd {
-  also does Galaxy::Grammar::Star;
+  also does Galaxy::Grammar::StarName;
 
   proto token CMD { * } # ordere is important
-  rule CMD:sym<gravity>   { <galaxy> <gravity>   <s>?     <stars>? }
-  rule CMD:sym<blackhole> { <galaxy> <blackhole> <s>?     <stars>? }
-  rule CMD:sym<spacetime> { <galaxy> <spacetime>          <event>? } # TODO:
-  rule CMD:sym<galaxy>    { <galaxy>             <s>?     <star>?  }
+  rule CMD:sym<gravity>   { <galaxy> <gravity>   <s>?     <stars>?     }
+  rule CMD:sym<blackhole> { <galaxy> <blackhole> <s>?     <stars>?     }
+  rule CMD:sym<spacetime> { <galaxy> <spacetime>          <event>?     }
+  rule CMD:sym<star>      { <galaxy> <star>               <star-name>  }
+  rule CMD:sym<galaxy>    { <galaxy>             <s>?     <star-name>? }
 
-  rule galaxy    {             <galaxy-laws>?     }
+  rule galaxy    {             <galaxy-laws>?    }
+  rule star      { 'star'      <star-laws>?      }
   rule gravity   { 'gravity'   <gravity-laws>?   }
   rule blackhole { 'blackhole' <blackhole-laws>? }
   rule spacetime { 'spacetime' <spacetime-laws>? }
 
   token galaxy-laws    { <galaxy-law>+    % <space> } 
+  token star-laws      { <star-law>+      % <space> } 
   token gravity-laws   { <gravity-law>+   % <space> }
   token blackhole-laws { <blackhole-law>+ % <space> } 
   token spacetime-laws { <spacetime-law>+ % <space> } 
@@ -24,6 +27,9 @@ grammar Galaxy::Grammar::Cmd {
   token galaxy-law:sym<cool>   { <<<sym>>> }
   token galaxy-law:sym<yolo>   { <<<sym>>> }
   token galaxy-law:sym<core>   { <sym> <space>* <value> }
+
+  proto token star-law  { * }
+  token star-law:sym<remote> { <<<sym>>> }
 
   proto token gravity-law { * }
   token gravity-law:sym<cluster> { <<<sym>>> }
@@ -38,7 +44,7 @@ grammar Galaxy::Grammar::Cmd {
   proto token spacetime-law { * }
   token spacetime-law:sym<travel>  { <sym> <space>* <value> }
 
-  token stars    { <star>+ % <space> }
+  token stars    { <star-name>+ % <space> }
   token event    { 'event' }
   token value    { <!before \s> <-[ \s ]>+ <!after \s> }
   token s        { 'star' <space>  }                     # edge cases where star name is reserved word

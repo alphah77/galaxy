@@ -9,12 +9,14 @@ class Galaxy::Physics::Laws {
   has $.cnf;
   has %.law;
   
+  method help($msg) { die $msg; }; # help when no cnf or cmd fails to parse
+
   method !conf {
     my $rule = <CNF>;
     my $actions = Galaxy::Grammar::CnfAct.new;
 
     my $m = Galaxy::Grammar::Cnf.parsefile: $!cnf, :$rule, :$actions; 
-		die "Check law file" unless $m;
+		self.help: "cnf" unless $m;
     return $m.ast;
   }
 
@@ -23,7 +25,7 @@ class Galaxy::Physics::Laws {
     my $actions = Galaxy::Grammar::CmdAct.new;
 
     my $m = Galaxy::Grammar::Cmd.parse: $!cmd, :$rule, :$actions; 
-    die "Check cmd" unless $m;
+		self.help: "cmd" unless $m;
 		return $m.ast;
   }
 

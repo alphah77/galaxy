@@ -1,41 +1,56 @@
-use Galaxy::Grammar::StarAct;
+use Galaxy::Grammar::StarNameAct;
 
 class Galaxy::Grammar::CmdAct {
-  also does Galaxy::Grammar::StarAct;
+  also does Galaxy::Grammar::StarNameAct;
 
   has %!law;
 
-  method CMD:sym<gravity>($/)    { 
+  method CMD:sym<gravity>($/) { 
     $<galaxy>.ast;
     $<gravity>.ast;
-    %!law<star> = $<stars>.ast if $<stars>.defined;
+    %!law<stars> = $<stars>.ast if $<stars>.defined;
+
     make %!law;
   }
 
-  method CMD:sym<blackhole>($/)    { 
+  method CMD:sym<blackhole>($/) { 
     $<galaxy>.ast;
     $<blackhole>.ast;
-    %!law<star> = $<stars>.ast if $<stars>.defined;
+    %!law<stars> = $<stars>.ast if $<stars>.defined;
+
     make %!law;
   }
 
-  method CMD:sym<galaxy>($/)    { 
+  method CMD:sym<star>($/) { 
+    $<star>.ast;
     $<galaxy>.ast;
-    %!law<star> = $<star>.ast if $<star>.defined;
+    %!law<stars> = $<star-name>.ast if $<star-name>.defined;
+
     make %!law;
   }
 
+  method CMD:sym<galaxy>($/) { 
+    $<galaxy>.ast;
+    %!law<stars> = $<star-name>.ast if $<star-name>.defined;
+
+    make %!law;
+  }
+
+  method star($/)      { make %!law<star>      = $<star-laws>.ast      if $<star-laws>.defined }
   method galaxy($/)    { make %!law<galaxy>    = $<galaxy-laws>.ast    if $<galaxy-laws>.defined }
   method gravity($/)   { make %!law<gravity>   = $<gravity-laws>.ast   if $<gravity-laws>.defined }
   method blackhole($/) { make %!law<blackhole> = $<blackhole-laws>.ast if $<blackhole-laws>.defined }
 
+  method star-laws($/)      { make $<star-law>».ast.hash }
   method galaxy-laws($/)    { make $<galaxy-law>».ast.hash }
   method gravity-laws($/)   { make $<gravity-law>».ast.hash }
   method blackhole-laws($/) { make $<blackhole-law>».ast.hash }
 
-  method galaxy-law:sym<pretty>($/) { make $<sym>.Str => True }
-  method galaxy-law:sym<cool>($/)   { make $<sym>.Str => True }
+  method star-law:sym<remote>($/)   { make $<sym>.Str => True }
+
   method galaxy-law:sym<yolo>($/)   { make $<sym>.Str => True }
+  method galaxy-law:sym<cool>($/)   { make $<sym>.Str => True }
+  method galaxy-law:sym<pretty>($/) { make $<sym>.Str => True }
   method galaxy-law:sym<core>($/)   { make $<sym>.Str => $<value>.made }
 
   method gravity-law:sym<core>($/)      { make $<sym>.Str => $<value>.made }
@@ -46,7 +61,7 @@ class Galaxy::Grammar::CmdAct {
   method blackhole-law:sym<core>($/)    { make $<sym>.Str => $<value>.made }
   method blackhole-law:sym<origin>($/)  { make $<sym>.Str => $<value>.made }
 
-  method stars($/)  { make $<star>».ast }
+  method stars($/)  { make $<star-name>».ast }
   method value($/)  { make $/.Str }
 
 }
