@@ -4,14 +4,13 @@ use Galaxy::Grammar::CmdAct;
 use Galaxy::Grammar::CnfAct;
 use Hash::Merge::Augment;
 
-class Galaxy::Physics::Laws {
-  has $.cmd;
-  has $.cnf;
-  has %.law;
+role Galaxy::Physics::Laws {
+  has $!cnf = "laws";
+  has $!cmd = @*ARGS;
   
   method help($msg) { die $msg; }; # help when no cnf or cmd fails to parse
 
-  method !conf {
+  method !config {
     my $rule = <CNF>;
     my $actions = Galaxy::Grammar::CnfAct.new;
 
@@ -29,9 +28,4 @@ class Galaxy::Physics::Laws {
 		return $m.ast;
   }
 
-
-  method set-laws {
-    %!law = self!conf.merge: self!command;
-    say %!law;
-  }
 }

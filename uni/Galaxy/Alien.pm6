@@ -3,20 +3,9 @@ class Galaxy::Alien {
   has $.name;
   has @.powers;
 
-  method cnf() {
-    my $conf= "laws";
-    return $conf;
-  }
+  
+  method decide(--> Bool:D) {
 
-  method cmd() {
-    my $cmd = @*ARGS;
-    return $cmd;
   }
-
-  method set-laws() {
-    my $cmd = @*ARGS;
-    return $cmd;
-  }
-
 
 }

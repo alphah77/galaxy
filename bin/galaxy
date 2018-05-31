@@ -2,10 +2,10 @@
 
 use lib <uni>;
 use Galaxy::Alien;
-use Galaxy::Physics::Laws;
+use Galaxy::Physics;
 
 my $alien = Galaxy::Alien.new;
 
-my $physics = Galaxy::Physics::Laws.new: cmd => $alien.cmd, cnf => $alien.cnf;
+my $physics = Galaxy::Physics.new;
 
-$physics.set-laws;
+say $physics.laws;
