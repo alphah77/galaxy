@@ -1,3 +1,6 @@
+use Galaxy::Physics::Gravity;
+use Galaxy::Physics::Blackhole;
+
 class Galaxy::Physics::Galaxy {
   has $.name;
   has $.core;
@@ -5,7 +8,7 @@ class Galaxy::Physics::Galaxy {
   has $.halo;
   has $.bulge;
 
-  has Gravity   $!gravity;
-  has Blackhole $!gravity;
+  has Galaxy::Physics::Gravity   $!gravity;
+  has Galaxy::Physics::Blackhole $!blackhole;
 
 }

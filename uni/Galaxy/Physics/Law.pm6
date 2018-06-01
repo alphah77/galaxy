@@ -4,12 +4,11 @@ use Galaxy::Grammar::CmdAct;
 use Galaxy::Grammar::CnfAct;
 use Hash::Merge::Augment;
 
-role Galaxy::Physics::Laws {
-  has $!cnf = "laws";
+role Galaxy::Physics::Law {
+  has %.law;
+  has $!cnf = '/etc/galaxy/law';
   has $!cmd = @*ARGS;
   
-  method help($msg) { die $msg; }; # help when no cnf or cmd fails to parse
-
   method !config {
     my $rule = <CNF>;
     my $actions = Galaxy::Grammar::CnfAct.new;
@@ -28,4 +27,20 @@ role Galaxy::Physics::Laws {
 		return $m.ast;
   }
 
+  method !law {
+		%!law<galaxy><halo>  = '/var/galaxy/';
+		%!law<galaxy><bulge> = '/etc/galaxy/';
+
+		%!law<galaxy><law>   = '/etc/galaxy/law';
+		%!law<galaxy><disk>  = '/etc/galaxy/star/';
+
+		%!law<galaxy><name>  = chomp qx<hostname>; 
+		%!law<galaxy><core>  = chomp qx<uname -m>;
+
+   %!law.merge: self!config.merge: self!command; 
+  }
+
+  method help($msg) {       # help when no cnf or cmd fails to parse
+    die $msg;
+  };
 }
