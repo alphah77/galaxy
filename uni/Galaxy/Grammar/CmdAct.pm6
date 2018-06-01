@@ -61,7 +61,9 @@ class Galaxy::Grammar::CmdAct {
   method blackhole-law:sym<core>($/)    { make $<sym>.Str => $<value>.made }
   method blackhole-law:sym<origin>($/)  { make $<sym>.Str => $<value>.made }
 
-  method stars($/)  { make $<star-name>».ast }
-  method value($/)  { make $/.Str }
+  method stars($/) { make $<star-name>».ast }
+
+  method core($/)  { make $/.Str }
+  method value($/) { make $/.Str }
 
 }

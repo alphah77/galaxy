@@ -14,10 +14,7 @@ role Galaxy::Grammar::StarNameAct {
 
   method name($/) { make $/.Str }
   method age($/)  { make $/.Str }
-
-  method core:sym<x86_64>($/) { make $<sym>.Str }
-  method core:sym<i386>($/)   { make $<sym>.Str }
-
+  method core($/) { make $/.Str }
   method form($/) { make $/.Str }
   method tag($/)  { make $/.Str }
   method tail($/) { make $/.Str }

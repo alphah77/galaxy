@@ -33,7 +33,7 @@ grammar Galaxy::Grammar::Cmd {
 
   proto token gravity-law { * }
   token gravity-law:sym<cluster> { <<<sym>>> }
-  token gravity-law:sym<core>    { <sym> <space>* <value> }
+  token gravity-law:sym<core>    { <sym> <space>* <core> }
   token gravity-law:sym<origin>  { <sym> <space>* <value> }
 
   proto token blackhole-law { * }
@@ -44,8 +44,9 @@ grammar Galaxy::Grammar::Cmd {
   proto token spacetime-law { * }
   token spacetime-law:sym<travel>  { <sym> <space>* <value> }
 
-  token stars    { <star-name>+ % <space> }
-  token event    { 'event' }
-  token value    { <!before \s> <-[ \s ]>+ <!after \s> }
-  token s        { 'star' <space>  }                     # edge cases where star name is reserved word
+  token stars { <star-name>+ % <space> }
+  token event { 'event' }
+  token core  { 'x86_64' }
+  token value { <!before \s> <-[ \s ]>+ <!after \s> }
+  token s     { 'star' <space>  }                     # edge cases where star name is reserved word
 }

@@ -11,18 +11,13 @@ role Galaxy::Grammar::StarName {
     >>
   }
 
-  token name             { [ <.alnum>+ <!before <dot>> ]+ % <hyphen> }
-  token age              { [ $<agepart> = <.digit>+ ]+ % <dot> }  
-
-  proto token core       { * }
-  token core:sym<x86_64> { <sym> }
-  token core:sym<i386>   { <sym> }
-
-  token tag              { <?after ['x86_64-' | 'i386-']> <.alnum>+ }  # start with alpha
-  token form             { <.digit>+ } # TODO: <?after <tag>>
-  token tail             { 'xyz' }     # TODO <?after <tag> | <form>>
-
-  token hyphen                { '-' }
-  token dot                   { '.' }
+  token name   { [ <.alnum>+ <!before <dot>> ]+ % <hyphen> }
+  token age    { [ $<agepart> = <.digit>+ ]+ % <dot> }  
+  token core   { 'x86_64' }
+  token tag    { <?after 'x86_64' <hyphen>> <.alnum>+ }  # start with alpha
+  token form   { <.digit>+ } # TODO: <?after <tag>>
+  token tail   { 'xyz' }     # TODO <?after <tag> | <form>>
+  token hyphen { '-' }
+  token dot    { '.' }
 
 }

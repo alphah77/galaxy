@@ -27,7 +27,9 @@ grammar Galaxy::Grammar::Cnf {
   token blackhole-law:sym<core>    { <sym> <space>* <value> }
   token blackhole-law:sym<origin>  { <sym> <space>* <value> }
 
-  token nl  { [ <comment>? \h* \n ]+ }
-  token value { [<-[\s\n;#]>*] }
+  token core    { 'x86_64' }
+  token value   { [<-[\s\n;#]>*] }
   token comment { \h* '#' \N* }
+
+  token nl      { [ <comment>? \h* \n ]+ }
 }
