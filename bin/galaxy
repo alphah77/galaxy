@@ -8,4 +8,4 @@ my $alien = Galaxy::Alien.new;
 
 my $physics = Galaxy::Physics.new;
 
-say $physics.galaxy.perl;
+say $physics.galaxy;

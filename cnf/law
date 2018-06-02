@@ -2,8 +2,8 @@
 <galaxy>
 pretty
 
-<gravity>
-cluster
+#<gravity>
+#cluster
 
 <blackhole>
 cluster
