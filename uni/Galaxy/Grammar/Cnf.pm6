@@ -15,17 +15,16 @@ grammar Galaxy::Grammar::Cnf {
   token galaxy-law:sym<pretty> { <<<sym>>> }
   token galaxy-law:sym<cool>   { <<<sym>>> }
   token galaxy-law:sym<yolo>   { <<<sym>>> }
-  token galaxy-law:sym<core>   { <sym> <.space>* <value> }
+  token galaxy-law:sym<core>   { <sym> <.space>* <core> }
+  token galaxy-law:sym<origin> { <sym> <.space>* <value> }
   
   proto token gravity-law { * }
   token gravity-law:sym<cluster> { <<<sym>>> }
-  token gravity-law:sym<core>    { <sym> <space>* <value> }
-  token gravity-law:sym<origin>  { <sym> <space>* <value> }
+  token gravity-law:sym<core>    { <sym> <.space>* <core> }
 
   proto token blackhole-law { * }
   token blackhole-law:sym<cluster> { <<<sym>>> }
-  token blackhole-law:sym<core>    { <sym> <space>* <value> }
-  token blackhole-law:sym<origin>  { <sym> <space>* <value> }
+  token blackhole-law:sym<core>    { <sym> <.space>* <core> }
 
   token core    { 'x86_64' }
   token value   { [<-[\s\n;#]>*] }

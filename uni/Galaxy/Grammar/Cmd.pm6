@@ -26,23 +26,22 @@ grammar Galaxy::Grammar::Cmd {
   token galaxy-law:sym<pretty> { <<<sym>>> }
   token galaxy-law:sym<cool>   { <<<sym>>> }
   token galaxy-law:sym<yolo>   { <<<sym>>> }
-  token galaxy-law:sym<core>   { <sym> <space>* <value> }
+  token galaxy-law:sym<core>   { <sym> <.space>* <core> }
+  token galaxy-law:sym<origin> { <sym> <.space>* <value> }
 
   proto token star-law  { * }
   token star-law:sym<remote> { <<<sym>>> }
 
   proto token gravity-law { * }
   token gravity-law:sym<cluster> { <<<sym>>> }
-  token gravity-law:sym<core>    { <sym> <space>* <core> }
-  token gravity-law:sym<origin>  { <sym> <space>* <value> }
+  token gravity-law:sym<core>    { <sym> <.space>* <core> }
 
   proto token blackhole-law { * }
   token blackhole-law:sym<cluster> { <<<sym>>> }
-  token blackhole-law:sym<core>    { <sym> <space>* <value> }
-  token blackhole-law:sym<origin>  { <sym> <space>* <value> }
+  token blackhole-law:sym<core>    { <sym> <.space>* <core> }
 
   proto token spacetime-law { * }
-  token spacetime-law:sym<travel>  { <sym> <space>* <value> }
+  token spacetime-law:sym<travel>  { <sym> <.space>* <value> }
 
   token stars { <star-name>+ % <space> }
   token event { 'event' }
