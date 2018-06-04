@@ -1,7 +1,7 @@
 class Galaxy::Physics::Gravity {
 
-	has $.core;
-	has $.cluster;
+	has Bool $.cluster =  False;
+	has Str  $.core    = chomp qx<uname -m>;
 
   method pull {
 

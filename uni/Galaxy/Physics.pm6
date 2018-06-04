@@ -1,4 +1,5 @@
 use Galaxy::Physics::Law;
+use Galaxy::Physics::Alien;
 use Galaxy::Physics::Galaxy;
 use Galaxy::Physics::Gravity;
 use Galaxy::Physics::Blackhole;
@@ -10,6 +11,7 @@ class Galaxy::Physics {
 
 	has %!law;
 
+  has Galaxy::Physics::Alien     $.alien;
   has Galaxy::Physics::Galaxy    $.galaxy;
   has Galaxy::Physics::Gravity   $.gravity;
   has Galaxy::Physics::Blackhole $.blackhole;
@@ -17,25 +19,24 @@ class Galaxy::Physics {
   has Galaxy::Physics::Nebula    $.nebula;
 
 	submethod TWEAK {
-		%!law<gravity><origin>    = "/";
-		%!law<galaxy><halo>       = '/var/galaxy/';
-		%!law<galaxy><bulge>      = '/etc/galaxy/';
-		%!law<galaxy><law>        = '/etc/galaxy/law';
-		%!law<galaxy><disk>       = '/etc/galaxy/star/';
-		%!law<galaxy><name>       = chomp qx<hostname>; 
-		%!law<galaxy><core>       = chomp qx<uname -m>;
+    my $cmd = @*ARGS;
+    my $law = </etc/galaxy/law>.IO;
 
-		%!law<gravity><core>      = chomp qx<uname -m>;
-		%!law<blackhole><core>    = chomp qx<uname -m>;
+    my %cmd = self!command($cmd);
+    %cmd<galaxy><law> = $law unless %cmd<galaxy><law>:exists;
 
-    %!law.merge: self!config.merge: self!command; 
+    my %law = self!config(%cmd<galaxy><law>);
+
+    %!law.merge: %law.merge: %cmd; 
+    self!create-universe;
 	}
-	#  submethod TWEAK() {
+	  method !create-universe() {
 
-		#  $!gravity   = Galaxy::Physics::Gravity.new:   |%!law<gravity>.hash;
-		#$!blackhole = Galaxy::Physics::Blackhole.new: |%!law<blackhole>.hash;
-		#$!spacetime = Galaxy::Physics::Spacetime.new: |%!law<spacetime>.hash;
-		#$!galaxy    = Galaxy::Physics::Galaxy.new:    |%!law<galaxy>.hash;
-		#$!nebula    = Galaxy::Physics::Nebula.new:    |%!law<nebula>.hash;
-		#}
+  		$!alien     = Galaxy::Physics::Alien.new;
+  		$!galaxy    = Galaxy::Physics::Galaxy.new:    |%!law<galaxy>.hash;
+  		$!gravity   = Galaxy::Physics::Gravity.new:   |%!law<gravity>.hash;
+  		$!blackhole = Galaxy::Physics::Blackhole.new: |%!law<blackhole>.hash;
+  		$!spacetime = Galaxy::Physics::Spacetime.new: |%!law<spacetime>.hash;
+  		$!nebula    = Galaxy::Physics::Nebula.new:    |%!law<nebula>.hash;
+		}
 }

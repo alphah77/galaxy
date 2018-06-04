@@ -1,11 +1,16 @@
 #!/usr/bin/env perl6
 
 use lib <uni>;
-use Galaxy::Alien;
 use Galaxy::Physics;
 
-my $alien = Galaxy::Alien.new;
+my $physics   = Galaxy::Physics.new;
 
-my $physics = Galaxy::Physics.new;
+my $alien     = $physics.alien;
+my $galaxy    = $physics.galaxy;
+my $gravity   = $physics.gravity;
+my $blackhole = $physics.blackhole;
+my $spacetime = $physics.spacetime;
+my $nebula    = $physics.nebula;
 
-say $physics;
+
+say $galaxy;

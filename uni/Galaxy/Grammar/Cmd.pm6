@@ -27,7 +27,8 @@ grammar Galaxy::Grammar::Cmd {
   token galaxy-law:sym<cool>   { <<<sym>>> }
   token galaxy-law:sym<yolo>   { <<<sym>>> }
   token galaxy-law:sym<core>   { <sym> <.space>* <core> }
-  token galaxy-law:sym<origin> { <sym> <.space>* <value> }
+  token galaxy-law:sym<origin> { <sym> <.space>* <location> }
+  token galaxy-law:sym<law>    { <sym> <.space>* <location> }
 
   proto token star-law  { * }
   token star-law:sym<remote> { <<<sym>>> }
@@ -35,17 +36,20 @@ grammar Galaxy::Grammar::Cmd {
   proto token gravity-law { * }
   token gravity-law:sym<cluster> { <<<sym>>> }
   token gravity-law:sym<core>    { <sym> <.space>* <core> }
+  token gravity-law:sym<origin>  { <sym> <.space>* <location> }
 
   proto token blackhole-law { * }
   token blackhole-law:sym<cluster> { <<<sym>>> }
   token blackhole-law:sym<core>    { <sym> <.space>* <core> }
+  token blackhole-law:sym<origin>  { <sym> <.space>* <location> }
 
   proto token spacetime-law { * }
   token spacetime-law:sym<travel>  { <sym> <.space>* <value> }
 
-  token stars { <star-name>+ % <space> }
-  token event { 'event' }
-  token core  { 'x86_64' }
-  token value { <!before \s> <-[ \s ]>+ <!after \s> }
-  token s     { 'star' <space>  }                     # edge cases where star name is reserved word
+  token stars    { <star-name>+ % <space> }
+  token event    { 'event' }
+  token core     { 'x86_64' }
+  token value    { <!before \s> <-[ \s ]>+ <!after \s> }
+  token location { <!before \s> <-[ \s ]>+ <!after \s> }
+  token s        { 'star' <space>  }                     # edge cases where star name is reserved word
 }
