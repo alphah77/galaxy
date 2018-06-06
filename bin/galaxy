@@ -12,5 +12,4 @@ my $blackhole = $physics.blackhole;
 my $spacetime = $physics.spacetime;
 my $nebula    = $physics.nebula;
 
-
-say $galaxy;
+say $nebula;
