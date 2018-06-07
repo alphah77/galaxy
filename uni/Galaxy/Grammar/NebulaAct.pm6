@@ -5,9 +5,7 @@ class Galaxy::Grammar::NebulaAct {
   }
 
   method nebula($/)    { make { name => $<name>.ast,  $<nebula-laws>.ast } }
-
   method nebula-laws($/)    { make $<nebula-law>».ast.hash }
-
   method nebula-law:sym<location>($/) { make $<location>.ast }
   method nebula-law:sym<disable>($/)  { make $<sym>.Str => True }
 

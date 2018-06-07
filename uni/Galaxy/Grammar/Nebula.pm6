@@ -29,9 +29,7 @@ grammar Galaxy::Grammar::Nebula {
   token slash { '/' }
   token dotslash { <dot><slash> }
 
-  proto token remote { * }
-  token remote:sym<name> { \w+ }
-  token remote:sym<domainname> { [\w+]+ % <dot> }
+  token remote { [\w+]+ % <dot> }
 
   token port { <digit>+ }
   token comment { \h* '#' \N* }
