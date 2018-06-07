@@ -1,12 +1,10 @@
 class Galaxy::Grammar::NebulaAct {
-  has %!law;
 
   method NEBULA($/) { 
-    %!law = $<nebula>».ast.hash;
-    make %!law;
+     make $<nebula>».ast;
   }
 
-  method nebula($/)    { make $<name>.ast => { name => $<name>.ast,  $<nebula-laws>.ast } }
+  method nebula($/)    { make { name => $<name>.ast,  $<nebula-laws>.ast } }
 
   method nebula-laws($/)    { make $<nebula-law>».ast.hash }
 

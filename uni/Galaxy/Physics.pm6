@@ -17,7 +17,7 @@ class Galaxy::Physics {
   has Galaxy::Physics::Gravity   $.gravity;
   has Galaxy::Physics::Blackhole $.blackhole;
   has Galaxy::Physics::Spacetime $.spacetime;
-  has Galaxy::Physics::Nebula    @.nebula;
+  has Galaxy::Physics::Nebula    @.nebulas;
 	
 
 	  submethod TWEAK {
@@ -27,6 +27,9 @@ class Galaxy::Physics {
   		$!gravity   = Galaxy::Physics::Gravity.new:   |%!law<gravity>.hash;
   		$!blackhole = Galaxy::Physics::Blackhole.new: |%!law<blackhole>.hash;
   		$!spacetime = Galaxy::Physics::Spacetime.new: |%!law<spacetime>.hash;
-  		@!nebula    = Galaxy::Physics::Nebula.new:    |%!law<nebula><helix>.hash;
+
+			for %!law<nebulas>.list -> $nebula {
+				 @!nebulas.push: Galaxy::Physics::Nebula.new: |$nebula;
+			}
 		}
 }

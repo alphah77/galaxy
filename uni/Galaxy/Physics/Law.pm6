@@ -23,7 +23,7 @@ role Galaxy::Physics::Law {
 
     my %cnf = self!config(%cmd<galaxy><law>);
 
-    %law<nebula> = self!nebula(%cmd<galaxy><nebula>);
+    %law<nebulas> = self!nebula(%cmd<galaxy><nebula>);
 
     %law.merge: %cnf.merge: %cmd; 
 
