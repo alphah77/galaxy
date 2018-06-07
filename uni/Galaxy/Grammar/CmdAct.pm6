@@ -1,45 +1,41 @@
-use Galaxy::Grammar::StarNameAct;
+use Galaxy::Grammar::StarAct;
 
 class Galaxy::Grammar::CmdAct {
-  also does Galaxy::Grammar::StarNameAct;
+  also does Galaxy::Grammar::StarAct;
 
   has %!law;
 
   method CMD:sym<gravity>($/) { 
-    $<galaxy>.ast;
-    $<gravity>.ast;
-    %!law<stars> = $<star-name>».ast if $<star-name>.defined;
+    %!law<stars>   = $<star>».ast        if $<star>.defined;
+    %!law<galaxy>  = $<galaxy-laws>.ast  if $<galaxy-laws>.defined;
+    %!law<gravity> = $<gravity-laws>.ast if $<gravity-laws>.defined;
 
     make %!law;
   }
 
   method CMD:sym<blackhole>($/) { 
-    $<galaxy>.ast;
-    $<blackhole>.ast;
-    %!law<stars>      = $<star-name>».ast if $<star-name>.defined;
+    %!law<stars>     = $<star>».ast        if $<star>.defined;
+    %!law<galaxy>    = $<galaxy-laws>.ast  if $<galaxy-laws>.defined;
+    %!law<blackhole> = $<gravity-laws>.ast if $<gravity-laws>.defined;
 
     make %!law;
   }
 
   method CMD:sym<star>($/) { 
     $<star>.ast;
-    $<galaxy>.ast;
-    %!law<stars> = $<star-name>».ast if $<star-name>.defined;
+    %!law<stars>  = $<star>.ast        if $<star>.defined;
+    %!law<star>   = $<star-laws>.ast   if $<star-laws>.defined;
+    %!law<galaxy> = $<galaxy-laws>.ast if $<galaxy-laws>.defined;
 
     make %!law;
   }
 
   method CMD:sym<galaxy>($/) { 
-    $<galaxy>.ast;
-    %!law<stars> = $<star-name>».ast if $<star-name>.defined;
+    %!law<stars>  = $<star>.ast        if $<star>.defined;
+    %!law<galaxy> = $<galaxy-laws>.ast if $<galaxy-laws>.defined;
 
     make %!law;
   }
-
-  method star($/)      { make %!law<star>      = $<star-laws>.ast      if $<star-laws>.defined }
-  method galaxy($/)    { make %!law<galaxy>    = $<galaxy-laws>.ast    if $<galaxy-laws>.defined }
-  method gravity($/)   { make %!law<gravity>   = $<gravity-laws>.ast   if $<gravity-laws>.defined }
-  method blackhole($/) { make %!law<blackhole> = $<blackhole-laws>.ast if $<blackhole-laws>.defined }
 
   method star-laws($/)      { make $<star-law>».ast.hash }
   method galaxy-laws($/)    { make $<galaxy-law>».ast.hash }

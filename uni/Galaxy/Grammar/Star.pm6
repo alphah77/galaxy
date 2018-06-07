@@ -1,6 +1,6 @@
-role Galaxy::Grammar::StarName {
+role Galaxy::Grammar::Star {
 
-  token star-name { <<
+  token star { <<
     <name>  <hyphen>?
     <age>?  <hyphen>?
     <core>? <hyphen>?

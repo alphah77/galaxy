@@ -1,23 +1,17 @@
-use Galaxy::Grammar::StarName;
+use Galaxy::Grammar::Star;
 
 grammar Galaxy::Grammar::Cmd {
-  also does Galaxy::Grammar::StarName;
+  also does Galaxy::Grammar::Star;
 
   proto token CMD { * } # ordere is important
-  rule CMD:sym<gravity>   { <galaxy> <gravity>   <s>?     <star-name>* % <space>     }
-  rule CMD:sym<blackhole> { <galaxy> <blackhole> <s>?     <star-name>* % <space>     }
-  rule CMD:sym<spacetime> { <galaxy> <spacetime>          <event>?     }
-  rule CMD:sym<star>      { <galaxy> <star>               <star-name>  }
-  rule CMD:sym<galaxy>    { <galaxy>             <s>?     <star-name>? }
+  rule CMD:sym<gravity>   { <galaxy-laws>? <sym> <gravity-laws>?   <s>? <star>* % <space> }
+  rule CMD:sym<blackhole> { <galaxy-laws>? <sym> <blackhole-laws>? <s>? <star>* % <space> }
+  rule CMD:sym<spacetime> { <galaxy-laws>? <sym> <spacetime-laws>?      <event>?               }
+  rule CMD:sym<star>      { <galaxy-laws>? <sym> <star-laws>?           <star>            }
+  rule CMD:sym<galaxy>    { <galaxy-laws>?                         <s>? <star>?           }
 
-  rule galaxy    {             <galaxy-laws>?    }
-  rule star      { 'star'      <star-laws>?      }
-  rule gravity   { 'gravity'   <gravity-laws>?   }
-  rule blackhole { 'blackhole' <blackhole-laws>? }
-  rule spacetime { 'spacetime' <spacetime-laws>? }
-
-  token galaxy-laws    { <galaxy-law>+    % <space> } 
   token star-laws      { <star-law>+      % <space> } 
+  token galaxy-laws    { <galaxy-law>+    % <space> } 
   token gravity-laws   { <gravity-law>+   % <space> }
   token blackhole-laws { <blackhole-law>+ % <space> } 
   token spacetime-laws { <spacetime-law>+ % <space> } 

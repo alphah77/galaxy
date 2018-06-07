@@ -1,7 +1,7 @@
-role Galaxy::Grammar::StarNameAct {
+role Galaxy::Grammar::StarAct {
 
 
-  method star-name($/) {
+  method star($/) {
     my %s;
     %s<id>   = $/.Str;
     %s<name> = $<name>.ast if $<name>.ast;
