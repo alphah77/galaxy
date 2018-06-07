@@ -1,4 +1,4 @@
-use Galaxy::Physics::Law;
+use Galaxy::Physics::Laws;
 use Galaxy::Physics::Alien;
 use Galaxy::Physics::Galaxy;
 use Galaxy::Physics::Gravity;
@@ -7,9 +7,8 @@ use Galaxy::Physics::Spacetime;
 use Galaxy::Physics::Nebula;
 
 class Galaxy::Physics {
-  also does Galaxy::Physics::Law;
 
-  has %.law = self.law;
+  has %.laws = Galaxy::Physics::Laws.initiate;
 
 
   has Galaxy::Physics::Alien     $.alien;
@@ -21,14 +20,13 @@ class Galaxy::Physics {
 	
 
 	  submethod TWEAK {
-#say %!law<nebula>;
   		$!alien     = Galaxy::Physics::Alien.new;
-  		$!galaxy    = Galaxy::Physics::Galaxy.new:    |%!law<galaxy>.hash;
-  		$!gravity   = Galaxy::Physics::Gravity.new:   |%!law<gravity>.hash;
-  		$!blackhole = Galaxy::Physics::Blackhole.new: |%!law<blackhole>.hash;
-  		$!spacetime = Galaxy::Physics::Spacetime.new: |%!law<spacetime>.hash;
+  		$!galaxy    = Galaxy::Physics::Galaxy.new:    |%!laws<galaxy>.hash;
+  		$!gravity   = Galaxy::Physics::Gravity.new:   |%!laws<gravity>.hash;
+  		$!blackhole = Galaxy::Physics::Blackhole.new: |%!laws<blackhole>.hash;
+  		$!spacetime = Galaxy::Physics::Spacetime.new: |%!laws<spacetime>.hash;
 
-			for %!law<nebulas>.list -> $nebula {
+			for %!laws<nebulas>.list -> $nebula {
 				 @!nebulas.push: Galaxy::Physics::Nebula.new: |$nebula;
 			}
 		}

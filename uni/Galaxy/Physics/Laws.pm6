@@ -6,12 +6,11 @@ use Galaxy::Grammar::Nebula;
 use Galaxy::Grammar::NebulaAct;
 use Hash::Merge::Augment;
 
-role Galaxy::Physics::Law {
+role Galaxy::Physics::Laws {
 
 
-  #submethod laws {
-  method law {
-    my %law;
+  method initiate {
+    my %laws;
     my $cmd = @*ARGS;
     my $cnf = </etc/galaxy/law>.IO;
     my $nbl = </etc/galaxy/nebula>.IO;
@@ -23,11 +22,11 @@ role Galaxy::Physics::Law {
 
     my %cnf = self!config(%cmd<galaxy><law>);
 
-    %law<nebulas> = self!nebula(%cmd<galaxy><nebula>);
+    %laws<nebulas> = self!nebula(%cmd<galaxy><nebula>);
 
-    %law.merge: %cnf.merge: %cmd; 
+    %laws.merge: %cnf.merge: %cmd; 
 
-    return %law;
+    return %laws;
  	}
 
   submethod !command($cmd) {
