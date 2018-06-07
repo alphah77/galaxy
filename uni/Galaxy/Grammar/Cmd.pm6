@@ -4,8 +4,8 @@ grammar Galaxy::Grammar::Cmd {
   also does Galaxy::Grammar::StarName;
 
   proto token CMD { * } # ordere is important
-  rule CMD:sym<gravity>   { <galaxy> <gravity>   <s>?     <stars>?     }
-  rule CMD:sym<blackhole> { <galaxy> <blackhole> <s>?     <stars>?     }
+  rule CMD:sym<gravity>   { <galaxy> <gravity>   <s>?     <star-name>* % <space>     }
+  rule CMD:sym<blackhole> { <galaxy> <blackhole> <s>?     <star-name>* % <space>     }
   rule CMD:sym<spacetime> { <galaxy> <spacetime>          <event>?     }
   rule CMD:sym<star>      { <galaxy> <star>               <star-name>  }
   rule CMD:sym<galaxy>    { <galaxy>             <s>?     <star-name>? }
@@ -28,7 +28,8 @@ grammar Galaxy::Grammar::Cmd {
   token galaxy-law:sym<yolo>   { <<<sym>>> }
   token galaxy-law:sym<core>   { <sym> <.space>* <core> }
   token galaxy-law:sym<origin> { <sym> <.space>* <location> }
-  token galaxy-law:sym<law>    { <sym> <.space>* <location> }
+  token galaxy-law:sym<law>    { <sym> <.space>  <location> }
+  token galaxy-law:sym<nebula> { <sym> <.space>  <location> }
 
   proto token star-law  { * }
   token star-law:sym<remote> { <<<sym>>> }
@@ -46,7 +47,6 @@ grammar Galaxy::Grammar::Cmd {
   proto token spacetime-law { * }
   token spacetime-law:sym<travel>  { <sym> <.space>* <value> }
 
-  token stars    { <star-name>+ % <space> }
   token event    { 'event' }
   token core     { 'x86_64' }
   token value    { <!before \s> <-[ \s ]>+ <!after \s> }

@@ -8,7 +8,7 @@ class Galaxy::Grammar::CmdAct {
   method CMD:sym<gravity>($/) { 
     $<galaxy>.ast;
     $<gravity>.ast;
-    %!law<stars> = $<stars>.ast if $<stars>.defined;
+    %!law<stars> = $<star-name>».ast if $<star-name>.defined;
 
     make %!law;
   }
@@ -16,7 +16,7 @@ class Galaxy::Grammar::CmdAct {
   method CMD:sym<blackhole>($/) { 
     $<galaxy>.ast;
     $<blackhole>.ast;
-    %!law<stars> = $<stars>.ast if $<stars>.defined;
+    %!law<stars>      = $<star-name>».ast if $<star-name>.defined;
 
     make %!law;
   }
@@ -24,14 +24,14 @@ class Galaxy::Grammar::CmdAct {
   method CMD:sym<star>($/) { 
     $<star>.ast;
     $<galaxy>.ast;
-    %!law<stars> = $<star-name>.ast if $<star-name>.defined;
+    %!law<stars> = $<star-name>».ast if $<star-name>.defined;
 
     make %!law;
   }
 
   method CMD:sym<galaxy>($/) { 
     $<galaxy>.ast;
-    %!law<stars> = $<star-name>.ast if $<star-name>.defined;
+    %!law<stars> = $<star-name>».ast if $<star-name>.defined;
 
     make %!law;
   }
@@ -63,7 +63,6 @@ class Galaxy::Grammar::CmdAct {
   method blackhole-law:sym<core>($/)    { make $<sym>.Str => $<core>.made }
   method blackhole-law:sym<origin>($/)  { make $<sym>.Str => $<location>.made }
 
-  method stars($/) { make $<star-name>».ast }
 
   method core($/)     { make $/.Str }
   method value($/)    { make $/.Str }

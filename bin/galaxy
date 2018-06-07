@@ -12,6 +12,6 @@ my $blackhole = $physics.blackhole;
 my $spacetime = $physics.spacetime;
 my $nebulas    = $physics.nebulas;
 
-#say $physics.law<nebulas>;
+say $physics.laws;
 #say "======================";
-.say for $nebulas;
+#.say for $nebulas;
