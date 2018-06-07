@@ -10,8 +10,7 @@ my $galaxy    = $physics.galaxy;
 my $gravity   = $physics.gravity;
 my $blackhole = $physics.blackhole;
 my $spacetime = $physics.spacetime;
-my $nebulas    = $physics.nebulas;
+my $nebulas   = $physics.nebulas;
+my $stars     = $physics.stars;
 
-.say for $physics.laws;
-#say "======================";
-#.say for $nebulas;
+say $physics.stars;

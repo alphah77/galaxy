@@ -1,5 +1,6 @@
 role Galaxy::Grammar::StarAct {
 
+  method stars($/) { make $<star>».ast  }
 
   method star($/) {
     my %s;

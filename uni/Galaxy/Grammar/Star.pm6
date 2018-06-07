@@ -1,5 +1,7 @@
 role Galaxy::Grammar::Star {
 
+  token stars    { <star>+ % <space> }
+
   token star { <<
     <name>  <hyphen>?
     <age>?  <hyphen>?
