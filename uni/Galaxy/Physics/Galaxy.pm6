@@ -1,5 +1,4 @@
-use Galaxy::Physics::Gravity;
-use Galaxy::Physics::Blackhole;
+use Galaxy::Physics::Star;
 
 class Galaxy::Physics::Galaxy {
   has Str  $.name    = chomp qx<hostname>;
@@ -11,5 +10,8 @@ class Galaxy::Physics::Galaxy {
   has Bool $.yolo    = False;
   has Bool $.cool    = False;
   has Bool $.pretty  = False;
+
+  has Galaxy::Physics::Star @.star;
+  has Galaxy::Physics::Star @.stars;
 
 }

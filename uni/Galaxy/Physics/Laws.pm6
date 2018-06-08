@@ -31,7 +31,7 @@ role Galaxy::Physics::Laws {
 
   submethod !command($cmd) {
     my $rule = <CMD>;
-    my $actions = Galaxy::Grammar::CmdAct.new;
+    my $actions = Galaxy::Grammar::CmdAct;
 
     my $m = Galaxy::Grammar::Cmd.parse: $cmd, :$rule, :$actions; 
 		self.help: "cmd" unless $m;
@@ -40,7 +40,7 @@ role Galaxy::Physics::Laws {
 
   submethod !config($law) {
     my $rule = <CNF>;
-    my $actions = Galaxy::Grammar::CnfAct.new;
+    my $actions = Galaxy::Grammar::CnfAct;
 
     my $m = Galaxy::Grammar::Cnf.parsefile: $law, :$rule, :$actions; 
 		self.help: "cnf" unless $m;

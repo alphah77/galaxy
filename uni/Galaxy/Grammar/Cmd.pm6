@@ -7,7 +7,7 @@ grammar Galaxy::Grammar::Cmd {
   rule CMD:sym<gravity>   { <galaxy-laws>? <sym> <gravity-laws>?   <s>? <stars> }
   rule CMD:sym<blackhole> { <galaxy-laws>? <sym> <blackhole-laws>? <s>? <stars> }
   rule CMD:sym<spacetime> { <galaxy-laws>? <sym> <spacetime-laws>?      <event>?               }
-  rule CMD:sym<star>      { <galaxy-laws>? <sym> <star-laws>?           <star>            }
+  rule CMD:sym<star>      { <galaxy-laws>? <sym> <star-laws>?           <stars>            }
   rule CMD:sym<galaxy>    { <galaxy-laws>?                         <s>? <star>?           }
 
   token star-laws      { <star-law>+      % <space> } 

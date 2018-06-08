@@ -13,4 +13,4 @@ my $spacetime = $physics.spacetime;
 my $nebulas   = $physics.nebulas;
 my $stars     = $physics.stars;
 
-say $physics.stars;
+say $nebulas;

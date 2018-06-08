@@ -21,19 +21,25 @@ class Galaxy::Physics {
 	
   submethod TWEAK {
   	$!alien     = self!create-alien;
-  	$!galaxy    = self!create-galaxy:    %!laws<galaxy>;
+  	$!galaxy    = self!create-galaxy:    %!laws<galaxy>, %!laws<stars>;
   	$!gravity   = self!create-gravity:   %!laws<gravity>;
   	$!blackhole = self!create-blackhole: %!laws<blackhole>;
   	$!spacetime = self!create-spacetime: %!laws<spacetime>;
-    @!stars     = self!create-star:      %!laws<stars>;
     @!nebulas   = self!create-nebula:    %!laws<nebulas>;
 	}
 
   method !create-alien            { Galaxy::Physics::Alien.new;                  }
-  method !create-galaxy($laws)    { Galaxy::Physics::Galaxy.new:    |$laws.hash; }
   method !create-gravity($laws)   { Galaxy::Physics::Gravity.new:   |$laws.hash; }
   method !create-blackhole($laws) { Galaxy::Physics::Blackhole.new: |$laws.hash; }
   method !create-spacetime($laws) { Galaxy::Physics::Spacetime.new: |$laws.hash; }
+
+  method !create-galaxy($laws, @stars) {
+    my $galaxy = Galaxy::Physics::Galaxy.new:    |$laws.hash;
+
+    $galaxy.star.append: self!create-star: @stars;
+
+    return $galaxy;
+  }
 
   method !create-star($laws) {
     my @stars;
@@ -46,12 +52,11 @@ class Galaxy::Physics {
 
   method !create-nebula($laws) {
     my @nebulas;
+
     for $laws.list -> $nebula {
       @nebulas.push: Galaxy::Physics::Nebula.new: |$nebula.hash;
     }
 
     return @nebulas;
   }
-
-
 }

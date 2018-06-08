@@ -1,9 +1,10 @@
 class Galaxy::Grammar::CnfAct {
-  has %!law;
 
   method CNF($/) { 
-    %!law = $<object>».ast.hash;
-    make %!law;
+    my %law;
+
+    %law = $<object>».ast.hash;
+    make %law;
   }
 
   method object:sym<galaxy>($/)    { make $<sym>.Str => $<galaxy-laws>.ast    }
