@@ -20,7 +20,7 @@ class Galaxy::Physics {
   has Galaxy::Physics::Nebula    @.nebulas;
 	
   submethod TWEAK {
- # 	$!alien     = self!create-alien;
+  	$!alien     = self!create-alien;
   	$!galaxy    = self!create-galaxy:    %!laws<galaxy>;
   	$!gravity   = self!create-gravity:   %!laws<gravity>;
   	$!blackhole = self!create-blackhole: %!laws<blackhole>;
