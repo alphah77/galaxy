@@ -33,10 +33,10 @@ class Galaxy::Physics {
   method !create-blackhole($laws) { Galaxy::Physics::Blackhole.new: |$laws.hash; }
   method !create-spacetime($laws) { Galaxy::Physics::Spacetime.new: |$laws.hash; }
 
-  method !create-galaxy($laws, @stars) {
+  method !create-galaxy($laws, $stars) {
     my $galaxy = Galaxy::Physics::Galaxy.new:    |$laws.hash;
 
-    $galaxy.star.append: self!create-star: @stars;
+    $galaxy.star.append: self!create-star: $stars if $stars;
 
     return $galaxy;
   }
