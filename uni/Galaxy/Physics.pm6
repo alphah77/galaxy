@@ -21,7 +21,7 @@ class Galaxy::Physics {
 	
   submethod TWEAK {
   	$!alien     = self!create-alien;
-  	$!galaxy    = self!create-galaxy:    %!laws<galaxy>, %!laws<stars>;
+  	$!galaxy    = Galaxy::Physics::Galaxy.new: |%!laws<galaxy>;
   	$!gravity   = self!create-gravity:   %!laws<gravity>;
   	$!blackhole = self!create-blackhole: %!laws<blackhole>;
   	$!spacetime = self!create-spacetime: %!laws<spacetime>;

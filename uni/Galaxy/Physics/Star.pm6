@@ -1,8 +1,8 @@
 class Galaxy::Physics::Star {
   has $.id;
+  has $.name is required;
   has $.age;
   has $.tag;
-  has $.name;
   has $.core;
   has $.form;
   has $.tail;
