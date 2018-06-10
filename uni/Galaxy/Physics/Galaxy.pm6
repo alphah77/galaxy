@@ -10,19 +10,25 @@ class Galaxy::Physics::Galaxy {
   has Bool $.yolo;
   has Bool $.cool;
   has Bool $.pretty;
+
+	has IO   $.law;
+	has IO   $.nebula;
+
   has Galaxy::Physics::Star @.star;
   has Galaxy::Physics::Star @.stars;
 
   submethod BUILD (
-    :$!name    = chomp(qx<hostname>),
-    :$!core    = chomp(qx<uname -m>),
-    :$!origin  = </>.IO,
-    :$!disk    = $!origin.add(</etc/galaxy/star>.IO).cleanup,
-    :$!bulge   = $!origin.add(</etc/galaxy/>.IO).cleanup,
-    :$!halo    = $!origin.add(</var/galaxy/>.IO).cleanup,
-    :$!yolo    = False,
-    :$!cool    = False,
-    :$!pretty  = False,
+    :$!name    = chomp qx<hostname>;
+    :$!core    = chomp qx<uname -m>;
+    :$!origin  = </>.IO;
+    :$!disk    = $!origin.add(</etc/galaxy/star>.IO).cleanup;
+    :$!bulge   = $!origin.add(</etc/galaxy/>.IO).cleanup;
+    :$!halo    = $!origin.add(</var/galaxy/>.IO).cleanup;
+    :$!yolo    = False;
+    :$!cool    = False;
+    :$!pretty  = False;
+    :$!law;
+    :$!nebula;
 		:@star;
 	  ) {
 
