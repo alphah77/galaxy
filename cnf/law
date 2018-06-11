@@ -7,3 +7,13 @@ cool
 
 <blackhole>
 cluster
+
+<nebula>
+name Local
+disable
+tmp
+
+<nebula>
+name Helix
+https://galaxy.xyz:443/nebula
+

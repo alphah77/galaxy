@@ -27,7 +27,6 @@ class Galaxy::Physics {
 		$!gravity   = Galaxy::Physics::Gravity.new:   |%!laws<gravity>.hash;
 		$!blackhole = Galaxy::Physics::Blackhole.new: |%!laws<blackhole>.hash;
 		$!spacetime = Galaxy::Physics::Spacetime.new: |%!laws<spacetime>.hash;
-
 		@!nebulas   = %!laws<nebulas>.map({Galaxy::Physics::Nebula.new: |$_.hash});
 	}
 }

@@ -2,8 +2,6 @@ use Galaxy::Grammar::Cmd;
 use Galaxy::Grammar::Cnf;
 use Galaxy::Grammar::CmdAct;
 use Galaxy::Grammar::CnfAct;
-use Galaxy::Grammar::Nebula;
-use Galaxy::Grammar::NebulaAct;
 use Hash::Merge::Augment;
 
 role Galaxy::Physics::Laws {
@@ -18,14 +16,11 @@ role Galaxy::Physics::Laws {
     my %cmd = self!command($cmd);
 
     %cmd<galaxy><law>    = $cnf unless %cmd<galaxy><law>:exists;
-    %cmd<galaxy><nebula> = $nbl unless %cmd<galaxy><nebula>:exists;
 
     my %cnf = self!config(%cmd<galaxy><law>);
 
-    %laws<nebulas> = self!nebula(%cmd<galaxy><nebula>);
 
     %laws.merge: %cnf.merge: %cmd; 
-
     return %laws;
  	}
 
@@ -40,21 +35,13 @@ role Galaxy::Physics::Laws {
 
   submethod !config($law) {
     my $rule = <CNF>;
-    my $actions = Galaxy::Grammar::CnfAct;
+    my $actions = Galaxy::Grammar::CnfAct.new;
 
     my $m = Galaxy::Grammar::Cnf.parsefile: $law, :$rule, :$actions; 
 		self.help: "cnf" unless $m;
     return $m.ast;
   }
 
-  method !nebula($law) {
-    my $rule = <NEBULA>;
-    my $actions = Galaxy::Grammar::NebulaAct.new;
-
-    my $m = Galaxy::Grammar::Nebula.parsefile: $law, :$rule, :$actions; 
-		self.help: "nebula" unless $m;
-    return $m.ast;
-  }
 
   method help($msg) {       # help when no cnf or cmd fails to parse
     die $msg;

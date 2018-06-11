@@ -12,7 +12,6 @@ class Galaxy::Physics::Galaxy {
   has Bool $.pretty;
 
 	has IO   $.law;
-	has IO   $.nebula;
 
   has Galaxy::Physics::Star @.star;
   has Galaxy::Physics::Star @.stars;
@@ -28,7 +27,6 @@ class Galaxy::Physics::Galaxy {
     :$!cool    = False;
     :$!pretty  = False;
     :$!law;
-    :$!nebula;
 		:@star;
 	  ) {
 
