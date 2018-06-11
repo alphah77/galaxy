@@ -1,4 +1,7 @@
+use Galaxy::Physics::Gravity;
+use Galaxy::Physics::Blackhole;
 use Galaxy::Physics::Star;
+use Galaxy::Physics::Xyz;
 
 class Galaxy::Physics::Galaxy {
   has Str  $.name;
@@ -13,29 +16,52 @@ class Galaxy::Physics::Galaxy {
 
 	has IO   $.law;
 
-  has Galaxy::Physics::Star @.star;
-  has Galaxy::Physics::Star @.stars;
+  has Galaxy::Physics::Xyz       @.xyz;
+  has Galaxy::Physics::Xyz       @!xyzs;
+  has Galaxy::Physics::Gravity   $!gravity;
+  has Galaxy::Physics::Blackhole $!blackhole;
+  has Galaxy::Physics::Star      $.star;
+
 
   submethod BUILD (
     :$!name    = chomp qx<hostname>;
     :$!core    = chomp qx<uname -m>;
     :$!origin  = </>.IO;
-    :$!disk    = $!origin.add(</etc/galaxy/star>.IO).cleanup;
-    :$!bulge   = $!origin.add(</etc/galaxy/>.IO).cleanup;
-    :$!halo    = $!origin.add(</var/galaxy/>.IO).cleanup;
+    :$!bulge   = $!origin.add(</etc/galaxy>.IO).cleanup;
+    :$!halo    = $!origin.add(</var/galaxy>.IO).cleanup;
+    :$!disk    = $!halo.add(</stars>.IO).cleanup;
     :$!yolo    = False;
     :$!cool    = False;
     :$!pretty  = False;
     :$!law;
-		:@star;
+		:$gravity;
+		:$blackhole;
+		:$star;
+		:@xyz;
 	  ) {
 
-		@!star  = @star.map({Galaxy::Physics::Star.new: |$_});
-    @!stars = &local-stars(:$!disk);
+		$!gravity    = Galaxy::Physics::Gravity.new:   |$gravity.hash;
+		$!blackhole  = Galaxy::Physics::Blackhole.new: |$blackhole.hash;
+		$!star       = Galaxy::Physics::Star.new:      |$star.hash;
 
-		sub local-stars(IO :$disk) {
-      @!stars =  Galaxy::Physics::Star.new: name => <rakudo>;
+		@!xyz        = @xyz.map({Galaxy::Physics::Xyz.new: |$_});
+    @!xyzs       = &local-xyzs(:$!disk);
+
+		sub local-xyzs(IO :$disk) {
+      @!xyzs =  Galaxy::Physics::Xyz.new: name => <rakudo>;
 		}
 
 	}
+
+  method gravity (:@xyz) {
+    $!gravity.pull(:@xyz);
+  }
+
+  method blackhole (:@xyz) {
+    $!blackhole.suck(:@xyz);
+  }
+
+  method star (:@xyz) {
+  #  $!star;
+  }
 }

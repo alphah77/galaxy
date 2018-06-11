@@ -1,15 +1,16 @@
-use Galaxy::Grammar::StarAct;
+use Galaxy::Grammar::XyzAct;
 
 class Galaxy::Grammar::CmdAct {
-  also does Galaxy::Grammar::StarAct;
+  also does Galaxy::Grammar::XyzAct;
 
 
   method CMD:sym<gravity>($/) { 
     my %law;
 
-    %law<galaxy>  = $<galaxy-laws>.ast   if $<galaxy-laws>.defined;
-    %law<galaxy><star>  = $<stars>.ast;
-    %law<gravity> = $<gravity-laws>.ast  if $<gravity-laws>.defined;
+    %law<cmd>             = <gravity>;
+    %law<xyz>             = $<xyzs>.ast;
+    %law<galaxy>          = $<galaxy-laws>.ast   if $<galaxy-laws>.defined;
+    %law<galaxy><gravity> = $<gravity-laws>.ast  if $<gravity-laws>.defined;
 
     make %law;
   }
@@ -17,9 +18,10 @@ class Galaxy::Grammar::CmdAct {
   method CMD:sym<blackhole>($/) { 
     my %law;
 
-    %law<galaxy>    = $<galaxy-laws>.ast  if $<galaxy-laws>.defined;
-    %law<galaxy><star>  = $<stars>.ast;
-    %law<blackhole> = $<blackhole-laws>.ast if $<blackhole-laws>.defined;
+    %law<cmd>               = <blackhole>;
+    %law<xyz>               = $<xyzs>.ast;
+    %law<galaxy>            = $<galaxy-laws>.ast    if $<galaxy-laws>.defined;
+    %law<galaxy><blackhole> = $<blackhole-laws>.ast if $<blackhole-laws>.defined;
 
     make %law;
   }
@@ -27,8 +29,9 @@ class Galaxy::Grammar::CmdAct {
   method CMD:sym<spacetime>($/) { 
     my %law;
 
-    %law<galaxy>    = $<galaxy-laws>.ast  if $<galaxy-laws>.defined;
-    %law<galaxy><star>  = $<stars>.ast;
+    %law<cmd>       = <spacetime>;
+    %law<xyz>       = $<xyzs>.ast;
+    %law<galaxy>    = $<galaxy-laws>.ast    if $<galaxy-laws>.defined;
     %law<spacetime> = $<spacetime-laws>.ast if $<spacetime-laws>.defined;
 
     make %law;
@@ -37,9 +40,10 @@ class Galaxy::Grammar::CmdAct {
   method CMD:sym<star>($/) { 
     my %law;
 
-    %law<galaxy>         = $<galaxy-laws>.ast     if $<galaxy-laws>.defined;
-    %law<galaxy><star>  = $<stars>.ast;
-    %law<star>           = $<star-laws>.ast       if $<star-laws>.defined;
+    %law<cmd>          = <star>;
+    %law<xyz>          = $<xyzs>.ast;
+    %law<galaxy>       = $<galaxy-laws>.ast     if $<galaxy-laws>.defined;
+    %law<galaxy><star> = $<star-laws>.ast       if $<star-laws>.defined;
 
     make %law;
   }
@@ -47,21 +51,21 @@ class Galaxy::Grammar::CmdAct {
   method CMD:sym<galaxy>($/) { 
     my %law;
 
-    %law<galaxy> = $<galaxy-laws>.ast     if $<galaxy-laws>.defined;
-    %law<galaxy><star>.push: $<star>.ast         if $<star>.defined;
+    %law<cmd> = <galaxy>;
+    %law<xyz>.push: $<xyz>.ast        if $<xyz>.defined;
+    %law<galaxy> = $<galaxy-laws>.ast if $<galaxy-laws>.defined;
 
     make %law;
   }
 
 
 
-  method star-laws($/)      { make $<star-law>».ast.hash }
   method galaxy-laws($/)    { make $<galaxy-law>».ast.hash }
   method gravity-laws($/)   { make $<gravity-law>».ast.hash }
   method blackhole-laws($/) { make $<blackhole-law>».ast.hash }
+  method star-laws($/)      { make $<star-law>».ast.hash }
   method spacetime-laws($/) { make $<spacetime-law>».ast.hash }
 
-  method star-law:sym<remote>($/)   { make $<sym>.Str => True }
 
   method galaxy-law:sym<yolo>($/)   { make $<sym>.Str => True }
   method galaxy-law:sym<cool>($/)   { make $<sym>.Str => True }
@@ -78,6 +82,8 @@ class Galaxy::Grammar::CmdAct {
   method blackhole-law:sym<cluster>($/) { make $<sym>.Str => True }
   method blackhole-law:sym<core>($/)    { make $<sym>.Str => $<core>.made }
   method blackhole-law:sym<origin>($/)  { make $<sym>.Str => $<location>.made }
+
+  method star-law:sym<remote>($/)   { make $<sym>.Str => True }
 
   method spacetime-law:sym<travel>($/)  { make $<sym>.Str => $<event>.made }
 

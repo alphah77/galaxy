@@ -1,8 +1,8 @@
-role Galaxy::Grammar::Star {
+role Galaxy::Grammar::Xyz {
 
-  token stars    { <star>+ % <space> }
+  token xyzs    { <xyz>+ % <space> }
 
-  token star { <<
+  token xyz { <<
     <name>  <hyphen>?
     <age>?  <hyphen>?
     <core>? <hyphen>?

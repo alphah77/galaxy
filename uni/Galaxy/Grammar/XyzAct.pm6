@@ -1,8 +1,8 @@
-role Galaxy::Grammar::StarAct {
+role Galaxy::Grammar::XyzAct {
 
-  method stars($/) { make $<star>».ast  }
+  method xyzs($/) { make $<xyz>».ast  }
 
-  method star($/) {
+  method xyz($/) {
     my %s;
     %s<id>   = $/.Str;
     %s<name> = $<name>.ast if $<name>.ast;

@@ -1,3 +1,4 @@
+use File::Find;
 use Galaxy::Physics::Star;
 
 class Galaxy::Physics::Nebula {
@@ -10,6 +11,10 @@ class Galaxy::Physics::Nebula {
   has Bool $.disable = False;
 
   has Galaxy::Physics::Star @.star;
+
+  method locate (Galaxy::Physics::Star $star) { # returns Path
+    
+  }
 
   method form() {
 

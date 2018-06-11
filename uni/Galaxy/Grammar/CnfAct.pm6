@@ -2,7 +2,6 @@ class Galaxy::Grammar::CnfAct {
     has %!laws;
 
   method CNF($/) { 
-say %!laws;
     make %!laws;
   }
 

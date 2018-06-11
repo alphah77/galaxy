@@ -5,13 +5,3 @@ use Galaxy::Physics;
 
 my $physics   = Galaxy::Physics.new;
 
-my $alien     = $physics.alien;
-my $galaxy    = $physics.galaxy;
-my $gravity   = $physics.gravity;
-my $blackhole = $physics.blackhole;
-my $spacetime = $physics.spacetime;
-my $nebulas   = $physics.nebulas;
-
-#say $galaxy;
-#say $physics.laws;
-say  $nebulas>>.name;

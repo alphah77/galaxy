@@ -1,13 +1,14 @@
-use Galaxy::Physics::Star;
+use Galaxy::Physics::Xyz;
 
 class Galaxy::Physics::Gravity {
 
 	has Bool $.cluster = False;
 	has Str  $.core    = chomp qx<uname -m>;
 
-  has Galaxy::Physics::Star @.star;
+  has Galaxy::Physics::Xyz $.xyz;
 
-  method pull {
+  method pull(:@xyz) {
+say @xyz;
 
   }
 }

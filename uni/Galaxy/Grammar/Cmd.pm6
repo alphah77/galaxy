@@ -1,19 +1,19 @@
-use Galaxy::Grammar::Star;
+use Galaxy::Grammar::Xyz;
 
 grammar Galaxy::Grammar::Cmd {
-  also does Galaxy::Grammar::Star;
+  also does Galaxy::Grammar::Xyz;
 
   proto token CMD { * } # ordere is important
-  rule CMD:sym<gravity>   { <galaxy-laws>? <sym> <gravity-laws>?   <s>? <stars> }
-  rule CMD:sym<blackhole> { <galaxy-laws>? <sym> <blackhole-laws>? <s>? <stars> }
-  rule CMD:sym<spacetime> { <galaxy-laws>? <sym> <spacetime-laws>?      <event>?               }
-  rule CMD:sym<star>      { <galaxy-laws>? <sym> <star-laws>?           <stars>            }
-  rule CMD:sym<galaxy>    { <galaxy-laws>?                         <s>? <star>?           }
+  rule CMD:sym<gravity>   { <galaxy-laws>? <sym> <gravity-laws>?   <s>? <xyzs>   }
+  rule CMD:sym<blackhole> { <galaxy-laws>? <sym> <blackhole-laws>? <s>? <xyzs>   }
+  rule CMD:sym<spacetime> { <galaxy-laws>? <sym> <spacetime-laws>?      <event>? }
+  rule CMD:sym<star>      { <galaxy-laws>? <sym> <star-laws>?           <xyzs>   }
+  rule CMD:sym<galaxy>    { <galaxy-laws>?                         <s>? <xyz>?   }
 
-  token star-laws      { <star-law>+      % <space> } 
   token galaxy-laws    { <galaxy-law>+    % <space> } 
   token gravity-laws   { <gravity-law>+   % <space> }
   token blackhole-laws { <blackhole-law>+ % <space> } 
+  token star-laws      { <star-law>+      % <space> } 
   token spacetime-laws { <spacetime-law>+ % <space> } 
 
   proto token galaxy-law  { * }
@@ -25,8 +25,6 @@ grammar Galaxy::Grammar::Cmd {
   token galaxy-law:sym<law>    { <sym> <.space>  <location> }
   token galaxy-law:sym<nebula> { <sym> <.space>  <location> }
 
-  proto token star-law  { * }
-  token star-law:sym<remote> { <<<sym>>> }
 
   proto token gravity-law { * }
   token gravity-law:sym<cluster> { <<<sym>>> }
@@ -37,6 +35,9 @@ grammar Galaxy::Grammar::Cmd {
   token blackhole-law:sym<cluster> { <<<sym>>> }
   token blackhole-law:sym<core>    { <sym> <.space>* <core> }
   token blackhole-law:sym<origin>  { <sym> <.space>* <location> }
+
+  proto token star-law  { * }
+  token star-law:sym<remote> { <<<sym>>> }
 
   proto token spacetime-law { * }
   token spacetime-law:sym<travel>  { <sym> <.space>* <value> }
