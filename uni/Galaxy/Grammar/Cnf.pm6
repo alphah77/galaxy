@@ -33,18 +33,15 @@ grammar Galaxy::Grammar::Cnf {
   token blackhole-law:sym<origin>  { <sym> <.space>* <path> }
 
   proto token nebula-law { * }
-  token nebula-law:sym<name>     { <sym> <.space>* <name> }
-  token nebula-law:sym<disable>  { <<<sym>>> }
-  token nebula-law:sym<location>   { <location> }
+  token nebula-law:sym<url>     { <url> }
+  token nebula-law:sym<disable> { <<<sym>>> }
 
   proto token proto    { * }
   token proto:sym<https> { <sym> }
   token proto:sym<http>  { <sym> }
   token proto:sym<ftp>   { <sym> }
 
-  proto token location    { * }
-  token location:sym<local>  { <path> }
-  token location:sym<remote> { <proto> <colon> <slash> <slash> <remote> [<colon> <port>]? <path>  }
+  token url { <proto> <colon> <slash> <slash> <remote> [<colon> <port>]? <path>  }
 
   token name { \w+ }
   token path { [ <slash> | <dotslash> ]? [\w+]+ %% <slash> }   # Path

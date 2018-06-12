@@ -29,12 +29,10 @@ class Galaxy::Grammar::CnfAct {
   method blackhole-law:sym<core>($/)    { make $<sym>.Str => $<core>.ast }
   method blackhole-law:sym<origin>($/)  { make $<sym>.Str => $<path>.ast }
 
-  method nebula-law:sym<name>($/) { make $<sym>.Str => $<name>.ast }
   method nebula-law:sym<disable>($/)  { make $<sym>.Str => True }
-  method nebula-law:sym<location>($/) { make $<location>.ast }
+  method nebula-law:sym<url>($/) { make $<url>.ast }
 
-  method location:sym<local>($/)  { make { path => $<path>.ast } } 
-  method location:sym<remote>($/) {
+  method url($/) {
     make {
 			path   => $<path>.IO,
 			port   => $<port>.Int,

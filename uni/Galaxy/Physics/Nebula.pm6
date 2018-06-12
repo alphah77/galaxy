@@ -3,11 +3,12 @@ use Galaxy::Physics::Star;
 
 class Galaxy::Physics::Nebula {
 
-  has IO   $.path;
-  has Str  $.name;
-  has Int  $.port;
-  has Str  $.proto;
-  has Str  $.remote;
+  has IO   $.path    is required;
+  has Str  $.name    is required;
+  has Int  $.port    is required;
+  has Str  $.proto   is required;
+  has Str  $.remote  is required;
+
   has Bool $.disable = False;
 
   has Galaxy::Physics::Star @.star;
