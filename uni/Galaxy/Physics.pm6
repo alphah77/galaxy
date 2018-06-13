@@ -22,6 +22,7 @@ class Galaxy::Physics {
   submethod BUILD (
 		:%!laws     = Galaxy::Physics::Laws.initiate
 	  ) {
+
   	$!alien     = Galaxy::Physics::Alien.new;
   	$!galaxy    = Galaxy::Physics::Galaxy.new:    |%!laws<galaxy>.hash;
 		$!spacetime = Galaxy::Physics::Spacetime.new: |%!laws<spacetime>.hash;
