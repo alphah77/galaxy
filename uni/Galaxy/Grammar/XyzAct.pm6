@@ -8,7 +8,7 @@ role Galaxy::Grammar::XyzAct {
     %s<name> = $<name>.ast if $<name>.ast;
     %s<age>  = $<age>.ast  if $<age>.ast;
     %s<core> = $<core>.ast if $<core>.ast;
-    %s<form> = $<form>.ast if $<form>.ast;
+    %s<form> = $<form>.ast if $<form>;
     %s<tag>  = $<tag>.ast  if $<tag>.ast;
     %s<tail> = $<tail>.ast if $<tail>.ast;
     make %s;
