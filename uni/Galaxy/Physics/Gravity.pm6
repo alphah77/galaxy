@@ -8,7 +8,7 @@ class Galaxy::Physics::Gravity {
   has Galaxy::Physics::Xyz $.xyz;
 
   method pull(:@xyz) {
-say @xyz;
+#say @xyz;
 
   }
 }

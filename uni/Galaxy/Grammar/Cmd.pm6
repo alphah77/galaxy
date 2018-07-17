@@ -1,3 +1,6 @@
+#no precompilation;
+#use Grammar::Tracer;
+
 use Galaxy::Grammar::Xyz;
 
 grammar Galaxy::Grammar::Cmd {

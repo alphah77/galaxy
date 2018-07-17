@@ -27,7 +27,7 @@ class Galaxy::Physics {
   	$!galaxy    = Galaxy::Physics::Galaxy.new:    |%!laws<galaxy>.hash;
 		$!spacetime = Galaxy::Physics::Spacetime.new: |%!laws<spacetime>.hash;
 
-		@!xyz       = %!laws<xyz>.map(   {Galaxy::Physics::Xyz.new:    |$_.hash} ) if %!laws<xyz>:exists;
+		@!xyz       = %!laws<xyz>.map(     {Galaxy::Physics::Xyz.new:    |$_.hash} ) if %!laws<xyz>:exists;
 		@!nebulas   = %!laws<nebulas>.map( {Galaxy::Physics::Nebula.new: |$_.hash} ) if %!laws<nebulas>:exists;
 
     &action(%!laws<cmd>, :@!xyz);

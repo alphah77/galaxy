@@ -4,13 +4,15 @@ role Galaxy::Grammar::XyzAct {
 
   method xyz($/) {
     my %s;
+
     %s<id>   = $/.Str;
-    %s<name> = $<name>.ast if $<name>.ast;
-    %s<age>  = $<age>.ast  if $<age>.ast;
-    %s<core> = $<core>.ast if $<core>.ast;
-    %s<form> = $<form>.ast if $<form>;
-    %s<tag>  = $<tag>.ast  if $<tag>.ast;
-    %s<tail> = $<tail>.ast if $<tail>.ast;
+    %s<name> = $<name>.ast;
+    %s<age>  = $<age>.ast  if defined $<age>;
+    %s<core> = $<core>.ast if defined $<core>;
+    %s<form> = $<form>.ast if defined $<form>;
+    %s<tag>  = $<tag>.ast  if defined $<tag>;
+    %s<tail> = $<tail>.ast if defined $<tail>;
+
     make %s;
   }
 

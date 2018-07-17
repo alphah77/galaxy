@@ -4,6 +4,7 @@ use Galaxy::Grammar::CmdAct;
 use Galaxy::Grammar::CnfAct;
 use Hash::Merge::Augment;
 
+
 role Galaxy::Physics::Laws {
 
 
