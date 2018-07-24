@@ -5,8 +5,7 @@ role Galaxy::Grammar::XyzAct {
   method xyz($/) {
     my %s;
 
-    %s<id>   = $/.Str;
-    %s<name> = $<name>.ast;
+    %s<name> = $<name>.ast if defined $<name>;
     %s<age>  = $<age>.ast  if defined $<age>;
     %s<core> = $<core>.ast if defined $<core>;
     %s<form> = $<form>.ast if defined $<form>;
@@ -17,9 +16,9 @@ role Galaxy::Grammar::XyzAct {
   }
 
   method name($/) { make $/.Str }
-  method age($/)  { make $/.Str }
+  method age($/)  { make Version.new: $/.Str }
   method core($/) { make $/.Str }
-  method form($/) { make $/.Str }
+  method form($/) { make $/.Int }
   method tag($/)  { make $/.Str }
   method tail($/) { make $/.Str }
 

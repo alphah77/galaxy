@@ -1,7 +1,9 @@
+use DBIish;
 use Galaxy::Physics::Gravity;
 use Galaxy::Physics::Blackhole;
 use Galaxy::Physics::Star;
 use Galaxy::Physics::Xyz;
+use Cro::HTTP::Client;
 
 class Galaxy::Physics::Galaxy {
   has Str  $.name;
@@ -16,6 +18,7 @@ class Galaxy::Physics::Galaxy {
 
 	has IO   $.law;
 
+
   has Galaxy::Physics::Xyz       @.xyz;
   has Galaxy::Physics::Xyz       @!xyzs;
   has Galaxy::Physics::Gravity   $!gravity;
@@ -29,7 +32,7 @@ class Galaxy::Physics::Galaxy {
     :$!origin  = </>.IO;
     :$!bulge   = $!origin.add(</etc/galaxy>.IO).cleanup;
     :$!halo    = $!origin.add(</var/galaxy>.IO).cleanup;
-    :$!disk    = $!halo.add(</stars>.IO).cleanup;
+    :$!disk    = $!halo.add(</galaxy.db>.IO).cleanup;
     :$!yolo    = False;
     :$!cool    = False;
     :$!pretty  = False;
@@ -45,12 +48,9 @@ class Galaxy::Physics::Galaxy {
 		$!star       = Galaxy::Physics::Star.new:      |$star.hash;
 
 		@!xyz        = @xyz.map({Galaxy::Physics::Xyz.new: |$_});
-    @!xyzs       = &local-xyzs(:$!disk);
-
-		sub local-xyzs(IO :$disk) {
-      @!xyzs =  Galaxy::Physics::Xyz.new: name => <rakudo>;
-		}
-
+		@!xyzs       = &local-xyz(:$!disk);
+		say @!xyzs;
+    
 	}
 
   method gravity (:@xyz) {
@@ -64,4 +64,23 @@ class Galaxy::Physics::Galaxy {
   method star (:@xyz) {
   #  $!star;
   }
+
+	sub local-xyz(:$disk) {
+	  my $dbh = DBIish.connect('SQLite', database => $disk.Str);
+
+		my $st = $dbh.prepare('SELECT id, name, age, core, tag, form, tail, location, chksum FROM star');
+
+		$st.execute;
+
+
+		my @rows = $st.allrows(:array-of-hash);
+
+		my @xyzs = @rows.map({ Galaxy::Physics::Xyz.new: |$_.hash });
+
+#		 my $resp = await Cro::HTTP::Client.get('http://localhost:20000/cand?core=x86_64&name=rakudo&age=0.0.7+');
+#		 my $json = await $resp.body;
+#		 my @xyzs = $json.map({ Galaxy::Physics::Xyz.new: |$_.hash });
+
+		 return @xyzs;
+	}
 }
