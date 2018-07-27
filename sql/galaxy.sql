@@ -24,13 +24,23 @@ chksum   TEXT,
 starid   INT              NOT NULL);
 INSERT INTO planet VALUES(0,'f','/etc/galaxy/law','644',NULL,0);
 INSERT INTO planet VALUES(1,'f','/var/galaxy/galaxy.db','644',NULL,0);
+CREATE TABLE req (
+id   INT  NOT NULL,
+name TEXT,
+age TEXT);
+INSERT INTO req VALUES(0,NULL,NULL);
+INSERT INTO req VALUES(1,'galaxy',NULL);
+INSERT INTO req VALUES(2,'rakudo',NULL);
+INSERT INTO req VALUES(3,NULL,NULL);
+INSERT INTO req VALUES(4,'rakudo',NULL);
+INSERT INTO req VALUES(4,'rakudo-star',NULL);
 CREATE TABLE cluster (
-id    INT NOT NULL,
+id  INT NOT NULL,
 cid INT);
 INSERT INTO cluster VALUES(0,NULL);
 INSERT INTO cluster VALUES(1,0);
 INSERT INTO cluster VALUES(2,1);
 INSERT INTO cluster VALUES(3,NULL);
 INSERT INTO cluster VALUES(4,1);
-INSERT INTO cluster VALUES(4,0);
+INSERT INTO cluster VALUES(4,3);
 COMMIT;

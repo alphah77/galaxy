@@ -47,10 +47,16 @@ class Galaxy::Physics::Galaxy {
 		$!blackhole  = Galaxy::Physics::Blackhole.new: |$blackhole.hash;
 		$!star       = Galaxy::Physics::Star.new:      |$star.hash;
 
-		@!xyz        = @xyz.map({Galaxy::Physics::Xyz.new: |$_});
+		@!xyz        = @xyz.map: -> %h { Galaxy::Physics::Xyz.new: |%h };
 		@!xyzs       = &local-xyz(:$!disk);
-		say @!xyzs;
+#		say @!xyzs;
     
+	}
+
+  method stable () {
+    say @!xyzs[1].cluster.name;
+
+
 	}
 
   method gravity (:@xyz) {
@@ -75,7 +81,7 @@ class Galaxy::Physics::Galaxy {
 
 		my @rows = $st.allrows(:array-of-hash);
 
-		my @xyzs = @rows.map({ Galaxy::Physics::Xyz.new: |$_.hash });
+		my @xyzs = @rows.map: -> %h { Galaxy::Physics::Xyz.new: |%h };
 
 #		 my $resp = await Cro::HTTP::Client.get('http://localhost:20000/cand?core=x86_64&name=rakudo&age=0.0.7+');
 #		 my $json = await $resp.body;
