@@ -18,6 +18,8 @@ class Galaxy::Physics::Galaxy {
 
 	has IO   $.law;
 
+	has $!db;
+
 
   has Galaxy::Physics::Xyz       @.xyz;
   has Galaxy::Physics::Xyz       @!xyzs;
@@ -47,15 +49,31 @@ class Galaxy::Physics::Galaxy {
 		$!blackhole  = Galaxy::Physics::Blackhole.new: |$blackhole.hash;
 		$!star       = Galaxy::Physics::Star.new:      |$star.hash;
 
+    $!db         = self!db;
 		@!xyz        = @xyz.map: -> %h { Galaxy::Physics::Xyz.new: |%h };
-		@!xyzs       = &local-xyz(:$!disk);
+		#@!xyzs       = self.local-xyz();
 #		say @!xyzs;
     
 	}
 
-  method stable () {
-    say @!xyzs[1].cluster.name;
+	method !db {
+    return $!db if $!db;
+	  $!db = DBIish.connect('SQLite', database => $!disk.Str);
+		return $!db;
+	}
 
+  method stable() {
+		my @rows = self.select-xyzs;
+		@!xyzs = @rows.map: -> %h { Galaxy::Physics::Xyz.new: |%h };
+		@!xyzs.map: -> $xyz { $xyz.dep-add($_) for self.select-dep($xyz.name) };
+#	  for @!xyzs -> $xyz {
+    #@!xyzs.map: -> $xyz { $xyz.cluster-add = flat $xyz.dep.map: -> $dep { @!xyzs.grep({ .name ~~ $dep<name> }) } };
+		#say @!xyzs.dep.map: -> $dep {@!xyzs.grep({ .name ~~ $dep.name }) };
+   # @!xyzs.map: -> $xyz { $xyz.cluster-add($xyz.dep.map: -> $dep { @!xyzs.grep({ .name ~~ $dep.name }) }) };
+
+#	  }
+	@!xyzs>>.say;
+  
 
 	}
 
@@ -71,22 +89,34 @@ class Galaxy::Physics::Galaxy {
   #  $!star;
   }
 
-	sub local-xyz(:$disk) {
-	  my $dbh = DBIish.connect('SQLite', database => $disk.Str);
 
-		my $st = $dbh.prepare('SELECT id, name, age, core, tag, form, tail, location, chksum FROM star');
+
+
+
+
+	method select-xyzs() {
+
+		my $st = $!db.prepare(q:to/STATEMENT/);
+			SELECT name, age, core, tag, form, tail, location, chksum
+			FROM star
+			STATEMENT
 
 		$st.execute;
+		return $st.allrows(:array-of-hash);
 
+	}
 
-		my @rows = $st.allrows(:array-of-hash);
+	method select-dep($name) {
+		my $st = $!db.prepare(q:to/STATEMENT/);
+			SELECT r.name, r.age
+			FROM star s
+			INNER JOIN dep r
+			ON s.id = r.id
+			WHERE s.name = ?
+		STATEMENT
 
-		my @xyzs = @rows.map: -> %h { Galaxy::Physics::Xyz.new: |%h };
+		$st.execute($name);
+		return $st.allrows(:array-of-hash);
 
-#		 my $resp = await Cro::HTTP::Client.get('http://localhost:20000/cand?core=x86_64&name=rakudo&age=0.0.7+');
-#		 my $json = await $resp.body;
-#		 my @xyzs = $json.map({ Galaxy::Physics::Xyz.new: |$_.hash });
-
-		 return @xyzs;
 	}
 }

@@ -15,6 +15,7 @@ INSERT INTO star VALUES(1,'rakudo','0.0.4','x86_64','glx',0,'xyz',NULL,NULL);
 INSERT INTO star VALUES(2,'perl6','0.0.9','x86_64','glx',0,'xyz',NULL,NULL);
 INSERT INTO star VALUES(3,'rakudo-star','0.0.2','x86_64','glx',0,'xyz',NULL,NULL);
 INSERT INTO star VALUES(4,'perl7','0.0.4','x86_64','glx',0,'xyz',NULL,NULL);
+INSERT INTO star VALUES(5,'nebula','0.0.1','x86_64','glx',0,'xyz',NULL,NULL);
 CREATE TABLE planet (
 id       INT  PRIMARY KEY NOT NULL,
 type     TEXT             NOT NULL,
@@ -24,23 +25,12 @@ chksum   TEXT,
 starid   INT              NOT NULL);
 INSERT INTO planet VALUES(0,'f','/etc/galaxy/law','644',NULL,0);
 INSERT INTO planet VALUES(1,'f','/var/galaxy/galaxy.db','644',NULL,0);
-CREATE TABLE req (
+CREATE TABLE dep (
 id   INT  NOT NULL,
 name TEXT,
 age TEXT);
-INSERT INTO req VALUES(0,NULL,NULL);
-INSERT INTO req VALUES(1,'galaxy',NULL);
-INSERT INTO req VALUES(2,'rakudo',NULL);
-INSERT INTO req VALUES(3,NULL,NULL);
-INSERT INTO req VALUES(4,'rakudo',NULL);
-INSERT INTO req VALUES(4,'rakudo-star',NULL);
-CREATE TABLE cluster (
-id  INT NOT NULL,
-cid INT);
-INSERT INTO cluster VALUES(0,NULL);
-INSERT INTO cluster VALUES(1,0);
-INSERT INTO cluster VALUES(2,1);
-INSERT INTO cluster VALUES(3,NULL);
-INSERT INTO cluster VALUES(4,1);
-INSERT INTO cluster VALUES(4,3);
+INSERT INTO dep VALUES(1,'galaxy','0.0.7+');
+INSERT INTO dep VALUES(2,'rakudo',NULL);
+INSERT INTO dep VALUES(4,'rakudo',NULL);
+INSERT INTO dep VALUES(4,'rakudo-star','0.0.09+');
 COMMIT;

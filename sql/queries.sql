@@ -1,14 +1,12 @@
 -- Query xyz cluster;
 
-WITH RECURSIVE tree(tx,tc) AS (
+-- By id --
+WITH RECURSIVE tree(id,cid) AS (
 SELECT c.id, c.cid FROM cluster c
 INNER JOIN star s ON s.id = c.id
-WHERE s.name = 'rakudo'
+WHERE s.id = '4'
 UNION ALL
-SELECT id, cid FROM cluster c
-JOIN tree t ON c.id = t.tc
+SELECT c.id, c.cid FROM cluster c
+JOIN tree t ON c.id = t.cid
 )
-SELECT DISTINCT name FROM star s
-JOIN tree t ON t.tx = s.id;
-
-
+SELECT DISTINCT t.cid from tree t;
