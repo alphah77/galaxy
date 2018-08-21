@@ -51,30 +51,40 @@ class Galaxy::Physics::Galaxy {
 
     $!db         = self!db;
 		@!xyz        = @xyz.map: -> %h { Galaxy::Physics::Xyz.new: |%h };
+		@!xyzs       = self!local-xyzs;   #Revist
 		#@!xyzs       = self.local-xyz();
 #		say @!xyzs;
     
 	}
 
+  method stable {
+    say .name, " ", .age for  @!xyzs;
+
+		say "\n";
+		say @!xyzs[4].dep>>.name, " ", @!xyzs[4].dep>>.age;
+		say "\n";
+		say @!xyzs[4].cluster>>.name, " ", @!xyzs[4].cluster>>.age if @!xyzs[4].cluster;
+	}
 	method !db {
     return $!db if $!db;
 	  $!db = DBIish.connect('SQLite', database => $!disk.Str);
 		return $!db;
 	}
 
-  method stable() {
+
+  # Revisit
+  method !local-xyzs {
 		my @rows = self.select-xyzs;
 		@!xyzs = @rows.map: -> %h { Galaxy::Physics::Xyz.new: |%h };
-		@!xyzs.map: -> $xyz { $xyz.dep-add($_) for self.select-dep($xyz.name) };
-#	  for @!xyzs -> $xyz {
-    #@!xyzs.map: -> $xyz { $xyz.cluster-add = flat $xyz.dep.map: -> $dep { @!xyzs.grep({ .name ~~ $dep<name> }) } };
-		#say @!xyzs.dep.map: -> $dep {@!xyzs.grep({ .name ~~ $dep.name }) };
-   # @!xyzs.map: -> $xyz { $xyz.cluster-add($xyz.dep.map: -> $dep { @!xyzs.grep({ .name ~~ $dep.name }) }) };
+		@!xyzs.map: -> $xyz { $xyz.add-dep($_) for self.select-dep($xyz.name) };
 
-#	  }
-	@!xyzs>>.say;
-  
+	  for @!xyzs -> $xyz {
+      $xyz.dep.map: -> $dep {
+			  $xyz.add-cluster(@!xyzs.first: { .name ~~ $dep.name && Version.new(.age) ~~ Version.new( $dep.age) })
+			}
+	  }
 
+		return @!xyzs;
 	}
 
   method gravity (:@xyz) {
@@ -117,6 +127,5 @@ class Galaxy::Physics::Galaxy {
 
 		$st.execute($name);
 		return $st.allrows(:array-of-hash);
-
 	}
 }

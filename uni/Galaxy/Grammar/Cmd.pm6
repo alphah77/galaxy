@@ -7,11 +7,11 @@ grammar Galaxy::Grammar::Cmd {
   also does Galaxy::Grammar::Xyz;
 
   proto token CMD { * } # ordere is important
-  rule CMD:sym<gravity>   { <galaxy-laws>? <sym> <gravity-laws>?   <s>? <xyzs>   }
-  rule CMD:sym<blackhole> { <galaxy-laws>? <sym> <blackhole-laws>? <s>? <xyzs>   }
-  rule CMD:sym<spacetime> { <galaxy-laws>? <sym> <spacetime-laws>?      <event>? }
-  rule CMD:sym<star>      { <galaxy-laws>? <sym> <star-laws>?           <xyzs>   }
-  rule CMD:sym<galaxy>    { <galaxy-laws>?                         <s>? <xyz>?   }
+  rule CMD:sym<gravity>   { <galaxy-laws>? <sym> <gravity-laws>?   <s>? <xyzs>   } # g
+  rule CMD:sym<blackhole> { <galaxy-laws>? <sym> <blackhole-laws>? <s>? <xyzs>   } # b
+  rule CMD:sym<spacetime> { <galaxy-laws>? <sym> <spacetime-laws>?      <event>? } # st
+  rule CMD:sym<star>      { <galaxy-laws>? <sym> <star-laws>?           <xyzs>   } # s
+  rule CMD:sym<galaxy>    { <galaxy-laws>?                         <s>? <xyz>?   } # g
 
   token galaxy-laws    { <galaxy-law>+    % <space> } 
   token gravity-laws   { <gravity-law>+   % <space> }

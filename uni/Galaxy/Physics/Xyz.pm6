@@ -21,11 +21,12 @@ class Galaxy::Physics::Xyz {
   has Galaxy::Physics::Planet @.planets;
   has Galaxy::Physics::Xyz    @.cluster is rw;
 
-  method dep-add(%h --> Nil) {
+  method add-dep(%h --> Nil) {
     @.dep.push: Dep.new: |%h;
 	}
 
-  method cluster-add(Galaxy::Physics::Xyz $xyz --> Nil) {
+  method add-cluster($xyz --> Nil) {
+		#say "CLUSTER: ", $xyz;
     @.cluster.push: $xyz;
 	}
 
