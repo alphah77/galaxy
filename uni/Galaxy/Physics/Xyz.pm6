@@ -1,12 +1,13 @@
 use Galaxy::Physics::Planet;
+use Galaxy::Physics::Dep;
 
 class Galaxy::Physics::Xyz {
 
-	my class Dep {
+#	my class Dep {
 
-		has Str $.name is required;
-		has Any $.age;
-  }
+#		has Str $.name is required;
+#		has Any $.age;
+#  }
 
   has Str     $.name is required;
   has Str     $.age;
@@ -16,14 +17,14 @@ class Galaxy::Physics::Xyz {
   has Str     $.tail;
   has Any     $.location;
   has Any     $.chksum;
-	has Dep     @.dep is rw;
-
-  has Galaxy::Physics::Planet @.planets;
+	#has Galaxy::Physics::Dep    @.dep;
+	has     $.dep;
   has Galaxy::Physics::Xyz    @.cluster is rw;
+  has Galaxy::Physics::Planet @.planets;
 
-  method add-dep(%h --> Nil) {
-    @.dep.push: Dep.new: |%h;
-	}
+  #method add-dep(%h --> Nil) {
+  #  @.dep.push: Dep.new: |%h;
+	#}
 
   method add-cluster($xyz --> Nil) {
 		#say "CLUSTER: ", $xyz;

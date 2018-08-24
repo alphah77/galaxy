@@ -3,6 +3,7 @@ use Galaxy::Physics::Gravity;
 use Galaxy::Physics::Blackhole;
 use Galaxy::Physics::Star;
 use Galaxy::Physics::Xyz;
+use Galaxy::Physics::Dep;
 use Cro::HTTP::Client;
 
 class Galaxy::Physics::Galaxy {
@@ -20,9 +21,10 @@ class Galaxy::Physics::Galaxy {
 
 	has $!db;
 
+  has %!dep;
 
   has Galaxy::Physics::Xyz       @.xyz;
-  has Galaxy::Physics::Xyz       @!xyzs;
+  has Galaxy::Physics::Xyz       %!xyzs;
   has Galaxy::Physics::Gravity   $!gravity;
   has Galaxy::Physics::Blackhole $!blackhole;
   has Galaxy::Physics::Star      $.star;
@@ -45,27 +47,31 @@ class Galaxy::Physics::Galaxy {
 		:@xyz;
 	  ) {
 
-		$!gravity    = Galaxy::Physics::Gravity.new:   |$gravity.hash;
-		$!blackhole  = Galaxy::Physics::Blackhole.new: |$blackhole.hash;
-		$!star       = Galaxy::Physics::Star.new:      |$star.hash;
+		$!gravity   = Galaxy::Physics::Gravity.new:   |$gravity.hash;
+		$!blackhole = Galaxy::Physics::Blackhole.new: |$blackhole.hash;
+		$!star      = Galaxy::Physics::Star.new:      |$star.hash;
 
-    $!db         = self!db;
-		@!xyz        = @xyz.map: -> %h { Galaxy::Physics::Xyz.new: |%h };
-		@!xyzs       = self!local-xyzs;   #Revist
-		#@!xyzs       = self.local-xyz();
-#		say @!xyzs;
+    $!db        = self!db;
+		@!xyz       = @xyz.map: -> %h { Galaxy::Physics::Xyz.new: |%h };
+		%!dep       = self!dep;   #Revist
+		#%!xyzs      = self!local-xyzs;   #Revist
+
     
 	}
 
-  method stable {
-    say .name, " ", .age for  @!xyzs;
-
-		say "\n";
-		say @!xyzs[4].dep>>.name, " ", @!xyzs[4].dep>>.age;
-		say "\n";
-		say @!xyzs[4].cluster>>.name, " ", @!xyzs[4].cluster>>.age if @!xyzs[4].cluster;
+  method stable() {
+#say %!xyzs;
+#	  for %!xyzs -> $xyz {
+#			if %!dep{$xyz.name}:exists {
+#				%!dep{$xyz.name}.map: -> $dep {
+#					$xyz.add-cluster(%!xyzs.first: -> $xyz { $xyz.name ~~ $dep<name> && Version.new($xyz.age) ~~ Version.new( $dep<age>) })
+#				}
+#			}
+	#  }
+	#%!xyzs>>.say;
 	}
-	method !db {
+
+	method !db() {
     return $!db if $!db;
 	  $!db = DBIish.connect('SQLite', database => $!disk.Str);
 		return $!db;
@@ -73,18 +79,20 @@ class Galaxy::Physics::Galaxy {
 
 
   # Revisit
-  method !local-xyzs {
-		my @rows = self.select-xyzs;
-		@!xyzs = @rows.map: -> %h { Galaxy::Physics::Xyz.new: |%h };
-		@!xyzs.map: -> $xyz { $xyz.add-dep($_) for self.select-dep($xyz.name) };
+  method !local-xyz() {
+		#my @xyz = self.select-xyz().map: -> %h { %!dep{%h<name>} ?? %h.push: {:dep(%!dep{%h<name>}) } !! %h };
+		my @xyz = self.select-xyz().map: -> %h { %h.push: {:dep(%!dep{%h<name>}) } };
+		return @xyz.map: -> %h { %h<name> => Galaxy::Physics::Xyz.new: |%h  }
 
-	  for @!xyzs -> $xyz {
-      $xyz.dep.map: -> $dep {
-			  $xyz.add-cluster(@!xyzs.first: { .name ~~ $dep.name && Version.new(.age) ~~ Version.new( $dep.age) })
-			}
-	  }
+	}
 
-		return @!xyzs;
+  method !dep() {
+	  my %dep;
+		self.select-dep().map: -> %h { %dep.push: %h<xyzname> => Galaxy::Physics::Dep.new: |%h };
+
+    return %dep;
+
+
 	}
 
   method gravity (:@xyz) {
@@ -104,8 +112,7 @@ class Galaxy::Physics::Galaxy {
 
 
 
-	method select-xyzs() {
-
+	method select-xyz() {
 		my $st = $!db.prepare(q:to/STATEMENT/);
 			SELECT name, age, core, tag, form, tail, location, chksum
 			FROM star
@@ -116,16 +123,13 @@ class Galaxy::Physics::Galaxy {
 
 	}
 
-	method select-dep($name) {
+	method select-dep() {
 		my $st = $!db.prepare(q:to/STATEMENT/);
-			SELECT r.name, r.age
-			FROM star s
-			INNER JOIN dep r
-			ON s.id = r.id
-			WHERE s.name = ?
+			SELECT xyzname, depname AS name,  depage AS age
+			FROM dep
 		STATEMENT
 
-		$st.execute($name);
+		$st.execute();
 		return $st.allrows(:array-of-hash);
 	}
 }
