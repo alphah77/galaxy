@@ -2,6 +2,7 @@ use DBIish;
 use Galaxy::Physics::Gravity;
 use Galaxy::Physics::Blackhole;
 use Galaxy::Physics::Star;
+use Galaxy::Physics::Op;
 use Galaxy::Physics::Xyz;
 use Galaxy::Physics::Dep;
 use Cro::HTTP::Client;
@@ -21,6 +22,7 @@ class Galaxy::Physics::Galaxy {
 
 	has $!db;
 
+  #has Galaxy::Physics::Dep       %!dep;
   has %!dep;
 
   has Galaxy::Physics::Xyz       @.xyz;
@@ -53,22 +55,17 @@ class Galaxy::Physics::Galaxy {
 
     $!db        = self!db;
 		@!xyz       = @xyz.map: -> %h { Galaxy::Physics::Xyz.new: |%h };
-		%!dep       = self!dep;   #Revist
-		#%!xyzs      = self!local-xyzs;   #Revist
+		#%!dep       = self!dep;   #Revist
+		%!xyzs      = self!local-xyz;   #Revist
 
     
 	}
 
+
   method stable() {
-#say %!xyzs;
-#	  for %!xyzs -> $xyz {
-#			if %!dep{$xyz.name}:exists {
-#				%!dep{$xyz.name}.map: -> $dep {
-#					$xyz.add-cluster(%!xyzs.first: -> $xyz { $xyz.name ~~ $dep<name> && Version.new($xyz.age) ~~ Version.new( $dep<age>) })
-#				}
-#			}
-	#  }
-	#%!xyzs>>.say;
+    #%!xyzs<perl7>.print-dep;
+    say %!xyzs<perl7>.cluster;
+
 	}
 
 	method !db() {
@@ -80,18 +77,17 @@ class Galaxy::Physics::Galaxy {
 
   # Revisit
   method !local-xyz() {
-		#my @xyz = self.select-xyz().map: -> %h { %!dep{%h<name>} ?? %h.push: {:dep(%!dep{%h<name>}) } !! %h };
-		my @xyz = self.select-xyz().map: -> %h { %h.push: {:dep(%!dep{%h<name>}) } };
-		return @xyz.map: -> %h { %h<name> => Galaxy::Physics::Xyz.new: |%h  }
+		#my @xyz = self.select-xyz().map: -> %h { %h.push: {:dep(%!dep{%h<name>}) } };
+		#return @xyz.map: -> %h { %h<name> => Galaxy::Physics::Xyz.new: |%h  }
 
-	}
+		my %xyz = self.select-xyz().map: -> %h { %h<name> => Galaxy::Physics::Xyz.new: |%h };
+    
+		%xyz.values.map: { .add-dep(self.select-dep(.name)) };
 
-  method !dep() {
-	  my %dep;
-		self.select-dep().map: -> %h { %dep.push: %h<xyzname> => Galaxy::Physics::Dep.new: |%h };
+		#Revisit: !%xyz{$dep.name}.defined 
+    %xyz.values.map: { .add-cluster(.dep.map: -> $d { %xyz{$d.name} if %xyz{$d.name} === $d }) }
 
-    return %dep;
-
+	 return %xyz;
 
 	}
 
@@ -123,13 +119,15 @@ class Galaxy::Physics::Galaxy {
 
 	}
 
-	method select-dep() {
+	#Revist %h<age> eq Any
+	method select-dep($name) {
 		my $st = $!db.prepare(q:to/STATEMENT/);
-			SELECT xyzname, depname AS name,  depage AS age
+			SELECT depname AS name,  depage AS age
 			FROM dep
+			WHERE xyzname = $name;
 		STATEMENT
 
-		$st.execute();
-		return $st.allrows(:array-of-hash);
+		$st.execute($name);
+	  return $st.allrows(:array-of-hash);
 	}
 }
