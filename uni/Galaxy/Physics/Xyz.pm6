@@ -1,4 +1,4 @@
-use Galaxy::Physics::Op;
+#use Galaxy::Physics::Op;
 use Galaxy::Physics::Dep;
 use Galaxy::Physics::Planet;
 
@@ -21,38 +21,21 @@ class Galaxy::Physics::Xyz {
   has Str     $.tail;
   has Any     $.location;
   has Any     $.chksum;
-	has Galaxy::Physics::Dep    @.dep;
-  has Galaxy::Physics::Xyz    @.cluster;
+  has Galaxy::Physics::Dep    @.cluster;
   has Galaxy::Physics::Planet @.planets;
 
-  method add-dep(@dep --> Nil) {
-    @dep.map: -> %h { @.dep.push: Galaxy::Physics::Dep.new: |%h };
-	}
-
-  method add-cluster(@xyz --> Nil) {
-    @!cluster.append: @xyz;
+  method unstable() {
+    @!cluster.map(-> $d { $d if not $d.satisfied });
 	}
 
   method stable(--> Bool) {
-	@!dep>>.say;
-	@!cluster>>.say;
-	True;
+    not so self.unstable();
 	}
 
-	method print-dep() {
-	  @!cluster>>.print-dep;
-
-    for @!dep -> $d {
-      say $d.name, " ", $d.age, ":  ",;
-
-		}
-
-	}
-
-	method print-cluster() {
-	  @!cluster>>.print-cluster;
-		.name.say for @!cluster;
-
+	method print-cluster($indent = 0) {
+	  
+    @!cluster.map({ .xyz.print-cluster($indent + 1) });
+		say  $!name.indent($indent);
 	}
 
 }

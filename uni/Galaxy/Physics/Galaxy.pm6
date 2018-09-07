@@ -2,7 +2,7 @@ use DBIish;
 use Galaxy::Physics::Gravity;
 use Galaxy::Physics::Blackhole;
 use Galaxy::Physics::Star;
-use Galaxy::Physics::Op;
+#use Galaxy::Physics::Op;
 use Galaxy::Physics::Xyz;
 use Galaxy::Physics::Dep;
 use Cro::HTTP::Client;
@@ -62,9 +62,16 @@ class Galaxy::Physics::Galaxy {
 	}
 
 
+  method cluster(Galaxy::Physics::Xyz $xyz) {
+    $xyz.print-cluster();
+	}
+
   method stable() {
-    #%!xyzs<perl7>.print-dep;
-    say %!xyzs<perl7>.cluster;
+		my @unstable = %!xyzs.values.map({ .name => .unstable  if .unstable });
+		my @stable = %!xyzs.values.map({ .name if .stable });
+    #my @cluster = %!xyzs<perl7>.print-cluster();
+    %!xyzs<perl7>.print-cluster();
+
 
 	}
 
@@ -77,17 +84,14 @@ class Galaxy::Physics::Galaxy {
 
   # Revisit
   method !local-xyz() {
-		#my @xyz = self.select-xyz().map: -> %h { %h.push: {:dep(%!dep{%h<name>}) } };
-		#return @xyz.map: -> %h { %h<name> => Galaxy::Physics::Xyz.new: |%h  }
-
 		my %xyz = self.select-xyz().map: -> %h { %h<name> => Galaxy::Physics::Xyz.new: |%h };
     
-		%xyz.values.map: { .add-dep(self.select-dep(.name)) };
+		%xyz.values.map({ .cluster = self.select-dep(.name).map(-> %h {Galaxy::Physics::Dep.new: |%h}) });
 
-		#Revisit: !%xyz{$dep.name}.defined 
-    %xyz.values.map: { .add-cluster(.dep.map: -> $d { %xyz{$d.name} if %xyz{$d.name} === $d }) }
+    .cluster.map({ .xyz = %xyz{.name} if .satisfy(%xyz{.name}) }) for %xyz.values;
+    #%xyz.values.map({ .cluster.map({ .satisfy(%xyz{.name}) }) }); # Revisit: Not working!
 
-	 return %xyz;
+    return %xyz;
 
 	}
 
