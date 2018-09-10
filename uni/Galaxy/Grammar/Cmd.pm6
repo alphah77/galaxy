@@ -7,11 +7,17 @@ grammar Galaxy::Grammar::Cmd {
   also does Galaxy::Grammar::Xyz;
 
   proto token CMD { * } # ordere is important
-  rule CMD:sym<gravity>   { <galaxy-laws>? <sym> <gravity-laws>?   <s>? <xyzs>   } # g
-  rule CMD:sym<blackhole> { <galaxy-laws>? <sym> <blackhole-laws>? <s>? <xyzs>   } # b
-  rule CMD:sym<spacetime> { <galaxy-laws>? <sym> <spacetime-laws>?      <event>? } # st
-  rule CMD:sym<star>      { <galaxy-laws>? <sym> <star-laws>?           <xyzs>   } # s
-  rule CMD:sym<galaxy>    { <galaxy-laws>?                         <s>? <xyz>?   } # g
+  rule CMD:sym<gravity>   { <galaxy-laws>? <gravity>   <gravity-laws>?   <star>? <xyzs>   } # g
+  rule CMD:sym<blackhole> { <galaxy-laws>? <blackhole> <blackhole-laws>? <star>? <xyzs>   } # b
+  rule CMD:sym<spacetime> { <galaxy-laws>? <spacetime> <spacetime-laws>?         <event>? } # st
+  rule CMD:sym<star>      { <galaxy-laws>? <star>      <star-laws>?              <xyzs>   } # s
+  rule CMD:sym<galaxy>    { <galaxy-laws>?                               <star>? <xyz>?   } # g
+
+	token galaxy    { 'galaxy' }
+	token gravity   { 'gravity' | 'g' }
+	token blackhole { 'blackhole' | 'b' }
+	token spacetime { 'spacetime' | 'st' }
+	token star      { 'star' | 's' }
 
   token galaxy-laws    { <galaxy-law>+    % <space> } 
   token gravity-laws   { <gravity-law>+   % <space> }
@@ -49,5 +55,5 @@ grammar Galaxy::Grammar::Cmd {
   token core     { 'x86_64' }
   token value    { <!before \s> <-[ \s ]>+ <!after \s> }
   token location { <!before \s> <-[ \s ]>+ <!after \s> }
-  token s        { 'star' <space>  }                     # edge cases where star name is reserved word
+  #token x        { 'star' <space>  }                     # edge cases where star name is reserved word
 }

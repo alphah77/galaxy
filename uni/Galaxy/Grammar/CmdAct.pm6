@@ -7,8 +7,8 @@ class Galaxy::Grammar::CmdAct {
   method CMD:sym<gravity>($/) { 
     my %law;
 
-    %law<cmd>             = <gravity>;
-    %law<xyz>             = $<xyzs>.ast;
+    %law<cmd>             = $<gravity>.ast;
+    %law<star>            = $<xyzs>.ast;
     %law<galaxy>          = $<galaxy-laws>.ast   if $<galaxy-laws>.defined;
     %law<galaxy><gravity> = $<gravity-laws>.ast  if $<gravity-laws>.defined;
 
@@ -18,8 +18,8 @@ class Galaxy::Grammar::CmdAct {
   method CMD:sym<blackhole>($/) { 
     my %law;
 
-    %law<cmd>               = <blackhole>;
-    %law<xyz>               = $<xyzs>.ast;
+    %law<cmd>               = $<blackhole>.ast;
+    %law<star>              = $<xyzs>.ast;
     %law<galaxy>            = $<galaxy-laws>.ast    if $<galaxy-laws>.defined;
     %law<galaxy><blackhole> = $<blackhole-laws>.ast if $<blackhole-laws>.defined;
 
@@ -29,8 +29,8 @@ class Galaxy::Grammar::CmdAct {
   method CMD:sym<spacetime>($/) { 
     my %law;
 
-    %law<cmd>       = <spacetime>;
-    %law<xyz>       = $<xyzs>.ast;
+    %law<cmd>       = $<spacetime>.ast;
+    #%law<event>      = $<xyzs>.ast;
     %law<galaxy>    = $<galaxy-laws>.ast    if $<galaxy-laws>.defined;
     %law<spacetime> = $<spacetime-laws>.ast if $<spacetime-laws>.defined;
 
@@ -40,8 +40,8 @@ class Galaxy::Grammar::CmdAct {
   method CMD:sym<star>($/) { 
     my %law;
 
-    %law<cmd>          = <star>;
-    %law<xyz>          = $<xyzs>.ast;
+    %law<cmd>          = $<star>.ast;
+    %law<star>          = $<xyzs>.ast;
     %law<galaxy>       = $<galaxy-laws>.ast     if $<galaxy-laws>.defined;
     %law<galaxy><star> = $<star-laws>.ast       if $<star-laws>.defined;
 
@@ -51,14 +51,20 @@ class Galaxy::Grammar::CmdAct {
   method CMD:sym<galaxy>($/) { 
     my %law;
 
+    #%law<cmd> = $<galaxy>.ast;
     %law<cmd> = <galaxy>;
-    %law<xyz>.push: $<xyz>.ast        if $<xyz>.defined;
+    %law<star>.push: $<xyz>.ast        if $<xyz>.defined;
     %law<galaxy> = $<galaxy-laws>.ast if $<galaxy-laws>.defined;
 
     make %law;
   }
 
 
+  method galaxy($/)    { make <galaxy> }
+  method gravity($/)   { make <gravity> }
+  method blackhole($/) { make <blackhole> }
+  method spacetime($/) { make <spacetime> }
+  method star($/)      { make <star> }
 
   method galaxy-laws($/)    { make $<galaxy-law>».ast.hash }
   method gravity-laws($/)   { make $<gravity-law>».ast.hash }

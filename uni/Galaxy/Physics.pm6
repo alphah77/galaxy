@@ -19,39 +19,38 @@ class Galaxy::Physics {
   has Galaxy::Physics::Xyz       @.xyz;
   has Galaxy::Physics::Nebula    @.nebulas;
 	
-  submethod BUILD (
-		:%!laws     = Galaxy::Physics::Laws.initiate
-	  ) {
+  submethod BUILD (:%!laws = Galaxy::Physics::Laws.initiate) {
+		my $cmd = %!laws<cmd>;
+		my $obj = %!laws<obj>;
 
   	$!alien     = Galaxy::Physics::Alien.new;
   	$!galaxy    = Galaxy::Physics::Galaxy.new:    |%!laws<galaxy>.hash;
 		$!spacetime = Galaxy::Physics::Spacetime.new: |%!laws<spacetime>.hash;
 
-		@!xyz       = %!laws<xyz>.map(     {Galaxy::Physics::Xyz.new:    |$_.hash} ) if %!laws<xyz>:exists;
 		@!nebulas   = %!laws<nebulas>.map( {Galaxy::Physics::Nebula.new: |$_.hash} ) if %!laws<nebulas>:exists;
+    
+		self.cmd($cmd, :$obj);
+  }
 
-    &action(%!laws<cmd>, :@!xyz);
-
-    multi sub action ("gravity", :@xyz ) {
-      $!galaxy.gravity: :@xyz;
+    multi method cmd ("gravity", :$obj ) {
+      $!galaxy.gravity: :$obj;
     }
 
-    multi sub action ("blackhole", :@xyz ) {
-      $!galaxy.blackhole: :@xyz;
-
-    }
-
-    multi sub action ("star", :@xyz ) {
+    multi method cmd ("blackhole", :$obj ) {
+      $!galaxy.blackhole: :$obj;
 
     }
 
-    multi sub action ("spacetime", :@events ) {
+    multi method cmd ("star", :$obj ) {
 
     }
 
-    multi sub action ("galaxy", :@xyz ) {
+    multi method cmd ("spacetime", :$obj ) {
 
     }
-	}
+
+    multi method cmd ("galaxy", :$obj ) {
+
+    }
 
 }
