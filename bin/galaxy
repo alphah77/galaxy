@@ -4,4 +4,4 @@ use lib <uni>;
 use Galaxy::Physics;
 
 my $physics   = Galaxy::Physics.new;
-$physics.galaxy.stable;
+$physics.galaxy.gravity;

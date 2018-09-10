@@ -70,7 +70,7 @@ class Galaxy::Physics::Galaxy {
 		my @unstable = %!xyzs.values.map({ .name => .unstable  if .unstable });
 		my @stable = %!xyzs.values.map({ .name if .stable });
     #my @cluster = %!xyzs<perl7>.print-cluster();
-    %!xyzs<perl7>.print-cluster();
+    %!xyzs<perl7>.planet>>.path>>.say;
 
 
 	}
@@ -86,6 +86,8 @@ class Galaxy::Physics::Galaxy {
   method !local-xyz() {
 		my %xyz = self.select-xyz().map: -> %h { %h<name> => Galaxy::Physics::Xyz.new: |%h };
     
+		%xyz.values.map({ .planet = self.select-planet(.name).map(-> %h {Galaxy::Physics::Planet.new: |%h}) });
+
 		%xyz.values.map({ .cluster = self.select-dep(.name).map(-> %h {Galaxy::Physics::Dep.new: |%h}) });
 
     .cluster.map({ .xyz = %xyz{.name} if .satisfy(%xyz{.name}) }) for %xyz.values;
@@ -121,6 +123,17 @@ class Galaxy::Physics::Galaxy {
 		$st.execute;
 		return $st.allrows(:array-of-hash);
 
+	}
+
+	method select-planet($name) {
+		my $st = $!db.prepare(q:to/STATEMENT/);
+			SELECT path, type, perm
+			FROM planet
+			WHERE xyzname = $name;
+		STATEMENT
+
+		$st.execute($name);
+	  return $st.allrows(:array-of-hash);
 	}
 
 	#Revist %h<age> eq Any

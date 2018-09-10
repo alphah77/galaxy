@@ -22,7 +22,7 @@ class Galaxy::Physics::Xyz {
   has Any     $.location;
   has Any     $.chksum;
   has Galaxy::Physics::Dep    @.cluster;
-  has Galaxy::Physics::Planet @.planets;
+  has Galaxy::Physics::Planet @.planet;
 
   method unstable() {
     @!cluster.map(-> $d { $d if not $d.satisfied });
@@ -35,7 +35,7 @@ class Galaxy::Physics::Xyz {
 	method print-cluster($indent = 0) {
 	  
     @!cluster.map({ .xyz.print-cluster($indent + 1) });
-		say  $!name.indent($indent);
+		$!name.indent($indent).say;
 	}
 
 }

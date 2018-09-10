@@ -16,13 +16,18 @@ INSERT INTO star VALUES('rakudo-star','0.0.2','x86_64','glx',0,'xyz',NULL,NULL);
 INSERT INTO star VALUES('perl7','0.0.4','x86_64','glx',0,'xyz',NULL,NULL);
 INSERT INTO star VALUES('nebula','0.0.1','x86_64','glx',0,'xyz',NULL,NULL);
 CREATE TABLE planet (
+xyzname TEXT NOT NULL,
+path    TEXT KEY NOT NULL,
 type    TEXT NOT NULL,
-path    TEXT NOT NULL,
-perm    TEXT NOT NULL,
+perm    INT  NOT NULL,
 chksum  TEXT,
-xyzname TEXT NOT NULL);
-INSERT INTO planet VALUES('f','/etc/galaxy/law','644',NULL,'galaxy');
-INSERT INTO planet VALUES('f','/var/galaxy/galaxy.db','644',NULL,'galaxy');
+PRIMARY KEY (xyzname, path)
+);
+INSERT INTO planet VALUES('galaxy','/etc/galaxy/','d',644,NULL);
+INSERT INTO planet VALUES('galaxy','/etc/galaxy/law','f',644,NULL);
+INSERT INTO planet VALUES('galaxy','/var/galaxy/galaxy.db','f',644,NULL);
+INSERT INTO planet VALUES('perl7','/bin/','d',644,NULL);
+INSERT INTO planet VALUES('perl7','/bin/perl7','f',755,NULL);
 CREATE TABLE dep (
 xyzname TEXT NOT NULL,
 depname TEXT NOT NULL,
