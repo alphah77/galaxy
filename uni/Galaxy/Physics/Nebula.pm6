@@ -1,5 +1,5 @@
 use File::Find;
-use Galaxy::Physics::Xyz;
+use Galaxy::Physics::Star;
 
 class Galaxy::Physics::Nebula {
 
@@ -10,9 +10,9 @@ class Galaxy::Physics::Nebula {
 
   has Bool $.disable = False;
 
-  has Galaxy::Physics::Xyz @.xyz;
+  has Galaxy::Physics::Star @.star;
 
-  method locate (Galaxy::Physics::Xyz $xyz) { # returns Path
+  method locate (Galaxy::Physics::Star $star) { # returns Path
     
   }
 

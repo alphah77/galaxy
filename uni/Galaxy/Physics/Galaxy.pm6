@@ -3,7 +3,7 @@ use Galaxy::Physics::Gravity;
 use Galaxy::Physics::Blackhole;
 use Galaxy::Physics::Star;
 #use Galaxy::Physics::Op;
-use Galaxy::Physics::Xyz;
+use Galaxy::Physics::Star;
 use Galaxy::Physics::Dep;
 use Cro::HTTP::Client;
 
@@ -25,11 +25,11 @@ class Galaxy::Physics::Galaxy {
   #has Galaxy::Physics::Dep       %!dep;
   has %!dep;
 
-  has Galaxy::Physics::Xyz       @.xyz;
-  has Galaxy::Physics::Xyz       %!xyzs;
+  #has Galaxy::Physics::Star      @.star;
+  has Galaxy::Physics::Star      %!star;
   has Galaxy::Physics::Gravity   $!gravity;
   has Galaxy::Physics::Blackhole $!blackhole;
-  has Galaxy::Physics::Star      $.star;
+  #has Galaxy::Physics::Star      $.star;
 
 
   submethod BUILD (
@@ -45,32 +45,28 @@ class Galaxy::Physics::Galaxy {
     :$!law;
 		:$gravity;
 		:$blackhole;
-		:$star;
-		:@xyz;
 	  ) {
 
 		$!gravity   = Galaxy::Physics::Gravity.new:   |$gravity.hash;
 		$!blackhole = Galaxy::Physics::Blackhole.new: |$blackhole.hash;
-		$!star      = Galaxy::Physics::Star.new:      |$star.hash;
+		#$!star      = Galaxy::Physics::Star.new:      |$star.hash;
 
     $!db        = self!db;
-		@!xyz       = @xyz.map: -> %h { Galaxy::Physics::Xyz.new: |%h };
 		#%!dep       = self!dep;   #Revist
-		%!xyzs      = self!local-xyz;   #Revist
+		%!star      = self!local-star;   #Revist
 
     
 	}
 
 
-  method cluster(Galaxy::Physics::Xyz $xyz) {
-    $xyz.print-cluster();
+  method cluster(Galaxy::Physics::Star $star) {
+    $star.print-cluster();
 	}
 
   method stable() {
-		my @unstable = %!xyzs.values.map({ .name => .unstable  if .unstable });
-		my @stable = %!xyzs.values.map({ .name if .stable });
-    #my @cluster = %!xyzs<perl7>.print-cluster();
-    %!xyzs<perl7>.planet>>.path>>.say;
+		my @unstable = %!star.values.map({ .name => .unstable  if .unstable });
+		my @stable = %!star.values.map({ .name if .stable });
+    #%!star<perl7>.planet>>.path>>.say;
 
 
 	}
@@ -83,29 +79,29 @@ class Galaxy::Physics::Galaxy {
 
 
   # Revisit
-  method !local-xyz() {
-		my %xyz = self.select-xyz().map: -> %h { %h<name> => Galaxy::Physics::Xyz.new: |%h };
+  method !local-star() {
+		my %star = self.select-star().map: -> %h { %h<name> => Galaxy::Physics::Star.new: |%h };
     
-		%xyz.values.map({ .planet = self.select-planet(.name).map(-> %h {Galaxy::Physics::Planet.new: |%h}) });
+		%star.values.map({ .planet = self.select-planet(.name).map(-> %h {Galaxy::Physics::Planet.new: |%h}) });
 
-		%xyz.values.map({ .cluster = self.select-dep(.name).map(-> %h {Galaxy::Physics::Dep.new: |%h}) });
+		%star.values.map({ .cluster = self.select-dep(.name).map(-> %h {Galaxy::Physics::Dep.new: |%h}) });
 
-    .cluster.map({ .xyz = %xyz{.name} if .satisfy(%xyz{.name}) }) for %xyz.values;
-    #%xyz.values.map({ .cluster.map({ .satisfy(%xyz{.name}) }) }); # Revisit: Not working!
+    .cluster.map({ .star = %star{.name} if .satisfy(%star{.name}) }) for %star.values;
+    #%star.values.map({ .cluster.map({ .satisfy(%star{.name}) }) }); # Revisit: Not working!
 
-    return %xyz;
+    return %star;
 
 	}
 
-  method gravity (:@xyz) {
-    $!gravity.pull(:@xyz);
+  method gravity (:@star) {
+    $!gravity.pull(:@star);
   }
 
-  method blackhole (:@xyz) {
-    $!blackhole.suck(:@xyz);
+  method blackhole (:@star) {
+    $!blackhole.suck(:@star);
   }
 
-  method star (:@xyz) {
+  method star (:@star) {
   #  $!star;
   }
 
@@ -114,7 +110,7 @@ class Galaxy::Physics::Galaxy {
 
 
 
-	method select-xyz() {
+	method select-star() {
 		my $st = $!db.prepare(q:to/STATEMENT/);
 			SELECT name, age, core, tag, form, tail, location, chksum
 			FROM star
@@ -129,7 +125,7 @@ class Galaxy::Physics::Galaxy {
 		my $st = $!db.prepare(q:to/STATEMENT/);
 			SELECT path, type, perm
 			FROM planet
-			WHERE xyzname = $name;
+			WHERE starname = $name;
 		STATEMENT
 
 		$st.execute($name);
@@ -141,7 +137,7 @@ class Galaxy::Physics::Galaxy {
 		my $st = $!db.prepare(q:to/STATEMENT/);
 			SELECT depname AS name,  depage AS age
 			FROM dep
-			WHERE xyzname = $name;
+			WHERE starname = $name;
 		STATEMENT
 
 		$st.execute($name);

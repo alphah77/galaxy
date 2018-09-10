@@ -4,7 +4,7 @@ use Galaxy::Physics::Galaxy;
 use Galaxy::Physics::Gravity;
 use Galaxy::Physics::Blackhole;
 use Galaxy::Physics::Spacetime;
-use Galaxy::Physics::Xyz;
+use Galaxy::Physics::Star;
 use Galaxy::Physics::Nebula;
 
 class Galaxy::Physics {
@@ -16,7 +16,6 @@ class Galaxy::Physics {
   has Galaxy::Physics::Gravity   $.gravity;
   has Galaxy::Physics::Blackhole $.blackhole;
   has Galaxy::Physics::Spacetime $.spacetime;
-  has Galaxy::Physics::Xyz       @.xyz;
   has Galaxy::Physics::Nebula    @.nebulas;
 	
   submethod BUILD (:%!laws = Galaxy::Physics::Laws.initiate) {
@@ -50,7 +49,7 @@ class Galaxy::Physics {
     }
 
     multi method cmd ("galaxy", :$obj ) {
-
+      $!galaxy.stable;
     }
 
 }

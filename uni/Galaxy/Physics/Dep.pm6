@@ -5,17 +5,17 @@ class Galaxy::Physics::Dep {
   #has Str $.name is required;
   has Str $.name;
   has Any $.age;
-	has     $.xyz is rw;
+	has     $.star is rw;
 
   method satisfied(--> Bool) {
-    self.satisfy($!xyz);    
+    self.satisfy($!star);    
 	}
 
-	method satisfy($xyz --> Bool) {
-    #say "XYZ ", $xyz;
-		return False if not $xyz;
-		return False if $xyz.name !~~ $!name;
-		my $xage = Version.new($xyz.age);
+	method satisfy($star --> Bool) {
+    #say "XYZ ", $star;
+		return False if not $star;
+		return False if $star.name !~~ $!name;
+		my $xage = Version.new($star.age);
 		my $dage = Version.new($!age) if $!age;
 
 		$xage ~~ $dage;

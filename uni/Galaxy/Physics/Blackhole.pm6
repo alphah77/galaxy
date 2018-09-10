@@ -1,11 +1,11 @@
-use Galaxy::Physics::Xyz;
+use Galaxy::Physics::Star;
 
 class Galaxy::Physics::Blackhole {
 
 	has Bool $.cluster = False;
 	has Str  $.core    = chomp qx<uname -m>;
 
-  has Galaxy::Physics::Xyz @.xyz;
+  has Galaxy::Physics::Star @.star;
 
   method suck {
 
