@@ -16,19 +16,18 @@ grammar Galaxy::Grammar::Cnf {
   token nebula-laws    { <nebula-law>+    % <.nl> }
 
   proto token galaxy-law  { * }
-  token galaxy-law:sym<pretty> { <<<sym>>> }
-  token galaxy-law:sym<cool>   { <<<sym>>> }
-  token galaxy-law:sym<yolo>   { <<<sym>>> }
-  token galaxy-law:sym<core>   { <sym> <.space>* <core> }
-  token galaxy-law:sym<origin> { <sym> <.space>* <path> }
+  token galaxy-law:sym<pretty>  { <<<sym>>> }
+  token galaxy-law:sym<cool>    { <<<sym>>> }
+  token galaxy-law:sym<yolo>    { <<<sym>>> }
+  token galaxy-law:sym<cluster> { <<<sym>>> }
+  token galaxy-law:sym<core>    { <sym> <.space>* <core> }
+  token galaxy-law:sym<origin>  { <sym> <.space>* <path> }
   
   proto token gravity-law { * }
-  token gravity-law:sym<cluster> { <<<sym>>> }
   token gravity-law:sym<core>    { <sym> <.space>* <core> }
   token gravity-law:sym<origin>  { <sym> <.space>* <path> }
 
   proto token blackhole-law { * }
-  token blackhole-law:sym<cluster> { <<<sym>>> }
   token blackhole-law:sym<core>    { <sym> <.space>* <core> }
   token blackhole-law:sym<origin>  { <sym> <.space>* <path> }
 
@@ -55,7 +54,7 @@ grammar Galaxy::Grammar::Cnf {
 
   token port { <digit>+ }
 
-  token core    { 'x86_64' }
+  token core    { 'x86_64' | 'i386' }
   token value   { [<-[\s\n;#]>*] }
   token comment { \h* '#' \N* }
 

@@ -15,7 +15,7 @@ role Galaxy::Grammar::Xyz {
 
   token name   { [ <.alnum>+ <!before <dot>> ]+ % <hyphen> }
   token age    { [ [ $<agepart> = [ <.digit>+ | '*' ] ]+ % <dot> ] <plus>? }  
-  token core   { 'x86_64' }
+  token core   { 'i386' | 'x86_64' }
   token tag    { <?after 'x86_64' <hyphen>> <.alpha> <.alnum>* }  # start with alpha
   token form   { <.digit>+ } # TODO <?after <tag>>
   token tail   { 'xyz' }     # TODO <?after <form>>

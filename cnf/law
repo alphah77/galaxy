@@ -1,12 +1,10 @@
 # Galaxy
 <galaxy>
-cool
-
-#<gravity>
-#cluster
-
-<blackhole>
 cluster
+core x86_64 
+
+<gravity>
+core x86_64
 
 <nebula>
 http://galaxy.xyz:443/nebula

@@ -22,14 +22,9 @@ class Galaxy::Physics::Galaxy {
 
 	has $!db;
 
-  #has Galaxy::Physics::Dep       %!dep;
-  has %!dep;
-
-  #has Galaxy::Physics::Star      @.star;
   has Galaxy::Physics::Star      %!star;
   has Galaxy::Physics::Gravity   $!gravity;
   has Galaxy::Physics::Blackhole $!blackhole;
-  #has Galaxy::Physics::Star      $.star;
 
 
   submethod BUILD (
@@ -43,16 +38,10 @@ class Galaxy::Physics::Galaxy {
     :$!cool    = False;
     :$!pretty  = False;
     :$!law;
-		:$gravity;
-		:$blackhole;
 	  ) {
 
-		$!gravity   = Galaxy::Physics::Gravity.new:   |$gravity.hash;
-		$!blackhole = Galaxy::Physics::Blackhole.new: |$blackhole.hash;
-		#$!star      = Galaxy::Physics::Star.new:      |$star.hash;
-
     $!db        = self!db;
-		#%!dep       = self!dep;   #Revist
+
 		%!star      = self!local-star;   #Revist
 
     

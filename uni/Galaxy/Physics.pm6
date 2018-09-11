@@ -22,17 +22,23 @@ class Galaxy::Physics {
 		my $cmd = %!laws<cmd>;
 		my $obj = %!laws<obj>;
 
+
+
   	$!alien     = Galaxy::Physics::Alien.new;
-  	$!galaxy    = Galaxy::Physics::Galaxy.new:    |%!laws<galaxy>.hash;
+  	$!gravity   = Galaxy::Physics::Gravity.new:   |%!laws<gravity>.hash;
+  	$!blackhole = Galaxy::Physics::Blackhole.new:  |%!laws<blackhole>.hash;
 		$!spacetime = Galaxy::Physics::Spacetime.new: |%!laws<spacetime>.hash;
 
 		@!nebulas   = %!laws<nebulas>.map( {Galaxy::Physics::Nebula.new: |$_.hash} ) if %!laws<nebulas>:exists;
     
+  	$!galaxy    = Galaxy::Physics::Galaxy.new:    |%!laws<galaxy>.hash;
+
 		self.cmd($cmd, :$obj);
   }
 
     multi method cmd ("gravity", :$obj ) {
-      $!galaxy.gravity: :$obj;
+      #$!galaxy.gravity: :$obj;
+      $!gravity.say;
     }
 
     multi method cmd ("blackhole", :$obj ) {
@@ -49,7 +55,8 @@ class Galaxy::Physics {
     }
 
     multi method cmd ("galaxy", :$obj ) {
-      $!galaxy.stable;
+			say %!laws<galaxy>;
+      #$!galaxy.say;
     }
 
 }
