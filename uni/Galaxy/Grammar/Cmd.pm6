@@ -14,10 +14,10 @@ grammar Galaxy::Grammar::Cmd {
   rule CMD:sym<galaxy>    { <galaxy-laws>?                               <star>? <xyz>?   } # g
 
 	token galaxy    { 'galaxy' }
-	token gravity   { 'gravity'   | 'g' }
-	token blackhole { 'blackhole' | 'b' }
-	token spacetime { 'spacetime' | 'st' }
-	token star      { 'star'      | 's' }
+	token gravity   { 'gravity'            | 'g' }
+	token blackhole { 'blackhole'          | 'b' }
+	token spacetime { 'spacetime' | 'time' | 't' }
+	token star      { 'star'               | 's' }
 
   token galaxy-laws    { <galaxy-law>+    % <space> } 
   token gravity-laws   { <gravity-law>+   % <space> }
@@ -26,9 +26,9 @@ grammar Galaxy::Grammar::Cmd {
   token spacetime-laws { <spacetime-law>+ % <space> } 
 
   proto token galaxy-law  { * }
-  token galaxy-law:sym<pretty>  { <<<sym>>> | <<p>> }
-  token galaxy-law:sym<cool>    { <<<sym>>> | <<c>> }
-  token galaxy-law:sym<yolo>    { <<<sym>>> | <<y>> }
+  token galaxy-law:sym<pretty>  { <<<sym>>> | 'p' | 'ℙ' }
+  token galaxy-law:sym<cool>    { <<<sym>>> | '^.^' }
+  token galaxy-law:sym<yolo>    { <<<sym>>> | 'y' }
   token galaxy-law:sym<cluster> { <<<sym>>> }
   token galaxy-law:sym<core>    { <sym> <.space>* <core> }
   token galaxy-law:sym<origin>  { <sym> <.space>* <location> }
@@ -45,10 +45,10 @@ grammar Galaxy::Grammar::Cmd {
   token blackhole-law:sym<origin>  { <sym> <.space>* <location> }
 
   proto token star-law  { * }
-  token star-law:sym<remote> { <<<sym>>> }
+  token star-law:sym<remote> { <<<sym>>> | <<r>> }
 
   proto token spacetime-law { * }
-  token spacetime-law:sym<travel>  { <sym> <.space>* <value> }
+  token spacetime-law:sym<travel>  { [<sym> | <<t>>] <.space>* <value> }
 
   token event    { 'event' }
   token core     { 'x86_64' | 'i386' }

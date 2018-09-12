@@ -20,42 +20,52 @@ class Galaxy::Physics {
 	
   submethod BUILD (:%!laws = Galaxy::Physics::Laws.initiate) {
 		my $cmd = %!laws<cmd>;
-		my $obj = %!laws<obj>;
 
 
 
   	$!alien     = Galaxy::Physics::Alien.new;
   	$!gravity   = Galaxy::Physics::Gravity.new:   |%!laws<gravity>.hash;
-  	$!blackhole = Galaxy::Physics::Blackhole.new:  |%!laws<blackhole>.hash;
+  	$!blackhole = Galaxy::Physics::Blackhole.new: |%!laws<blackhole>.hash;
 		$!spacetime = Galaxy::Physics::Spacetime.new: |%!laws<spacetime>.hash;
 
 		@!nebulas   = %!laws<nebulas>.map( {Galaxy::Physics::Nebula.new: |$_.hash} ) if %!laws<nebulas>:exists;
     
   	$!galaxy    = Galaxy::Physics::Galaxy.new:    |%!laws<galaxy>.hash;
 
-		self.cmd($cmd, :$obj);
+		#self.cmd($cmd);
+		self."$cmd.key";
   }
 
-    multi method cmd ("gravity", :$obj ) {
+    multi method cmd ($cmd) {
+			#.say for %!laws;
+			my $key = $cmd.key;
+			$!"$key";
+			#say %!laws<gravity>;
       #$!galaxy.gravity: :$obj;
-      $!gravity.say;
+      #$!gravity.say;
     }
 
     multi method cmd ("blackhole", :$obj ) {
-      $!galaxy.blackhole: :$obj;
+			.say for %!laws;
+			#say %!laws<blackhole>;
+      #$!galaxy.blackhole: :$obj;
 
     }
 
     multi method cmd ("star", :$obj ) {
+			.say for %!laws;
+			#say %!laws<star>;
 
     }
 
     multi method cmd ("spacetime", :$obj ) {
+			.say for %!laws;
 
     }
 
     multi method cmd ("galaxy", :$obj ) {
-			say %!laws<galaxy>;
+			.say for %!laws;
+			#say %!laws<galaxy>;
       #$!galaxy.say;
     }
 
