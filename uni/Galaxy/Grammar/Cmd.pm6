@@ -10,7 +10,7 @@ grammar Galaxy::Grammar::Cmd {
   rule CMD:sym<gravity>   { <galaxy-laws>? <gravity>   <gravity-laws>?   <star>? <xyzs>   } # g
   rule CMD:sym<blackhole> { <galaxy-laws>? <blackhole> <blackhole-laws>? <star>? <xyzs>   } # b
   rule CMD:sym<spacetime> { <galaxy-laws>? <spacetime> <spacetime-laws>?         <event>? } # st
-  rule CMD:sym<star>      { <galaxy-laws>? <star>      <star-laws>?              <xyzs>   } # s
+  rule CMD:sym<star>      { <galaxy-laws>? <star>      <star-laws>?              <xyz>   } # s
   rule CMD:sym<galaxy>    { <galaxy-laws>?                               <star>? <xyz>?   } # g
 
 	token galaxy    { 'galaxy' }

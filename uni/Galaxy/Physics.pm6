@@ -37,18 +37,11 @@ class Galaxy::Physics {
   }
 
     multi method cmd ('gravity', $obj) {
-			#.say for %!laws;
-			#say %!laws<gravity>;
-      #$!galaxy.gravity: :$obj;
-      #$!gravity.say;
-			say $obj;
+      $!galaxy.gravity: :star($obj);
     }
 
     multi method cmd ("blackhole", $obj ) {
-			#.say for %!laws;
-			#say %!laws<blackhole>;
-      #$!galaxy.blackhole: :$obj;
-			say $obj;
+      $!galaxy.blackhole :star($obj);
 
     }
 
@@ -60,7 +53,7 @@ class Galaxy::Physics {
     }
 
     multi method cmd ("spacetime", $obj ) {
-			#.say for %!laws;
+      $!galaxy.spacetime :event($obj);
 			say $obj;
 
     }
@@ -68,9 +61,6 @@ class Galaxy::Physics {
     # galaxy star dispatch to "star"
     # galaxy event dispatch to "spacetime"
     multi method cmd ("galaxy", $obj ) {
-			#.say for %!laws;
-			#say %!laws<galaxy>;
-      #$!galaxy.say;
 			say $obj;
     }
 

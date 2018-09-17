@@ -82,7 +82,7 @@ class Galaxy::Physics::Galaxy {
 
 	}
 
-  method gravity (:@star) {
+  method gravity (:@star!) {
     $!gravity.pull(:@star);
   }
 

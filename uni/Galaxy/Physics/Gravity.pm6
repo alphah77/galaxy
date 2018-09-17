@@ -9,6 +9,6 @@ class Galaxy::Physics::Gravity {
   has Galaxy::Physics::Star $.star;
 
   method pull(:@star) {
-
+    @star.say
   }
 }
