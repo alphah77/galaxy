@@ -9,28 +9,29 @@ use Galaxy::Physics::Nebula;
 
 class Galaxy::Physics {
 
-  has %.laws;
+  has %.law;
 
   has Galaxy::Physics::Alien     $.alien;
   has Galaxy::Physics::Galaxy    $.galaxy;
   has Galaxy::Physics::Gravity   $.gravity;
   has Galaxy::Physics::Blackhole $.blackhole;
   has Galaxy::Physics::Spacetime $.spacetime;
-  has Galaxy::Physics::Nebula    @.nebulas;
+  has Galaxy::Physics::Nebula    @.nebula;
 	
-  submethod BUILD (:%!laws = Galaxy::Physics::Laws.initiate) {
-		my $cmd = %!laws<cmd>;
+  submethod BUILD (:%!law = Galaxy::Physics::Laws.initiate) {
+		my $cmd = %!law<cmd>;
 
 
 
   	$!alien     = Galaxy::Physics::Alien.new;
-  	$!gravity   = Galaxy::Physics::Gravity.new:   |%!laws<gravity>.hash;
-  	$!blackhole = Galaxy::Physics::Blackhole.new: |%!laws<blackhole>.hash;
-		$!spacetime = Galaxy::Physics::Spacetime.new: |%!laws<spacetime>.hash;
+  	$!gravity   = Galaxy::Physics::Gravity.new:   |%!law<gravity>.hash;
+  	$!blackhole = Galaxy::Physics::Blackhole.new: |%!law<blackhole>.hash;
+		$!spacetime = Galaxy::Physics::Spacetime.new: |%!law<spacetime>.hash;
 
-		@!nebulas   = %!laws<nebulas>.map( {Galaxy::Physics::Nebula.new: |$_.hash} ) if %!laws<nebulas>:exists;
+		@!nebula   = %!law<nebula>.map( {Galaxy::Physics::Nebula.new: |.hash} ) if %!law<nebula>:exists;
+
     
-  	$!galaxy    = Galaxy::Physics::Galaxy.new:    |%!laws<galaxy>.hash;
+  	$!galaxy    = Galaxy::Physics::Galaxy.new:    |%!law<galaxy>.hash;
 
 		#self.cmd($cmd);
 		self.cmd($cmd.key, $cmd.value);
@@ -46,8 +47,8 @@ class Galaxy::Physics {
     }
 
     multi method cmd ("star", $obj ) {
-			#.say for %!laws;
-			#say %!laws<star>;
+			#.say for %!law;
+			#say %!law<star>;
 			say $obj;
 
     }
@@ -61,11 +62,7 @@ class Galaxy::Physics {
     # galaxy star dispatch to "star"
     # galaxy event dispatch to "spacetime"
     multi method cmd ("galaxy", $obj ) {
-			say $obj;
+			say $!galaxy;
     }
-
-    #multi method cmd ("galaxy") {
-
-		#}
 
 }

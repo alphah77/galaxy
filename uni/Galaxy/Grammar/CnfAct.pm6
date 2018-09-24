@@ -1,14 +1,14 @@
 class Galaxy::Grammar::CnfAct {
-    has %!laws;
+    has %!law;
 
   method CNF($/) { 
-    make %!laws;
+    make %!law;
   }
 
-  method object:sym<galaxy>($/)    { make %!laws<galaxy>      = $<galaxy-laws>.ast    }
-  method object:sym<gravity>($/)   { make %!laws<gravity>     = $<gravity-laws>.ast   }
-  method object:sym<blackhole>($/) { make %!laws<blackhole>   = $<blackhole-laws>.ast }
-  method object:sym<nebula>($/)    { make %!laws<nebulas>.push: $<nebula-laws>.ast    }
+  method object:sym<galaxy>($/)    { make %!law<galaxy>      = $<galaxy-laws>.ast    }
+  method object:sym<gravity>($/)   { make %!law<gravity>     = $<gravity-laws>.ast   }
+  method object:sym<blackhole>($/) { make %!law<blackhole>   = $<blackhole-laws>.ast }
+  method object:sym<nebula>($/)    { make %!law<nebula>.push:  $<nebula-laws>.ast    }
 
   method galaxy-laws($/)    { make $<galaxy-law>».ast.hash    }
   method gravity-laws($/)   { make $<gravity-law>».ast.hash   }

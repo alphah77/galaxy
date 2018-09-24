@@ -9,3 +9,5 @@ core x86_64
 <nebula>
 http://galaxy.xyz:443/nebula
 
+#<nebula>
+#http://localhost:80/nebula

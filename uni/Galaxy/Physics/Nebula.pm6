@@ -10,7 +10,7 @@ class Galaxy::Physics::Nebula {
 
   has Bool $.disable = False;
 
-  has Galaxy::Physics::Star @.star;
+#  has Galaxy::Physics::Star @.star;
 
   method locate (Galaxy::Physics::Star $star) { # returns Path
     

@@ -1,4 +1,5 @@
 use DBIish;
+use Galaxy::Physics::Nebula;
 use Galaxy::Physics::Gravity;
 use Galaxy::Physics::Blackhole;
 use Galaxy::Physics::Star;
@@ -22,10 +23,11 @@ class Galaxy::Physics::Galaxy {
 
 	has $!db;
 
-  has Galaxy::Physics::Star      %!star;
-  has Galaxy::Physics::Gravity   $!gravity;
-  has Galaxy::Physics::Blackhole $!blackhole;
+  has Galaxy::Physics::Nebula    @.nebula;
+  has Galaxy::Physics::Gravity   $.gravity;
+  has Galaxy::Physics::Blackhole $.blackhole;
 
+  has Galaxy::Physics::Star      %!star;
 
   submethod BUILD (
     :$!name    = chomp qx<hostname>;
@@ -90,9 +92,9 @@ class Galaxy::Physics::Galaxy {
     $!blackhole.suck(:@star);
   }
 
-  method star (:@star) {
+  #method star (:@star) {
   #  $!star;
-  }
+  #}
 
 
 
