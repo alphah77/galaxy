@@ -39,6 +39,9 @@ class Galaxy::Physics::Galaxy {
     :$!yolo    = False;
     :$!cool    = False;
     :$!pretty  = False;
+    :$!gravity;
+    :$!blackhole;
+    :@!nebula;
     :$!law;
 	  ) {
 
