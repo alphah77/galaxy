@@ -1,4 +1,4 @@
-class Physics::Alien {
+class Alien {
   has Int $.id      = +$*USER;
   has Str $.name    = ~$*USER;
   has IO  $.home    = $*HOME;

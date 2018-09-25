@@ -1,6 +1,6 @@
-#use Physics::Op;
+#use Op;
 
-class Physics::Dep {
+class Dep {
 
   #has Str $.name is required;
   has Str $.name;

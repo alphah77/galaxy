@@ -1,53 +1,51 @@
-use Physics::Laws;
-use Physics::Alien;
-use Physics::Galaxy;
-use Physics::Gravity;
-use Physics::Blackhole;
-use Physics::Spacetime;
-use Physics::Star;
-use Physics::Nebula;
+use Physics::Law;
+use Alien;
+use Galaxy;
+use Gravity;
+use Blackhole;
+use Spacetime;
+use Star;
+use Nebula;
 
 class Physics {
 
   has %.law;
 
-  has Physics::Alien     $.alien;
-  has Physics::Galaxy    $.galaxy;
-  has Physics::Gravity   $.gravity;
-  has Physics::Blackhole $.blackhole;
-  has Physics::Spacetime $.spacetime;
-  has Physics::Nebula    @.nebula;
+  has Alien     $.alien;
+  has Galaxy    $.galaxy;
+  has Gravity   $.gravity;
+  has Blackhole $.blackhole;
+  has Spacetime $.spacetime;
+  has Nebula    @.nebula;
 	
-  submethod BUILD (:%!law = Physics::Laws.initiate) {
+  submethod BUILD (:%!law = Physics::Law.initiate) {
 		my $cmd = %!law<cmd>;
 
-  	$!alien     = Physics::Alien.new;
-  	$!gravity   = Physics::Gravity.new:   |%!law<gravity>.hash;
-  	$!blackhole = Physics::Blackhole.new: |%!law<blackhole>.hash;
-		$!spacetime = Physics::Spacetime.new: |%!law<spacetime>.hash;
+  	$!alien     = Alien.new;
+  	$!gravity   = Gravity.new:   |%!law<gravity>.hash;
+  	$!blackhole = Blackhole.new: |%!law<blackhole>.hash;
+		$!spacetime = Spacetime.new: |%!law<spacetime>.hash;
 
-		@!nebula    = %!law<nebula>.map( {Physics::Nebula.new: |.hash} ) if %!law<nebula>:exists;
+		@!nebula    = %!law<nebula>.map( {Nebula.new: |.hash} ) if %!law<nebula>:exists;
 
-	  push %!law<galaxy>, (:$!gravity, :$!blackhole, :@!nebula);
-
-  	$!galaxy    = Physics::Galaxy.new(|%!law<galaxy>);
+  	$!galaxy    = Galaxy.new(|%!law<galaxy>.push: (:$!gravity, :$!blackhole, :@!nebula));
 
 		self.cmd($cmd.key, $cmd.value);
   }
 
     multi method cmd ('gravity', $obj) {
-		  say <gravity>;
+		  #say <gravity>;
       #$!galaxy.gravity: :star($obj);
     }
 
     multi method cmd ('blackhole', $obj ) {
-		  say <blackhole>;
+		  #say <blackhole>;
       #$!galaxy.blackhole :star($obj);
 
     }
 
     multi method cmd ('star', $obj ) {
-		  say <star>;
+		  #say <star>;
 			#.say for %!law;
 			#say %!law<star>;
 			#say $obj;
@@ -55,7 +53,7 @@ class Physics {
     }
 
     multi method cmd ('spacetime', $obj ) {
-		  say <spacetime>;
+		  #say <spacetime>;
       #$!galaxy.spacetime :event($obj);
 			#say $obj;
 
@@ -64,8 +62,10 @@ class Physics {
     # galaxy star dispatch to "star"
     # galaxy event dispatch to "spacetime"
     multi method cmd ('galaxy', $obj ) {
-		  say <galaxy>;
-			samewith('star', $obj) if $obj ~~ Hash;
+		  #say <galaxy>;
+			samewith('star',      $obj) if $obj ~~ Hash;
+			samewith('spacetime', $obj) if $obj ~~ 'event';
+
 			say $!galaxy;
     }
 

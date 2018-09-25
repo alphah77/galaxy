@@ -1,4 +1,4 @@
-class Physics::Planet {
+class Planet {
   
 	#has IO  $.path;
 	has     $.path;

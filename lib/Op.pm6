@@ -1,11 +1,11 @@
-#use Physics::Dep;
-#use Physics::Star;
+#use Dep;
+#use Star;
 
 #Bug Circular module dependency
-unit module Physics::Op;
+unit module Op;
 
 # revisit: custom Op name
-#sub infix:<satisfy> (Physics::Star $star, Physics::Dep $dep) is export {
+#sub infix:<satisfy> (Star $star, Dep $dep) is export {
 sub infix:<satisfy> ($star, $dep) is export {
 	return False if not $star;
 	return False if $star.name !~~ $dep.name;

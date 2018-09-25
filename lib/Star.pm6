@@ -1,9 +1,9 @@
-#use Physics::Op;
-use Physics::Dep;
-use Physics::Planet;
+#use Op;
+use Dep;
+use Planet;
 
-# Bug: mv Physics::OP.satisfy .
-#multi sub infix:<satisfy> ($star, Physics::Dep $dep) {
+# Bug: mv OP.satisfy .
+#multi sub infix:<satisfy> ($star, Dep $dep) {
 #  my $xage = Version.new($star.age);
 #  my $dage = Version.new($dep.age) if $dep.age;
 #	return False if $star.name !~~ $dep.name;
@@ -11,7 +11,7 @@ use Physics::Planet;
   #return $star if $xage ~~ $dage;
 #}
 
-class Physics::Star {
+class Star {
 
   has Str     $.name is required;
   has Str     $.age;
@@ -21,8 +21,8 @@ class Physics::Star {
   has Str     $.tail;
   has Any     $.location;
   has Any     $.chksum;
-  has Physics::Dep    @.cluster;
-  has Physics::Planet @.planet;
+  has Dep    @.cluster;
+  has Planet @.planet;
 
   method unstable() {
     @!cluster.map(-> $d { $d if not $d.satisfied });

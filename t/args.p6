@@ -1,8 +1,8 @@
 #!/usr/bin/env perl6
 
 use lib <uni>;
-use Galaxy::Alien;
-use Galaxy::Phy::Phy;
+use Alien;
+use Physics;
 use Test;
 
 my @tests = (
@@ -40,8 +40,8 @@ my @tests = (
 
 
 for @tests -> [$string, $should-parse, $message] {
-my $alien   = Galaxy::Alien.new;
-my $physics = Galaxy::Phy::Phy.new: cmd => $message, cnf => $alien.cnf;
+my $alien   = Alien.new;
+my $physics = Physics.new: cmd => $message, cnf => $alien.cnf;
   my $m = $physics.create;
   #die unless $m; 
   my $result = ?$m;   # make boolean

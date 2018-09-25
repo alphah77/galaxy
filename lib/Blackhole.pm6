@@ -1,12 +1,12 @@
-use Physics::Star;
+use Star;
 
-class Physics::Blackhole {
+class Blackhole {
 
 	has IO  $.origin;
 
 	has Str $.core = chomp qx<uname -m>;
 
-  has Physics::Star @.star;
+  has Star @.star;
 
   method suck {
 

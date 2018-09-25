@@ -1,7 +1,7 @@
 use File::Find;
-use Physics::Star;
+use Star;
 
-class Physics::Nebula {
+class Nebula {
 
   has IO   $.path    is required;
   has Int  $.port    is required;
@@ -10,9 +10,9 @@ class Physics::Nebula {
 
   has Bool $.disable = False;
 
-#  has Physics::Star @.star;
+#  has Star @.star;
 
-  method locate (Physics::Star $star) { # returns Path
+  method locate (Star $star) { # returns Path
     
   }
 

@@ -4,12 +4,10 @@ use Grammar::CmdAct;
 use Grammar::CnfAct;
 use Hash::Merge::Augment;
 
-
-role Physics::Laws {
-
+role Physics::Law {
 
   method initiate {
-    my %laws;
+    my %law;
     my $cmd = @*ARGS;
     my $cnf = </etc/galaxy/law>.IO;
     my $nbl = </etc/galaxy/nebula>.IO;
@@ -21,8 +19,8 @@ role Physics::Laws {
     my %cnf = self!config(%cmd<galaxy><law>);
 
 
-    %laws.merge: %cnf.merge: %cmd; 
-    return %laws;
+    %law.merge: %cnf.merge: %cmd; 
+    return %law;
  	}
 
   submethod !command($cmd) {
