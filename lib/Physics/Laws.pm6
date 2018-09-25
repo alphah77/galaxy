@@ -1,11 +1,11 @@
-use Galaxy::Grammar::Cmd;
-use Galaxy::Grammar::Cnf;
-use Galaxy::Grammar::CmdAct;
-use Galaxy::Grammar::CnfAct;
+use Grammar::Cmd;
+use Grammar::Cnf;
+use Grammar::CmdAct;
+use Grammar::CnfAct;
 use Hash::Merge::Augment;
 
 
-role Galaxy::Physics::Laws {
+role Physics::Laws {
 
 
   method initiate {
@@ -27,18 +27,18 @@ role Galaxy::Physics::Laws {
 
   submethod !command($cmd) {
     my $rule = <CMD>;
-    my $actions = Galaxy::Grammar::CmdAct;
+    my $actions = Grammar::CmdAct;
 
-    my $m = Galaxy::Grammar::Cmd.parse: $cmd, :$rule, :$actions; 
+    my $m = Grammar::Cmd.parse: $cmd, :$rule, :$actions; 
 		self.help: "cmd" unless $m;
 		return $m.ast;
   }
 
   submethod !config($law) {
     my $rule = <CNF>;
-    my $actions = Galaxy::Grammar::CnfAct.new;
+    my $actions = Grammar::CnfAct.new;
 
-    my $m = Galaxy::Grammar::Cnf.parsefile: $law, :$rule, :$actions; 
+    my $m = Grammar::Cnf.parsefile: $law, :$rule, :$actions; 
 		self.help: "cnf" unless $m;
     return $m.ast;
   }

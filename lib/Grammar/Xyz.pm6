@@ -1,4 +1,4 @@
-role Galaxy::Grammar::Xyz {
+role Grammar::Xyz {
 
   token xyzs    { <xyz>+ % <space> }
 

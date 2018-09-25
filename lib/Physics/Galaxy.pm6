@@ -1,14 +1,14 @@
 use DBIish;
-use Galaxy::Physics::Nebula;
-use Galaxy::Physics::Gravity;
-use Galaxy::Physics::Blackhole;
-use Galaxy::Physics::Star;
-#use Galaxy::Physics::Op;
-use Galaxy::Physics::Star;
-use Galaxy::Physics::Dep;
+use Physics::Nebula;
+use Physics::Gravity;
+use Physics::Blackhole;
+use Physics::Star;
+#use Physics::Op;
+use Physics::Star;
+use Physics::Dep;
 use Cro::HTTP::Client;
 
-class Galaxy::Physics::Galaxy {
+class Physics::Galaxy {
   has Str  $.name;
   has Str  $.core;
   has IO   $.origin;
@@ -23,11 +23,11 @@ class Galaxy::Physics::Galaxy {
 
 	has $!db;
 
-  has Galaxy::Physics::Nebula    @.nebula;
-  has Galaxy::Physics::Gravity   $.gravity;
-  has Galaxy::Physics::Blackhole $.blackhole;
+  has Physics::Nebula    @.nebula;
+  has Physics::Gravity   $.gravity;
+  has Physics::Blackhole $.blackhole;
 
-  has Galaxy::Physics::Star      %!star;
+  has Physics::Star      %!star;
 
   submethod BUILD (
     :$!name    = chomp qx<hostname>;
@@ -53,7 +53,7 @@ class Galaxy::Physics::Galaxy {
 	}
 
 
-  method cluster(Galaxy::Physics::Star $star) {
+  method cluster(Physics::Star $star) {
     $star.print-cluster();
 	}
 
@@ -74,11 +74,11 @@ class Galaxy::Physics::Galaxy {
 
   # Revisit
   method !local-star() {
-		my %star = self.select-star().map: -> %h { %h<name> => Galaxy::Physics::Star.new: |%h };
+		my %star = self.select-star().map: -> %h { %h<name> => Physics::Star.new: |%h };
     
-		%star.values.map({ .planet = self.select-planet(.name).map(-> %h {Galaxy::Physics::Planet.new: |%h}) });
+		%star.values.map({ .planet = self.select-planet(.name).map(-> %h {Physics::Planet.new: |%h}) });
 
-		%star.values.map({ .cluster = self.select-dep(.name).map(-> %h {Galaxy::Physics::Dep.new: |%h}) });
+		%star.values.map({ .cluster = self.select-dep(.name).map(-> %h {Physics::Dep.new: |%h}) });
 
     .cluster.map({ .star = %star{.name} if .satisfy(%star{.name}) }) for %star.values;
     #%star.values.map({ .cluster.map({ .satisfy(%star{.name}) }) }); # Revisit: Not working!

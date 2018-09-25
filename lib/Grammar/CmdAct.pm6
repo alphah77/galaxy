@@ -1,7 +1,7 @@
-use Galaxy::Grammar::XyzAct;
+use Grammar::XyzAct;
 
-class Galaxy::Grammar::CmdAct {
-  also does Galaxy::Grammar::XyzAct;
+class Grammar::CmdAct {
+  also does Grammar::XyzAct;
 
 
   method CMD:sym<gravity>($/) { 

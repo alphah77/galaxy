@@ -1,7 +1,7 @@
 #!/usr/bin/env perl6
-use lib <uni>;
-use Galaxy::Physics;
+use lib <lib>;
+use Physics;
 
-my $physics   = Galaxy::Physics.new;
+my $physics   = Physics.new;
 #$physics.galaxy.gravity;
 #say $physics.laws;

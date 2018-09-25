@@ -1,6 +1,6 @@
-#use Galaxy::Physics::Op;
+#use Physics::Op;
 
-class Galaxy::Physics::Dep {
+class Physics::Dep {
 
   #has Str $.name is required;
   has Str $.name;

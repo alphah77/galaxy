@@ -1,4 +1,4 @@
-role Galaxy::Grammar::XyzAct {
+role Grammar::XyzAct {
 
   method xyzs($/) { make $<xyz>».ast  }
 

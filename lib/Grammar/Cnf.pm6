@@ -1,6 +1,6 @@
 #use Grammar::Tracer;
 # TODO: Fix spaces around rules;
-grammar Galaxy::Grammar::Cnf {
+grammar Grammar::Cnf {
 
   token CNF { <.nl>* <object>* %% <.nl> }
 

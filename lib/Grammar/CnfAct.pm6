@@ -1,4 +1,4 @@
-class Galaxy::Grammar::CnfAct {
+class Grammar::CnfAct {
     has %!law;
 
   method CNF($/) { 

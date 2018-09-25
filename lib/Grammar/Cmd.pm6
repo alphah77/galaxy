@@ -1,10 +1,10 @@
 #no precompilation;
 #use Grammar::Tracer;
 
-use Galaxy::Grammar::Xyz;
+use Grammar::Xyz;
 
-grammar Galaxy::Grammar::Cmd {
-  also does Galaxy::Grammar::Xyz;
+grammar Grammar::Cmd {
+  also does Grammar::Xyz;
 
   proto token CMD { * } # ordere is important
   rule CMD:sym<gravity>   { <galaxy-laws>? <gravity>   <gravity-laws>?   <star>? <xyzs>   } # g

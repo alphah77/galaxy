@@ -1,4 +1,4 @@
-class Galaxy::Physics::Spacetime {
+class Physics::Spacetime {
 
   has @event;
 
