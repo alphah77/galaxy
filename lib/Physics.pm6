@@ -33,12 +33,12 @@ class Physics {
 		self.cmd($cmd.key, $cmd.value);
   }
 
-    multi method cmd ('gravity', $obj) {
+    multi method cmd ('gravity', @obj) {
 		  #say <gravity>;
-      #$!galaxy.gravity: :star($obj);
+      $!galaxy.gravity: :xyz(@obj);
     }
 
-    multi method cmd ('blackhole', $obj ) {
+    multi method cmd ('blackhole', @obj ) {
 		  #say <blackhole>;
       #$!galaxy.blackhole :star($obj);
 

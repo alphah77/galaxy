@@ -1,6 +1,7 @@
 #use Op;
-use Dep;
-use Planet;
+use Star::Xyz;
+use Star::Dep;
+use Star::Planet;
 
 # Bug: mv OP.satisfy .
 #multi sub infix:<satisfy> ($star, Dep $dep) {
@@ -12,17 +13,11 @@ use Planet;
 #}
 
 class Star {
+  also does Star::Xyz;
 
-  has Str     $.name is required;
-  has Str     $.age;
-  has Str     $.tag;
-  has Str     $.core;
-  has Int     $.form;
-  has Str     $.tail;
-  has Any     $.location;
-  has Any     $.chksum;
-  has Dep    @.cluster;
-  has Planet @.planet;
+  has Star::Dep     @.cluster;
+  has Star::Planet  @.planet;
+
 
   method unstable() {
     @!cluster.map(-> $d { $d if not $d.satisfied });

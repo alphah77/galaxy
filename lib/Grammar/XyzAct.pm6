@@ -1,3 +1,5 @@
+use Star;
+
 role Grammar::XyzAct {
 
   method xyzs($/) { make $<xyz>».ast  }
@@ -12,7 +14,7 @@ role Grammar::XyzAct {
     %s<tag>  = $<tag>.ast  if defined $<tag>;
     %s<tail> = $<tail>.ast if defined $<tail>;
 
-    make %s;
+    make Star::Xyz.new(|%s);
   }
 
   method name($/) { make $/.Str }

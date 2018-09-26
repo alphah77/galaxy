@@ -2,10 +2,8 @@ use DBIish;
 use Nebula;
 use Gravity;
 use Blackhole;
-use Planet;
 #use Op;
 use Star;
-use Dep;
 use Cro::HTTP::Client;
 
 class Galaxy {
@@ -76,9 +74,9 @@ class Galaxy {
   method !local-star() {
 		my %star = self.select-star().map: -> %h { %h<name> => Star.new: |%h };
     
-		%star.values.map({ .planet = self.select-planet(.name).map(-> %h {Planet.new: |%h}) });
+		%star.values.map({ .planet = self.select-planet(.name).map(-> %h {Star::Planet.new: |%h}) });
 
-		%star.values.map({ .cluster = self.select-dep(.name).map(-> %h {Dep.new: |%h}) });
+		%star.values.map({ .cluster = self.select-dep(.name).map(-> %h {Star::Dep.new: |%h}) });
 
     .cluster.map({ .star = %star{.name} if .satisfy(%star{.name}) }) for %star.values;
     #%star.values.map({ .cluster.map({ .satisfy(%star{.name}) }) }); # Revisit: Not working!
@@ -87,8 +85,12 @@ class Galaxy {
 
 	}
 
-  method gravity (:@star!) {
-    $!gravity.pull(:@star);
+  method gravity (:@xyz!) {
+
+		for @xyz -> $xyz {
+      say %!star{$xyz.name}.name if %!star{$xyz.name}:exists;
+		}
+    #$!gravity.pull(:@star);
   }
 
   method blackhole (:@star) {

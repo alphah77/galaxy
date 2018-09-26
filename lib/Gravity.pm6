@@ -9,6 +9,6 @@ class Gravity {
   has Star $.star;
 
   method pull(:@star) {
-    @star.say
+    say <pull>, @star;
   }
 }
