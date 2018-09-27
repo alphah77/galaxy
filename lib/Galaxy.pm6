@@ -1,5 +1,5 @@
 use DBIish;
-use Nebula;
+use Nebula::Way;
 use Gravity;
 use Blackhole;
 #use Op;
@@ -21,9 +21,9 @@ class Galaxy {
 
 	has $!db;
 
-  has Nebula    @.nebula;
-  has Gravity   $.gravity;
-  has Blackhole $.blackhole;
+  has Nebula::Way @.nebula;
+  has Gravity     $.gravity;
+  has Blackhole   $.blackhole;
 
   has Star      %!star;
 
@@ -86,9 +86,13 @@ class Galaxy {
 	}
 
   method gravity (:@xyz!) {
-
+    
 		for @xyz -> $xyz {
-      say %!star{$xyz.name}.name if %!star{$xyz.name}:exists;
+		  $xyz.core //= $!core;
+		  my @cand = @!nebula>>.cand($xyz);
+			@cand.unique(:with(&[eqv]))>>.say;
+		  
+      #say %!star{$xyz.name}.name if %!star{$xyz.name}:exists;
 		}
     #$!gravity.pull(:@star);
   }

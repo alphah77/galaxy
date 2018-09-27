@@ -40,7 +40,7 @@ grammar Grammar::Cnf {
   token proto:sym<http>  { <sym> }
   token proto:sym<ftp>   { <sym> }
 
-  token url { <proto> <colon> <slash> <slash> <remote> [<colon> <port>]? <path>  }
+  token url { <proto> <colon> <slash> <slash> <remote> [<colon> <port>]? }
 
   token name { \w+ }
   token path { [ <slash> | <dotslash> ]? [\w+]+ %% <slash> }   # Path

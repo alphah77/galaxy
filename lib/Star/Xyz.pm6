@@ -2,7 +2,7 @@ role Star::Xyz {
 
   has Str     $.name is required;
   has Version $.age;
-  has Str     $.core;
+  has Str     $.core is rw;
   has Int     $.form;
   has Str     $.tag;
   has Str     $.tail;

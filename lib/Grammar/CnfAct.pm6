@@ -1,3 +1,5 @@
+use Cro::Uri;
+
 class Grammar::CnfAct {
     has %!law;
 
@@ -32,12 +34,7 @@ class Grammar::CnfAct {
   method nebula-law:sym<url>($/) { make $<url>.ast }
 
   method url($/) {
-    make {
-			path   => $<path>.IO,
-			port   => $<port>.Int,
-			proto  => $<proto>.Str,
-			remote => $<remote>.Str,
-    }
+    make { url => Cro::Uri.parse($/.Str)}
   } 
 
   method name($/)   { make $/.Str }
