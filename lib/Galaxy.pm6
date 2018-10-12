@@ -52,13 +52,10 @@ class Galaxy {
 
 
   method cluster(Star $star) {
-    $star.print-cluster();
+    $star.print-dep();
 	}
 
   method stable() {
-		my @unstable = %!star.values.map({ .name => .unstable  if .unstable });
-		my @stable = %!star.values.map({ .name if .stable });
-    #%!star<perl7>.planet>>.path>>.say;
 
 
 	}
@@ -72,17 +69,14 @@ class Galaxy {
 
   # Revisit
   method !local-star() {
-		my %star = self.select-star().map: -> %h { %h<name> => Star.new: |%h };
+    my %star;
+
+		%star = self.select-star().map: -> %h { %h<name> => Star.new: |%h };
     
 		%star.values.map({ .planet = self.select-planet(.name).map(-> %h {Star::Planet.new: |%h}) });
-
-		%star.values.map({ .cluster = self.select-dep(.name).map(-> %h {Star::Dep.new: |%h}) });
-
-    .cluster.map({ .star = %star{.name} if .satisfy(%star{.name}) }) for %star.values;
-    #%star.values.map({ .cluster.map({ .satisfy(%star{.name}) }) }); # Revisit: Not working!
+		%star.values.map({ .dep = self.select-dep(.name).map(-> %h {Star::Dep.new: |%h}) });
 
     return %star;
-
 	}
 
   method gravity (:@xyz!) {
@@ -92,9 +86,7 @@ class Galaxy {
 
 			say  @cand;
 		  
-      #say %!star{$xyz.name}.name if %!star{$xyz.name}:exists;
 		}
-    #$!gravity.pull(:@star);
   }
 
   method blackhole (:@star) {

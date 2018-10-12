@@ -1,3 +1,5 @@
+use Star::Dep;
+
 role Star::Xyz {
 
   has Str     $.name is required;
@@ -9,6 +11,7 @@ role Star::Xyz {
 	has Any     $.chksum;   # Chksum
   has Any     $.location; # Url
 
+	has Star::Dep @.dep;
 
   submethod BUILD (
     Str :$!name;
@@ -19,8 +22,11 @@ role Star::Xyz {
     Str :$!tail;
     Any :$!chksum;
     Any :$!location;
+		    :@dep;
     ) {
 
     $!age  := Version.new: $age if $age;
+
+		@!dep  = @dep.map: -> %h { Star::Dep.new: |%h } if @dep;
 	}
 }
