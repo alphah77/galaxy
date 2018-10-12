@@ -4,7 +4,7 @@ use Star::Xyz;
 class Star::Dep {
   also does Star::Xyz;
 
-	has $.star is rw;
+	has $.star is rw; # is it needed!
 
   method satisfied(--> Bool) {
     self.satisfy($!star);    

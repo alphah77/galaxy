@@ -86,11 +86,11 @@ class Galaxy {
 	}
 
   method gravity (:@xyz!) {
-    
 		for @xyz -> $xyz {
 		  $xyz.core //= $!core;
-		  my @cand = @!nebula>>.cand($xyz);
-			@cand.unique(:with(&[eqv]))>>.say;
+		  my @cand = @!nebula>>.cand($xyz).unique(:with(&[eqv])).flat;
+
+			say  @cand;
 		  
       #say %!star{$xyz.name}.name if %!star{$xyz.name}:exists;
 		}
