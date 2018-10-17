@@ -25,7 +25,7 @@ class Galaxy {
   has Gravity     $.gravity;
   has Blackhole   $.blackhole;
 
-  has Star      %!star;
+  has Star      %!stars;
 
   submethod BUILD (
     :$!name    = chomp qx<hostname>;
@@ -45,19 +45,14 @@ class Galaxy {
 
     $!db        = self!db;
 
-		%!star      = self!local-star;   #Revist
+		%!stars      = self!local-stars;   #Revist
 
     
 	}
 
 
-  method cluster(Star $star) {
-    $star.print-dep();
-	}
-
   method stable() {
-
-
+   #%!stars<perl7>.cluster;
 	}
 
 	method !db() {
@@ -66,26 +61,32 @@ class Galaxy {
 		return $!db;
 	}
 
+  method star($xyz) {
+	  say %!stars{$xyz.name};
+	}
+
 
   # Revisit
-  method !local-star() {
-    my %star;
+  method !local-stars() {
+    my %stars;
 
-		%star = self.select-star().map: -> %h { %h<name> => Star.new: |%h };
+		%stars = self.select-stars().map: -> %h { %h<name> => Star.new: |%h };
     
-		%star.values.map({ .planet = self.select-planet(.name).map(-> %h {Star::Planet.new: |%h}) });
-		%star.values.map({ .dep = self.select-dep(.name).map(-> %h {Star::Dep.new: |%h}) });
+		%stars.values.map({ .planet  = self.select-planet(.name).map(-> %h {Star::Planet.new: |%h}) });
+		%stars.values.map({ .cluster = self.select-cluster(.name).map(-> %h {Star::Xyz.new: |%h}) });
 
-    return %star;
+    return %stars;
 	}
 
   method gravity (:@xyz!) {
 		for @xyz -> $xyz {
 		  $xyz.core //= $!core;
 		  my @cand = @!nebula>>.cand($xyz).unique(:with(&[eqv])).flat;
-
-			say  @cand;
-		  
+      
+			for @cand -> $xyz {
+			  self.cluster: $xyz;
+			  #say  @cand;
+		  }
 		}
   }
 
@@ -100,9 +101,14 @@ class Galaxy {
 
 
 
+  method cluster($xyz) {
+
+		self.cluster($_) for $xyz.cluster;
+		say $xyz.name;
+	}
 
 
-	method select-star() {
+	method select-stars() {
 		my $st = $!db.prepare(q:to/STATEMENT/);
 			SELECT name, age, core, tag, form, tail, location, chksum
 			FROM star
@@ -110,7 +116,6 @@ class Galaxy {
 
 		$st.execute;
 		return $st.allrows(:array-of-hash);
-
 	}
 
 	method select-planet($name) {
@@ -125,10 +130,10 @@ class Galaxy {
 	}
 
 	#Revist %h<age> eq Any
-	method select-dep($name) {
+	method select-cluster($name) {
 		my $st = $!db.prepare(q:to/STATEMENT/);
 			SELECT depname AS name,  depage AS age
-			FROM dep
+			FROM cluster
 			WHERE starname = $name;
 		STATEMENT
 

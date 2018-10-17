@@ -11,7 +11,7 @@ role Star::Xyz {
 	has Any     $.chksum;   # Chksum
   has Any     $.location; # Url
 
-	has Star::Dep @.dep;
+	has Star::Xyz @.cluster;
 
   submethod BUILD (
     Str :$!name;
@@ -22,11 +22,11 @@ role Star::Xyz {
     Str :$!tail;
     Any :$!chksum;
     Any :$!location;
-		    :@dep;
+		    :@cluster;
     ) {
 
     $!age  := Version.new: $age if $age;
 
-		@!dep  = @dep.map: -> %h { Star::Dep.new: |%h } if @dep;
+		@!cluster  = @cluster.map: -> %h { Star::Xyz.new: |%h } if @cluster;
 	}
 }

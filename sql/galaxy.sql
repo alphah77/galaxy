@@ -28,12 +28,12 @@ INSERT INTO planet VALUES('galaxy','/etc/galaxy/law','f',644,NULL);
 INSERT INTO planet VALUES('galaxy','/var/galaxy/galaxy.db','f',644,NULL);
 INSERT INTO planet VALUES('perl7','/bin/','d',644,NULL);
 INSERT INTO planet VALUES('perl7','/bin/perl7','f',755,NULL);
-CREATE TABLE dep (
+CREATE TABLE IF NOT EXISTS "cluster" (
 starname TEXT NOT NULL,
 depname TEXT NOT NULL,
 depage  TEXT);
-INSERT INTO dep VALUES('rakudo','galaxy','0.0.7+');
-INSERT INTO dep VALUES('perl6','rakudo',NULL);
-INSERT INTO dep VALUES('perl7','rakudo','0.0.4+');
-INSERT INTO dep VALUES('perl7','rakudo-star','0.0.2+');
+INSERT INTO cluster VALUES('rakudo','galaxy','0.0.7+');
+INSERT INTO cluster VALUES('perl6','rakudo',NULL);
+INSERT INTO cluster VALUES('perl7','rakudo','0.0.4+');
+INSERT INTO cluster VALUES('perl7','rakudo-star','0.0.2+');
 COMMIT;
