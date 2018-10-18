@@ -20,18 +20,17 @@ class Grammar::CnfAct {
   method galaxy-law:sym<pretty>($/) { make $<sym>.Str => True }
   method galaxy-law:sym<cool>($/)   { make $<sym>.Str => True }
   method galaxy-law:sym<yolo>($/)   { make $<sym>.Str => True }
-  method galaxy-law:sym<cluster>($/){ make $<sym>.Str => True }
   method galaxy-law:sym<core>($/)   { make $<sym>.Str => $<core>.ast }
   method galaxy-law:sym<origin>($/) { make $<sym>.Str => $<path>.ast }
 
-  method gravity-law:sym<core>($/)      { make $<sym>.Str => $<core>.ast }
-  method gravity-law:sym<origin>($/)    { make $<sym>.Str => $<path>.ast }
+  method gravity-law:sym<cluster>($/) { make $<sym>.Str => True }
+  method gravity-law:sym<origin>($/)  { make $<sym>.Str => $<path>.ast }
 
-  method blackhole-law:sym<core>($/)    { make $<sym>.Str => $<core>.ast }
+  method blackhole-law:sym<cluster>($/) { make $<sym>.Str => True }
   method blackhole-law:sym<origin>($/)  { make $<sym>.Str => $<path>.ast }
 
-  method nebula-law:sym<disable>($/)  { make $<sym>.Str => True }
-  method nebula-law:sym<url>($/) { make $<url>.ast }
+  method nebula-law:sym<url>($/)     { make $<url>.ast }
+  method nebula-law:sym<disable>($/) { make $<sym>.Str => True }
 
   method url($/) {
     make { url => Cro::Uri.parse($/.Str)}

@@ -37,8 +37,8 @@ class Galaxy {
     :$!yolo    = False;
     :$!cool    = False;
     :$!pretty  = False;
-    :$!gravity;
-    :$!blackhole;
+    #:$!gravity;
+    #:$!blackhole;
     :@!nebula;
     :$!law;
 	  ) {
@@ -61,11 +61,6 @@ class Galaxy {
 		return $!db;
 	}
 
-  method star($xyz) {
-	  say %!stars{$xyz.name};
-	}
-
-
   # Revisit
   method !local-stars() {
     my %stars;
@@ -78,21 +73,32 @@ class Galaxy {
     return %stars;
 	}
 
-  method gravity (:@xyz!) {
-		for @xyz -> $xyz {
-		  $xyz.core //= $!core;
-		  my @cand = @!nebula>>.cand($xyz).unique(:with(&[eqv])).flat;
-      
-			for @cand -> $xyz {
-			  self.cluster: $xyz;
-			  #say  @cand;
-		  }
-		}
-  }
+	method star (*%opt) {
+	  say %opt
+	}
 
-  method blackhole (:@star) {
-    $!blackhole.suck(:@star);
-  }
+	method planet ($planet) {
+
+	}
+
+  method gravity (*%opt) {
+	  say %opt;
+	}
+
+  method blackhole (*%opt) {
+	  say %opt;
+	}
+  #method gravity (:@xyz!) {
+	#	for @xyz -> $xyz {
+	#	  $xyz.core //= $!core;
+	#	  my @cand = @!nebula>>.cand($xyz).unique(:with(&[eqv])).flat;
+  #    
+	#		for @cand -> $xyz {
+	#		  self.cluster: $xyz;
+	#		  #say  @cand;
+	#	  }
+	#	}
+  #}
 
   #method star (:@star) {
   #  $!star;
@@ -101,12 +107,14 @@ class Galaxy {
 
 
 
-  method cluster($xyz) {
-
-		self.cluster($_) for $xyz.cluster;
-		say $xyz.name;
+  method cluster($star) {
+		self.cluster($_) for $star.cluster;
+		say $star.name;
 	}
 
+  method smart {
+    
+	}
 
 	method select-stars() {
 		my $st = $!db.prepare(q:to/STATEMENT/);

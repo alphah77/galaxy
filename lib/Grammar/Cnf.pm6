@@ -19,16 +19,15 @@ grammar Grammar::Cnf {
   token galaxy-law:sym<pretty>  { <<<sym>>> }
   token galaxy-law:sym<cool>    { <<<sym>>> }
   token galaxy-law:sym<yolo>    { <<<sym>>> }
-  token galaxy-law:sym<cluster> { <<<sym>>> }
   token galaxy-law:sym<core>    { <sym> <.space>* <core> }
   token galaxy-law:sym<origin>  { <sym> <.space>* <path> }
   
   proto token gravity-law { * }
-  token gravity-law:sym<core>    { <sym> <.space>* <core> }
+  token gravity-law:sym<cluster> { <<<sym>>> }
   token gravity-law:sym<origin>  { <sym> <.space>* <path> }
 
   proto token blackhole-law { * }
-  token blackhole-law:sym<core>    { <sym> <.space>* <core> }
+  token blackhole-law:sym<cluster> { <<<sym>>> }
   token blackhole-law:sym<origin>  { <sym> <.space>* <path> }
 
   proto token nebula-law { * }
@@ -48,7 +47,7 @@ grammar Grammar::Cnf {
   token colon { ':' }
   token dot { '.' }
   token slash { '/' }
-  token dotslash { <dot><slash> }
+  token dotslash { <dot> <slash> }
 
   token remote { [\w+]+ % <dot> }
 
