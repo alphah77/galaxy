@@ -2,7 +2,7 @@ use Star;
 
 role Grammar::XyzAct {
 
-  method xyzs($/) { make $<xyz>».ast  }
+  method xyzs($/) { make $<xyz>».ast }
 
   method xyz($/) {
     my %s;

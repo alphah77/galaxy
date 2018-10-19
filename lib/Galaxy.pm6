@@ -73,7 +73,31 @@ class Galaxy {
     return %stars;
 	}
 
-	method star (*%opt) {
+# method gravity (:@xyz!) {
+#  	for @xyz -> $xyz {
+#  	  $xyz.core //= $!core;
+# 	    my @cand = @!nebula>>.cand($xyz).unique(:with(&[eqv])).flat;
+#      
+#  		for @cand -> $xyz {
+#  		  self.cluster: $xyz;
+#  	  #say  @cand;
+#  	  }
+#  	}
+#  }
+
+	method gravity (:@star!, Bool :$cluster) {
+	  my $star = @star.first;
+  	$star.core //= $!core;
+
+ 	  my @cand = @!nebula>>.cand($star).unique(:with(&[eqv])).flat;
+    say @cand;
+	}
+
+  method blackhole (*%opt) {
+	  say %opt;
+	}
+
+  method star (*%opt) {
 	  say %opt
 	}
 
@@ -81,39 +105,9 @@ class Galaxy {
 
 	}
 
-  method gravity (*%opt) {
-	  say %opt;
-	}
-
-  method blackhole (*%opt) {
-	  say %opt;
-	}
-  #method gravity (:@xyz!) {
-	#	for @xyz -> $xyz {
-	#	  $xyz.core //= $!core;
-	#	  my @cand = @!nebula>>.cand($xyz).unique(:with(&[eqv])).flat;
-  #    
-	#		for @cand -> $xyz {
-	#		  self.cluster: $xyz;
-	#		  #say  @cand;
-	#	  }
-	#	}
-  #}
-
-  #method star (:@star) {
-  #  $!star;
-  #}
-
-
-
-
   method cluster($star) {
 		self.cluster($_) for $star.cluster;
 		say $star.name;
-	}
-
-  method smart {
-    
 	}
 
 	method select-stars() {

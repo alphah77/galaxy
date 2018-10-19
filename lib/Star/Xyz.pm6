@@ -1,7 +1,4 @@
-use Star::Dep;
-
 role Star::Xyz {
-
   has Str     $.name is required;
   has Version $.age;
   has Str     $.core is rw;
@@ -28,5 +25,9 @@ role Star::Xyz {
     $!age  := Version.new: $age if $age;
 
 		@!cluster  = @cluster.map: -> %h { Star::Xyz.new: |%h } if @cluster;
+	}
+
+	method Str () {
+    ($!name, $!age, $!core, $!form, $!tag).join('-');
 	}
 }
