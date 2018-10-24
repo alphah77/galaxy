@@ -3,5 +3,3 @@ use lib <lib>;
 use Physics;
 
 my $physics   = Physics.new;
-#$physics.galaxy.gravity;
-#say $physics.laws;

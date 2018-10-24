@@ -6,7 +6,4 @@ core x86_64
 cluster
 
 <nebula>
-http://localhost:20000
 
-#<nebula>
-#http://galaxy.xyz:443

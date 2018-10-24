@@ -5,10 +5,10 @@ grammar Grammar::Cnf {
   token CNF { <.nl>* <object>* %% <.nl> }
 
   proto token object { * }
-  token object:sym<galaxy>    { '<'<sym>'>'  <.nl> <galaxy-laws>    }
-  token object:sym<gravity>   { '<'<sym>'>'  <.nl> <gravity-laws>   }
-  token object:sym<blackhole> { '<'<sym>'>'  <.nl> <blackhole-laws> }
-  token object:sym<nebula>    { '<'<sym>'>'  <.nl> <nebula-laws>    }
+  token object:sym<galaxy>    { '<'<sym>'>'  <.nl> <galaxy-laws>?    }
+  token object:sym<gravity>   { '<'<sym>'>'  <.nl> <gravity-laws>?   }
+  token object:sym<blackhole> { '<'<sym>'>'  <.nl> <blackhole-laws>? }
+  token object:sym<nebula>    { '<'<sym>'>'  [ <.nl> <nebula-laws> ]?    }
   
   token galaxy-laws    { <galaxy-law>+    % <.nl> }
   token gravity-laws   { <gravity-law>+   % <.nl> }
@@ -31,8 +31,7 @@ grammar Grammar::Cnf {
   token blackhole-law:sym<origin>  { <sym> <.space>* <path> }
 
   proto token nebula-law { * }
-  token nebula-law:sym<url>     { <url> }
-  token nebula-law:sym<disable> { <<<sym>>> }
+  token nebula-law:sym<cluster> { <<<sym>>> }
 
   proto token proto    { * }
   token proto:sym<https> { <sym> }

@@ -1,4 +1,11 @@
-use Physics::Law;
+use Grammar::Cmd;
+use Grammar::Cnf;
+use Grammar::Nebula;
+use Grammar::CnfAct;
+use Grammar::CmdAct;
+use Grammar::NebulaAct;
+use Hash::Merge::Augment;
+
 use Alien;
 use Galaxy;
 use Gravity;
@@ -9,31 +16,32 @@ use Nebula::Way;
 
 class Physics {
 
-  has %.law;
-
-  has Alien       $.alien;
-  has Galaxy      $.galaxy;
-  has Gravity     $.gravity;
-  has Blackhole   $.blackhole;
-  has Spacetime   $.spacetime;
-  has Nebula::Way @.nebula;
+	has %!law;
+  has Alien       $!alien;
+  has Galaxy      $!galaxy;
+  has Gravity     $!gravity;
+  has Blackhole   $!blackhole;
+  has Spacetime   $!spacetime;
+  has Nebula::Way @!nebula;
 	
-  submethod BUILD (:%!law = Physics::Law.initiate) {
-		my $cmd = %!law<cmd>;
+  submethod BUILD (:%!law) {
+    my $obj = </etc/galaxy/law>.IO;
+    my $nbl = </etc/galaxy/nebula>.IO;
+
+    my %obj = object($obj);
+    my %nbl = nebula($nbl);
+    my %cmd = command(@*ARGS);
+
+
+    %!law.merge: %obj.merge: %cmd;
 
   	$!alien     = Alien.new;
-  	#$!gravity   = Gravity.new:   |%!law<gravity>.hash;
-  	#$!blackhole = Blackhole.new: |%!law<blackhole>.hash;
-		#$!spacetime = Spacetime.new: |%!law<spacetime>.hash;
-
-		@!nebula    = %!law<nebula>.map( {Nebula::Way.new: |.hash} ) if %!law<nebula>:exists;
-
-  	#$!galaxy    = Galaxy.new(|%!law<galaxy>.push: (:$!gravity, :$!blackhole, :@!nebula));
+		@!nebula    = %nbl.values.map( { Nebula::Way.new: |.hash } );
   	$!galaxy    = Galaxy.new(|%!law<galaxy>.push: (:@!nebula));
 
-		#self.cmd($cmd.key, $cmd.value);
-		self.cmd($cmd);
+		self.cmd(%cmd<cmd>);
   }
+
 
     multi method cmd ('gravity') {
 		  say <---gravity--->;
@@ -44,6 +52,12 @@ class Physics {
 		  say <---blackhole--->;
       $!galaxy.blackhole: |%!law<blackhole>;
       #$!galaxy.blackhole :star($obj);
+
+    }
+
+    multi method cmd ('nebula') {
+		  say <---nebula--->;
+      $!galaxy.nebula: |%!law<nebula>;
 
     }
 
@@ -68,3 +82,37 @@ class Physics {
     }
 
 }
+
+sub object($law) {
+	my $rule = <CNF>;
+	my $actions = Grammar::CnfAct.new;
+
+	my $m = Grammar::Cnf.parsefile: $law, :$rule, :$actions; 
+	help "cnf" unless $m;
+	return $m.ast;
+}
+
+sub nebula($nbl) {
+	my $rule = <NEBULA>;
+	my $actions = Grammar::NebulaAct;
+
+	my $m = Grammar::Nebula.parsefile: $nbl, :$rule, :$actions; 
+	help "Nebula" unless $m;
+	return $m.ast;
+}
+
+
+sub command($cmd) {
+	my $rule = <CMD>;
+	my $actions = Grammar::CmdAct;
+
+	my $m = Grammar::Cmd.parse: $cmd, :$rule, :$actions; 
+	help "cmd" unless $m;
+	return $m.ast;
+}
+
+
+sub help($msg) {       # help when no cnf or cmd fails to parse
+	die $msg;
+};
+

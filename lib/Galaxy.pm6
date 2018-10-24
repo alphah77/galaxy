@@ -17,8 +17,6 @@ class Galaxy {
   has Bool $.cool;
   has Bool $.pretty;
 
-	has IO   $.law;
-
 	has $!db;
 
   has Nebula::Way @.nebula;
@@ -40,11 +38,9 @@ class Galaxy {
     #:$!gravity;
     #:$!blackhole;
     :@!nebula;
-    :$!law;
 	  ) {
 
     $!db        = self!db;
-
 		%!stars      = self!local-stars;   #Revist
 
     
@@ -95,6 +91,10 @@ class Galaxy {
 
   method blackhole (*%opt) {
 	  say %opt;
+	}
+
+  method nebula (*%opt) {
+	  say %opt
 	}
 
   method star (*%opt) {

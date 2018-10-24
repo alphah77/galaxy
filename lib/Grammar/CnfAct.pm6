@@ -7,10 +7,10 @@ class Grammar::CnfAct {
     make %!law;
   }
 
-  method object:sym<galaxy>($/)    { make %!law<galaxy>      = $<galaxy-laws>.ast    }
-  method object:sym<gravity>($/)   { make %!law<gravity>     = $<gravity-laws>.ast   }
-  method object:sym<blackhole>($/) { make %!law<blackhole>   = $<blackhole-laws>.ast }
-  method object:sym<nebula>($/)    { make %!law<nebula>.push:  $<nebula-laws>.ast    }
+  method object:sym<galaxy>($/)    { make %!law<galaxy>     = $<galaxy-laws>.ast    if defined $<galaxy-laws>    }
+  method object:sym<gravity>($/)   { make %!law<gravity>    = $<gravity-laws>.ast   if defined $<gravity-laws>   }
+  method object:sym<blackhole>($/) { make %!law<blackhole>  = $<blackhole-laws>.ast if defined $<blackhole-laws> }
+  method object:sym<nebula>($/)    { make %!law<nebula>     = $<nebula-laws>.ast    if defined $<nebula-laws>    }
 
   method galaxy-laws($/)    { make $<galaxy-law>».ast.hash    }
   method gravity-laws($/)   { make $<gravity-law>».ast.hash   }
@@ -29,8 +29,7 @@ class Grammar::CnfAct {
   method blackhole-law:sym<cluster>($/) { make $<sym>.Str => True }
   method blackhole-law:sym<origin>($/)  { make $<sym>.Str => $<path>.ast }
 
-  method nebula-law:sym<url>($/)     { make $<url>.ast }
-  method nebula-law:sym<disable>($/) { make $<sym>.Str => True }
+  method nebula-law:sym<cluster>($/) { make $<sym>.Str => True }
 
   method url($/) {
     make { url => Cro::Uri.parse($/.Str)}
@@ -42,6 +41,4 @@ class Grammar::CnfAct {
 
   method core($/)     { make $/.Str }
   method value($/)    { make $/.Str }
-
-
 }

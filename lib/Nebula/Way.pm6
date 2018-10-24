@@ -5,6 +5,7 @@ use Star;
 
 class Nebula::Way {
 
+	has                   $.name; # is required;
 	has Cro::HTTP::Client $!client;
 	has Cro::Uri          $.url;
   has Bool              $.disable = False;
