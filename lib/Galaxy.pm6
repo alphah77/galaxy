@@ -91,11 +91,9 @@ class Galaxy {
 	  say %opt;
 	}
 
-  method nebula (Bool :$cluster, Star::Xyz :$star!) {
-		say $!nebula;
- 	  #@!nebula>>.cand($star).unique(:with(&[eqv])).flat;
- 	  #@!nebula>>.cand($star).unique(:with(&[eqv])).flat;
-
+  method nebula (Bool :$cluster, Star :$star!) {
+	  $star.core //= $!core;
+    my @cand = $!nebula.cand(:$star);
 	}
 
   method star (*%opt) {

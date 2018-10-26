@@ -3,7 +3,7 @@ use Cro::Uri;
 class Grammar::NebulaAct {
 
   method NEBULA ($/)      { make $<nebula>».ast; }
-  method nebula ($/)      { make $<nebula-name>.ast => $<nebula-laws>.ast    }
+  method nebula ($/)      { make $<nebula-laws>.ast.push: (name => $<nebula-name>.ast)  }
   method nebula-laws ($/) { make $<nebula-law>».ast.hash    }
 
   method nebula-law:sym<url>($/)     { make $<url>.ast }

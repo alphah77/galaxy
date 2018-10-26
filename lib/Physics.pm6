@@ -76,7 +76,7 @@ class Physics {
     # galaxy star dispatch to "star"
     # galaxy event dispatch to "spacetime"
     multi method cmd ('galaxy') {
-			samewith('star')      if  %!law<star><star> ~~ Star::Xyz;
+			samewith('star')      if  %!law<star><star> ~~ Star;
 		#	samewith('spacetime') if  %!law<spacetime><event> ~~ Spacetime::Event;
     }
 
