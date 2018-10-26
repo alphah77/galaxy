@@ -12,7 +12,7 @@ use Gravity;
 use Blackhole;
 use Spacetime;
 use Star;
-use Nebula::Way;
+use Nebula;
 
 class Physics {
 
@@ -22,22 +22,21 @@ class Physics {
   has Gravity     $!gravity;
   has Blackhole   $!blackhole;
   has Spacetime   $!spacetime;
-  has Nebula::Way @!nebula;
+  has Nebula $!nebula;
 	
   submethod BUILD (:%!law) {
     my $obj = </etc/galaxy/law>.IO;
     my $nbl = </etc/galaxy/nebula>.IO;
 
     my %obj = object($obj);
-    my %nbl = nebula($nbl);
     my %cmd = command(@*ARGS);
-
+    my @nebula = nebula($nbl);
 
     %!law.merge: %obj.merge: %cmd;
 
   	$!alien     = Alien.new;
-		@!nebula    = %nbl.values.map( { Nebula::Way.new: |.hash } );
-  	$!galaxy    = Galaxy.new(|%!law<galaxy>.push: (:@!nebula));
+		$!nebula    = Nebula.new(:@nebula);
+  	$!galaxy    = Galaxy.new(|%!law<galaxy>.push: (:$!nebula));
 
 		self.cmd(%cmd<cmd>);
   }

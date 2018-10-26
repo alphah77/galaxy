@@ -1,5 +1,5 @@
 use DBIish;
-use Nebula::Way;
+use Nebula;
 use Gravity;
 use Blackhole;
 #use Op;
@@ -19,7 +19,7 @@ class Galaxy {
 
 	has $!db;
 
-  has Nebula::Way @.nebula;
+  has Nebula $.nebula;
   has Gravity     $.gravity;
   has Blackhole   $.blackhole;
 
@@ -37,7 +37,7 @@ class Galaxy {
     :$!pretty  = False;
     #:$!gravity;
     #:$!blackhole;
-    :@!nebula;
+    :$!nebula;
 	  ) {
 
     $!db        = self!db;
@@ -81,20 +81,21 @@ class Galaxy {
 #  	}
 #  }
 
-	method gravity (:@star!, Bool :$cluster) {
-	  my $star = @star.first;
-  	$star.core //= $!core;
-
- 	  my @cand = @!nebula>>.cand($star).unique(:with(&[eqv])).flat;
-    say @cand;
+	method gravity (Bool :$cluster, :@star!) {
+  	@star.map({ .core //= $!core });
+    @star .= map( -> $star { self.nebula(:$cluster, :$star) } );
+    say @star;
 	}
 
   method blackhole (*%opt) {
 	  say %opt;
 	}
 
-  method nebula (*%opt) {
-	  say %opt
+  method nebula (Bool :$cluster, Star::Xyz :$star!) {
+		say $!nebula;
+ 	  #@!nebula>>.cand($star).unique(:with(&[eqv])).flat;
+ 	  #@!nebula>>.cand($star).unique(:with(&[eqv])).flat;
+
 	}
 
   method star (*%opt) {
