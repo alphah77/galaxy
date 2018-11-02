@@ -11,9 +11,22 @@ class Nebula {
     @!nebula = @nebula.map( -> %h { Nebula::Way.new: |%h });
 	}
 
-  method cand (Bool :$cluster, Star :$star) {
-    my @cand = @!nebula>>.get(:$star).unique(:with(&[eqv])).flat;
+	method get (Star :$star) {
+	  
+		my @cand = @!nebula>>.get(:$star).unique(:with(&[eqv])).flat;
+
 		return @cand;
+
+	}
+
+  method cand (Bool :$cluster, Star :$star) {
+		gather {
+			take self.get(:$star).map( -> $star {
+			  $star, $star.cluster.map( -> $star {
+				  self.cand(:$star, :$cluster)
+				})
+			}).cache;
+	  }
   }
 
   method form() {

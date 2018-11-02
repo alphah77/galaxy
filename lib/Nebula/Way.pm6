@@ -18,8 +18,7 @@ class Nebula::Way {
     my $path = </cand?>;
 	  my $resp = await $!client.get($path ~ star-location(:$star)); # TODO catch the error
 		my $json = await $resp.body;
-		my @cand = $json.map: -> %h { Star.new(|%h) };
-		return @cand;
+		return $json.map: -> %h { Star.new(|%h) };
 	}
 }
 

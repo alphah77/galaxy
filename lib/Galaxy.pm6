@@ -1,3 +1,4 @@
+use Data::Dump::Tree;
 use DBIish;
 use Nebula;
 use Gravity;
@@ -64,7 +65,7 @@ class Galaxy {
 		%stars = self.select-stars().map: -> %h { %h<name> => Star.new: |%h };
     
 		%stars.values.map({ .planet  = self.select-planet(.name).map(-> %h {Star::Planet.new: |%h}) });
-		%stars.values.map({ .cluster = self.select-cluster(.name).map(-> %h {Star::Xyz.new: |%h}) });
+		%stars.values.map({ .cluster = self.select-cluster(.name).map(-> %h {Star.new: |%h}) });
 
     return %stars;
 	}
@@ -92,8 +93,10 @@ class Galaxy {
 	}
 
   method nebula (Bool :$cluster, Star :$star!) {
-	  $star.core //= $!core;
+	  #$star.core //= $!core;
     my @cand = $!nebula.cand(:$star);
+		#say @cand>>.Str;
+	  ddt @cand;
 	}
 
   method star (*%opt) {
